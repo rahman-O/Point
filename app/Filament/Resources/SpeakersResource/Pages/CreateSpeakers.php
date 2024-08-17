@@ -8,5 +8,6 @@ use Filament\Resources\Pages\CreateRecord;
 
 class CreateSpeakers extends CreateRecord
 {
+    //updated
     protected static string $resource = SpeakersResource::class;
 }
