@@ -15,21 +15,27 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SessionsProgramResource extends Resource
 {
+
     protected static ?string $model = SessionsProgram::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
+
+       // dd($attributes);
         return $form
             ->schema([
                 Forms\Components\TextInput::make('programs_id')
                     ->required()
+
                     ->numeric(),
                 Forms\Components\TextInput::make('name')
                     ->maxLength(255)
                     ->default(null),
                 Forms\Components\Select::make('day')
+                    //get the day select options from porgams table
+
                     ->options([
                         'day1' => 'Day 1',
                         'day2' => 'Day 2',
