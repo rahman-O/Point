@@ -21,4 +21,9 @@ class Speakers extends Model
         'desc_ar',
         'image',
     ];
+
+    public function sessions()
+    {
+        return $this->belongsToMany(SessionsProgram::class, 'session_speaker')->withTimestamps();
+    }
 }
