@@ -18,10 +18,10 @@ class Programs extends Model
 
 
     //get days from program
-        public function sessionsProgram():HasMany
-        {
-            return $this->hasMany(SessionsProgram::class);
-        }
+    public function sessionsProgram(): HasMany
+    {
+        return $this->hasMany(SessionsProgram::class);
+    }
 
 
 

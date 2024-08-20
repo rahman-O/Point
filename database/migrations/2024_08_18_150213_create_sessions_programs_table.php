@@ -24,9 +24,10 @@ return new class extends Migration
             $table->string('pres_en');
             $table->string('pres_ar');
             //speaker
-            $table->integer('speaker_id');
+            //
+            //$table->foreignId('speaker_id')->constrained()->cascadeOnDelete();
             //FACILITORS
-            $table->integer('facilitator_id');
+            $table->integer('facilitator_id')->nullable();
             $table->timestamps();
         });
     }
