@@ -2,18 +2,18 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\SpeakersResource\Pages;
-use App\Filament\Resources\SpeakersResource\RelationManagers;
-use App\Models\Speakers;
+use App\Filament\Resources\ConferenceResource\Pages;
+use App\Filament\Resources\ConferenceResource\RelationManagers;
+use App\Models\Conference;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class SpeakersResource extends Resource
+class ConferenceResource extends Resource
 {
-    protected static ?string $model = Speakers::class;
+    protected static ?string $model = Conference::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -21,32 +21,18 @@ class SpeakersResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name_en')
+                Forms\Components\TextInput::make('title_ar')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('name_ar')
+                Forms\Components\TextInput::make('title_en')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('job_en')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('job_ar')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('country_en')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('country_ar')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\DatePicker::make('year')// Optionally set the current year as the default
-                ->required(),
-                Forms\Components\Textarea::make('desc_en')
-                    ->required()
-                    ->columnSpanFull(),
                 Forms\Components\Textarea::make('desc_ar')
                     ->required()
-                    ->columnSpanFull(),
+                    ->maxLength(255),
+                Forms\Components\Textarea::make('desc_en')
+                    ->required()
+                    ->maxLength(255),
                 Forms\Components\FileUpload::make('image')
                     ->image()
                     ->required(),
@@ -57,21 +43,14 @@ class SpeakersResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name_en')
+                Tables\Columns\TextColumn::make('title_ar')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('name_ar')
+                Tables\Columns\TextColumn::make('title_en')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('job_en')
+                Tables\Columns\TextColumn::make('desc_en')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('job_ar')
+                Tables\Columns\TextColumn::make('desc_ar')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('country_en')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('country_ar')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('year')
-                    ->dateTime()
-                    ->sortable(),
                 Tables\Columns\ImageColumn::make('image')->circular(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -89,7 +68,6 @@ class SpeakersResource extends Resource
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
-
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -108,10 +86,10 @@ class SpeakersResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListSpeakers::route('/'),
-            'create' => Pages\CreateSpeakers::route('/create'),
-            'view' => Pages\ViewSpeakers::route('/{record}'),
-            'edit' => Pages\EditSpeakers::route('/{record}/edit'),
+            'index' => Pages\ListConferences::route('/'),
+            'create' => Pages\CreateConference::route('/create'),
+            'view' => Pages\ViewConference::route('/{record}'),
+            'edit' => Pages\EditConference::route('/{record}/edit'),
         ];
     }
 }
