@@ -4,15 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Conference;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use function Termwind\render;
 
 class ConferenceController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+            public function index(): void
     {
-        //
+        Inertia::render('conferences/Index', [
+            'conferences' => Conference::all(),
+        ]);
     }
 
     /**
