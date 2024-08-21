@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -16,7 +15,7 @@ return new class extends Migration
             $table->string('title_en')->nullable();
             $table->string('title_ar')->nullable();
             $table->string('url');
-            //date
+            $table->string('youtube_video_id')->nullable();
             $table->time('date');
             $table->timestamps();
         });
