@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\SessionsProgramResource\Pages;
+namespace App\Filament\Resources\ConferenceResource\Pages;
 
-use App\Filament\Resources\SessionsProgramResource;
+use App\Filament\Resources\ConferenceResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditSessionsProgram extends EditRecord
+class EditConference extends EditRecord
 {
-    protected static string $resource = SessionsProgramResource::class;
+    protected static string $resource = ConferenceResource::class;
 
     protected function getHeaderActions(): array
     {

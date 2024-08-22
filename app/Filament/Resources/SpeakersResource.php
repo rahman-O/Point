@@ -16,9 +16,13 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class SpeakersResource extends Resource
 {
     protected static ?string $model = Speakers::class;
-
+    protected static string $relationship = 'sessions';
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    protected static ?string $navigationBadgeTooltip = 'عدد الاجندات';
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
     public static function form(Form $form): Form
     {
         return $form
