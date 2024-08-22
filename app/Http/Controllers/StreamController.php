@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\api\Stream\SpecifiedStreamResource;
+use App\Http\Resources\api\Stream\StreamResource;
 use App\Models\Stream;
 use Illuminate\Http\Request;
 
@@ -12,7 +14,19 @@ class StreamController extends Controller
      */
     public function index()
     {
-        //
+       $streams = Stream::all();
+         return StreamResource::collection($streams);
+    }
+    /**
+     * Display the specified resource.
+     */
+    public function show($id)
+    {
+        $stream = Stream::find($id);
+        if (!$stream) {
+            return response()->json(['message' => 'Not Found'], 404);
+        }
+        return new SpecifiedStreamResource($stream);
     }
 
     /**
@@ -31,13 +45,7 @@ class StreamController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Stream $stream)
-    {
-        //
-    }
+
 
     /**
      * Show the form for editing the specified resource.

@@ -3,12 +3,16 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\SpeakersResource\Pages;
+use App\Filament\Resources\SpeakersResource\RelationManagers;
 use App\Models\Speakers;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+use function Pest\Laravel\options;
 
 class SpeakersResource extends Resource
 {
@@ -16,12 +20,10 @@ class SpeakersResource extends Resource
     protected static string $relationship = 'sessions';
     protected static ?string $navigationIcon = 'heroicon-o-queue-list';
     protected static ?string $navigationBadgeTooltip = 'عدد الاجندات';
-
     public static function getNavigationBadge(): ?string
     {
         return static::getModel()::count();
     }
-
     public static function form(Form $form): Form
     {
         return $form
@@ -44,12 +46,14 @@ class SpeakersResource extends Resource
                 Forms\Components\TextInput::make('country_ar')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\DatePicker::make('year')// Optionally set the current year as the default
-                ->required(),
-                Forms\Components\Textarea::make('desc_en')
+                Forms\Components\Select::make('year')
+                    ->options( array_combine(range(date('Y') + 1, 2017), range(date('Y') + 1, 2017)))
+
+                    ->required(),
+                Forms\Components\RichEditor::make('desc_en')
                     ->required()
                     ->columnSpanFull(),
-                Forms\Components\Textarea::make('desc_ar')
+                Forms\Components\RichEditor::make('desc_ar')
                     ->required()
                     ->columnSpanFull(),
                 Forms\Components\FileUpload::make('image')

@@ -33,15 +33,16 @@ class ConferenceResource extends Resource
                 Forms\Components\TextInput::make('title_en')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('desc_ar')
+                Forms\Components\RichEditor::make('desc_ar')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('desc_en')
+                    ->columnSpanFull(),
+                Forms\Components\RichEditor::make('desc_en')
                     ->required()
-                    ->maxLength(255),
+                   ->columnSpanFull(),
                 Forms\Components\FileUpload::make('image')
                     ->image()
-                    ->required(),
+                    ->required()
+                    ->columnSpanFull(),
             ]);
     }
 

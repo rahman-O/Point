@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\api\News\NewsResource;
 use App\Models\News;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,19 @@ class NewsController extends Controller
      */
     public function index()
     {
-        //
+        $news = News::all();
+        return NewsResource::collection($news);
+    }
+    /**
+     * Display the specified resource.
+     */
+    public function show($id)
+    {
+        $news = News::find($id);
+        if (!$news) {
+            return response()->json(['message' => 'Not Found'], 404);
+        }
+        return new NewsResource($news);
     }
 
     /**
@@ -31,13 +44,7 @@ class NewsController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(News $news)
-    {
-        //
-    }
+
 
     /**
      * Show the form for editing the specified resource.
