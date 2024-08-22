@@ -17,7 +17,11 @@ class StreamResource extends Resource
     protected static ?string $model = Stream::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    protected static ?string $navigationBadgeTooltip = 'عدد البثوث';
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
     public static function form(Form $form): Form
     {
         return $form

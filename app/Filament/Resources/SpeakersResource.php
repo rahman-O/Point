@@ -2,11 +2,8 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ProgramsResource\RelationManagers\SessionsProgramRelationManager;
 use App\Filament\Resources\SpeakersResource\Pages;
 use App\Filament\Resources\SpeakersResource\RelationManagers;
-use App\Filament\Resources\SpeakersResource\RelationManagers\SessionProgramsRelationManager;
-use App\Filament\Resources\SpeakersResource\RelationManagers\SessionsspeakerssRelationManager;
 use App\Models\Speakers;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -21,7 +18,11 @@ class SpeakersResource extends Resource
     protected static ?string $model = Speakers::class;
     protected static string $relationship = 'sessions';
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    protected static ?string $navigationBadgeTooltip = 'عدد الاجندات';
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
     public static function form(Form $form): Form
     {
         return $form
@@ -44,16 +45,12 @@ class SpeakersResource extends Resource
                 Forms\Components\TextInput::make('country_ar')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Select::make('year')
-                    ->required()
-                    //for the year select, from 2017 to the current year + 1 and make value selected is name of the year
-                    ->options( array_combine(range(date('Y') + 1, 2017), range(date('Y') + 1, 2017))),
-
-                Forms\Components\RichEditor::make('desc_en')
-
+                Forms\Components\DatePicker::make('year')// Optionally set the current year as the default
+                    ->required(),
+                Forms\Components\Textarea::make('desc_en')
                     ->required()
                     ->columnSpanFull(),
-                Forms\Components\RichEditor::make('desc_ar')
+                Forms\Components\Textarea::make('desc_ar')
                     ->required()
                     ->columnSpanFull(),
                 Forms\Components\FileUpload::make('image')
@@ -78,11 +75,10 @@ class SpeakersResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('country_ar')
                     ->searchable(),
-
                 Tables\Columns\TextColumn::make('year')
                     ->dateTime()
                     ->sortable(),
-                Tables\Columns\ImageColumn::make('image')->circular(),
+                Tables\Columns\ImageColumn::make('image'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -98,10 +94,6 @@ class SpeakersResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
-
-
-                Tables\Actions\DeleteAction::make(),
-
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -113,7 +105,7 @@ class SpeakersResource extends Resource
     public static function getRelations(): array
     {
         return [
-            SessionProgramsRelationManager::class,
+            //
         ];
     }
 

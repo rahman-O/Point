@@ -22,6 +22,7 @@ class SessionsProgramRelationManager extends RelationManager
 {
     protected static string $relationship = 'sessionsProgram';
 
+
     //id of the program
     public mixed $id;
     public mixed $year;

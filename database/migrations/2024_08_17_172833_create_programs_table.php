@@ -20,6 +20,7 @@ return new class extends Migration
             $table->boolean('day3')->default(false);
             $table->boolean('day4')->default(false);
             $table->boolean('day5')->default(false);
+
             $table->timestamps();
         });
     }
