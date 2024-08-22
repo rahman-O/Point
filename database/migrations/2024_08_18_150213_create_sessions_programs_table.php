@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sessions_program', function (Blueprint $table) {
+        Schema::create('sessions_programs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('program_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('programs_id')->constrained()->cascadeOnDelete();
             $table->string('name')->nullable();
             $table->string('day');
             $table->string('year');
@@ -24,9 +24,10 @@ return new class extends Migration
             $table->string('pres_en');
             $table->string('pres_ar');
             //speaker
-            $table->integer('speaker_id');
+            //
+            //$table->foreignId('speaker_id')->constrained()->cascadeOnDelete();
             //FACILITORS
-            $table->integer('facilitator_id');
+            $table->integer('facilitator_id')->nullable();
             $table->timestamps();
         });
     }
@@ -36,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sessions');
+        Schema::dropIfExists('sessions_programs');
     }
 };

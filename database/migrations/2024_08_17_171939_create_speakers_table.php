@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('job_ar');
             $table->string('country_en');
             $table->string('country_ar');
-            $table->date('year');
+            $table->string('year');
             $table->longText('desc_en');
             $table->longText('desc_ar');
            //image

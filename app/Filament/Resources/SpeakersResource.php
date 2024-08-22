@@ -10,13 +10,19 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SpeakersResource extends Resource
 {
     protected static ?string $model = Speakers::class;
-
+    protected static string $relationship = 'sessions';
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    protected static ?string $navigationBadgeTooltip = 'عدد الاجندات';
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
     public static function form(Form $form): Form
     {
         return $form
@@ -40,7 +46,7 @@ class SpeakersResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\DatePicker::make('year')// Optionally set the current year as the default
-                ->required(),
+                    ->required(),
                 Forms\Components\Textarea::make('desc_en')
                     ->required()
                     ->columnSpanFull(),
@@ -72,7 +78,7 @@ class SpeakersResource extends Resource
                 Tables\Columns\TextColumn::make('year')
                     ->dateTime()
                     ->sortable(),
-                Tables\Columns\ImageColumn::make('image')->circular(),
+                Tables\Columns\ImageColumn::make('image'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -88,8 +94,6 @@ class SpeakersResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
