@@ -12,7 +12,7 @@ class SpeakersController extends Controller
      */
     public function index()
     {
-        //
+        return Speakers::all();
     }
 
     /**

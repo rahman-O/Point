@@ -2,11 +2,11 @@
 import React from "react";
 import NavBarPages from "@/components/NavBarPages.jsx";
 
-export default function HomePaget() {
+export default function Programs() {
     return (
         <div>
             <NavBarPages/>
-            <h1>Home Page</h1>
+            <h1>Programs</h1>
         </div>
     );
 }
