@@ -3,26 +3,25 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\SpeakersResource\Pages;
-use App\Filament\Resources\SpeakersResource\RelationManagers;
 use App\Models\Speakers;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SpeakersResource extends Resource
 {
     protected static ?string $model = Speakers::class;
     protected static string $relationship = 'sessions';
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-queue-list';
     protected static ?string $navigationBadgeTooltip = 'عدد الاجندات';
+
     public static function getNavigationBadge(): ?string
     {
         return static::getModel()::count();
     }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -46,7 +45,7 @@ class SpeakersResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\DatePicker::make('year')// Optionally set the current year as the default
-                    ->required(),
+                ->required(),
                 Forms\Components\Textarea::make('desc_en')
                     ->required()
                     ->columnSpanFull(),

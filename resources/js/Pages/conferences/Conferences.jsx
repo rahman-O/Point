@@ -1,12 +1,9 @@
-
-
-import React  from "react";
-import NavBarPages from "@/components/NavBarPages.jsx";
+import React from "react";
 
 export default function Conferences() {
     return (
         <div>
-            <NavBarPages/>
+            {/*<NavBarPages/>*/}
             <h1>Conferences</h1>
         </div>
     );

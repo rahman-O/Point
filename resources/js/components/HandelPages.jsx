@@ -1,8 +1,6 @@
-
-import React     from "react";
+import React from "react";
 import NavBarPages from "./NavBarPages.jsx";
-
-import HomePage from "../Pages/HomePage.jsx";
+import HomePage from "@/Pages/HomePage.jsx";
 
 
 export default function HandelPages() {

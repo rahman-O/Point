@@ -1,36 +1,28 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import {Navbar, NavbarBrand, NavbarContent, NavbarItem,} from "@nextui-org/navbar";
+import {NavLink, useLocation} from 'react-router-dom';
+import {Navbar, NavbarBrand, NavbarContent, NavbarItem} from "@nextui-org/navbar";
 import {Button} from "@nextui-org/button";
-import {Link} from "@nextui-org/link";
-import {NavLink} from "react-router-dom";
-
-
-
 
 function NavBarPages() {
+    const location = useLocation();
 
-    let [isActivePage, setIsActivePage] = React.useState("News");
+    const NavItem = ({pageName, href}) => {
+        const isActive = location.pathname === href;
 
-    function changeActivePage(page) {
-        setIsActivePage(page);
-    }
-
-    const NavItem =  ({ pageName, href })  => (
-        <NavbarItem isActive={isActivePage === pageName}>
-            <NavLink
-                onClick={() => changeActivePage(pageName)}
-                color={isActivePage === pageName ? "primary" : "foreground"}
-
-                aria-current={isActivePage === pageName ? "page" : undefined}
-                className={`transition duration-300 ease-in-out transform ${
-                    isActivePage === pageName ? "scale-105 text-primary" : "hover:scale-105 hover:text-primary"
-                }`}
-             to={href}>
-                {pageName}
-            </NavLink>
-        </NavbarItem>
-    );
+        return (
+            <NavbarItem isActive={isActive}>
+                <NavLink
+                    to={href}
+                    className={`transition duration-300 ease-in-out transform ${
+                        isActive ? "scale-105 text-blue-500 font-bold" : "hover:scale-105 hover:text-blue-500"
+                    }`}
+                    aria-current={isActive ? "page" : undefined}
+                >
+                    {pageName}
+                </NavLink>
+            </NavbarItem>
+        );
+    };
 
     return (
         <Navbar>
@@ -39,12 +31,12 @@ function NavBarPages() {
             </NavbarBrand>
 
             <NavbarContent className="hidden sm:flex gap-4" justify="center">
+                <NavItem pageName="Home" href="/"/>
                 <NavItem pageName="News" href="/news"/>
                 <NavItem pageName="Speakers" href="/speakers"/>
                 <NavItem pageName="Programs" href="/programs"/>
                 <NavItem pageName="Stream" href="/stream"/>
                 <NavItem pageName="Performance" href="/performance"/>
-                <NavItem pageName="Voting" href="/voting"/>
             </NavbarContent>
 
             <NavbarContent justify="end">
@@ -58,7 +50,4 @@ function NavBarPages() {
     );
 }
 
-
-
 export default NavBarPages;
-

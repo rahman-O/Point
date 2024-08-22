@@ -15,8 +15,9 @@ class ConferenceResource extends Resource
 {
     protected static ?string $model = Conference::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static ?string $navigationBadgeTooltip = 'عدد المؤتمرات';
+
     public static function getNavigationBadge(): ?string
     {
         return static::getModel()::count();

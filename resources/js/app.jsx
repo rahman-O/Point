@@ -1,6 +1,6 @@
 // resources/js/app.js
-import { createRoot } from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import {createRoot} from "react-dom/client";
+import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 
 // Import CSS
 import '../css/app.css';
@@ -13,18 +13,20 @@ import Stream from "./Pages/stream/Stream.jsx";
 import Performance from "./Pages/performance/Performance.jsx";
 import Voting from "@/Pages/voting/Voting.jsx";
 import {Layout} from "@/layout/Layout.jsx";
+import HomePage from "@/Pages/homePage/HomePage.jsx";
 
 const routes = [
     {
         path: '/',
-        element: <Layout />,
+        element: <Layout/>,
         children: [
-            { path: 'news', element: <News /> },
-            { path: 'speakers', element: <Speakers /> },
-            { path: 'programs', element: <Programs /> },
-            { path: 'stream', element: <Stream /> },
-            { path: 'performance', element: <Performance /> },
-            { path: 'voting', element: <Voting /> },
+            {path: '', element: <HomePage/>},
+            {path: 'news', element: <News/>},
+            {path: 'speakers', element: <Speakers/>},
+            {path: 'programs', element: <Programs/>},
+            {path: 'stream', element: <Stream/>},
+            {path: 'performance', element: <Performance/>},
+            {path: 'voting', element: <Voting/>},
         ],
     },
 ];
@@ -32,5 +34,5 @@ const routes = [
 const router = createBrowserRouter(routes);
 
 createRoot(document.getElementById('root')).render(
-    <RouterProvider router={router} />
+    <RouterProvider router={router}/>
 );

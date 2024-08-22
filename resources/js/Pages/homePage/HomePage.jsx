@@ -1,12 +1,10 @@
-
 import React from "react";
-import NavBarPages from "@/components/NavBarPages.jsx";
 
-export default function HomePaget() {
+export default function HomePage() {
     return (
         <div>
-            <NavBarPages/>
-            <h1>Home Page</h1>
+            {/*<NavBarPages/>*/}
+            <h1>Home Page test</h1>
         </div>
     );
 }
