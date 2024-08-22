@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('title_en');
             $table->string('title_ar');
-            $table->string('desc_en');
-            $table->string('desc_ar');
+            $table->longText('desc_en');
+            $table->longText('desc_ar');
             $table->string('image');
             $table->timestamps();
         });
