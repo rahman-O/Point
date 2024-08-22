@@ -18,10 +18,10 @@ return new class extends Migration
             $table->string('title_ar');
             $table->string('author_en');
             $table->string('author_ar');
-            $table->string('desc_en');
-            $table->string('desc_ar');
+            $table->longText('desc_en');
+            $table->longText('desc_ar');
             $table->string('image');
-            $table->string('event_time');
+            $table->date('event_time');
 
             $table->timestamps();
         });
