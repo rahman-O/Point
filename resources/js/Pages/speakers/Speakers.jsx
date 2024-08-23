@@ -36,13 +36,15 @@ export default function Speakers() {
     };
     return (
         <div className="py-6">
-            <div className="grid grid-cols-1 md:grid-cols-6 sm:grid-cols-3 gap-1 px-6 py-4">
+            <div className="grid grid-cols-1 md:grid-cols-6 sm:grid-cols-3 gap-2 px-6 py-4 ">
                 {speakers.map((speaker) => (
+                   
                     <CardSpeaker
                         key={speaker.id}
                         name={speaker.name_en}
                         job_en={speaker.job_en}
                         image={speaker.image}
+                        conutry={speaker.country_en}
                     />
                 ))}
             </div>

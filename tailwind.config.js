@@ -1,4 +1,6 @@
 const {nextui} = require('@nextui-org/theme');
+const flowbite = require("flowbite-react/tailwind");
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -6,11 +8,13 @@ export default {
     "./resources/**/*.js",
     "./resources/**/*.jsx",
     "./resources/**/*.vue",
-    "./node_modules/@nextui-org/theme/dist/components/(button|card|link|navbar|ripple|spinner).js"
+      nextui().config.content(),
+    "./node_modules/@nextui-org/theme/dist/components/(button|card|link|navbar|ripple|spinner).js",
+    flowbite.content(),
   ],
   theme: {
     extend: {},
   },
-  plugins: [nextui()],
+  plugins: [nextui().config.plugins(),flowbite.plugin(),],
 }
 
