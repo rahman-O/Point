@@ -1,24 +1,20 @@
-import React from "react";
+
 import { Tabs } from "flowbite-react";
 
-export function TapsSessions() {
+export function TapsSessions({programsArray  , activeTab, setActiveTab}) {
+
     return (
-      <Tabs aria-label="Pills" variant="pills">
-        <Tabs.Item active title="Tab 1">
-          <p className="text-sm text-gray-500 dark:text-gray-400">Content 1</p>
-        </Tabs.Item>
-        <Tabs.Item title="Tab 2">
-          <p className="text-sm text-gray-500 dark:text-gray-400">Content 2</p>
-        </Tabs.Item>
-        <Tabs.Item title="Tab 3">
-          <p className="text-sm text-gray-500 dark:text-gray-400">Content 3</p>
-        </Tabs.Item>
-        <Tabs.Item title="Tab 4">
-          <p className="text-sm text-gray-500 dark:text-gray-400">Content 4</p>
-        </Tabs.Item>
-        <Tabs.Item disabled title="Tab 5">
-          <p className="text-sm text-gray-500 dark:text-gray-400">Content 5</p>
-        </Tabs.Item>
-      </Tabs>
+        <div className="flex flex-row w-full mt-[60] justify-center ">
+            {programsArray.map((program) => (
+                <div className="gap-4 mr-3 ">
+                    <Tabs aria-label={program.id} variant={activeTab===program.id?"pills":"default"}  onActiveTabChange={(tab) => setActiveTab(program.id)}  >
+                        <Tabs.Item  active="off" title={program.year}>
+
+                        </Tabs.Item>
+                    </Tabs>
+                </div>
+
+            ))}
+        </div>
     );
   }
