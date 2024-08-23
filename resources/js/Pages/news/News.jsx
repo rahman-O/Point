@@ -5,14 +5,14 @@ import Pagination from "@/Components/Pagination.jsx";
 
 export default function News() {
     const [news, setNews] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1); // State to track the current page
-    const [totalPages, setTotalPages] = useState(1); // State to track the total number of pages
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     const fetchData = async (page) => {
         const response = await axios.get(`/api/news?page=${page}`);
         if (response) {
-            setNews(response.data.data); // Data is in `data` key when using pagination
-            setTotalPages(response.data.last_page); // Set the total number of pages
+            setNews(response.data.data);
+            setTotalPages(response.data.last_page);
         }
     };
 
