@@ -1,7 +1,6 @@
 import React from 'react';
 import {NavLink, useLocation} from 'react-router-dom';
 import {Navbar, NavbarBrand, NavbarContent, NavbarItem} from "@nextui-org/navbar";
-import {Button} from "@nextui-org/button";
 import {Image} from "@nextui-org/react";
 import Logo from "../../../public/images/logoPoint.png"
 
@@ -36,7 +35,7 @@ function NavBarPages() {
                 <p className="font-bold text-2xl text-white px-3">POINT</p>
             </NavbarBrand>
 
-            <NavbarContent className="hidden sm:flex gap-4 	" justify="center">
+            <NavbarContent className="hidden sm:flex gap-8 	" justify="center">
                 <NavItem pageName="Home" href="/"/>
                 <NavItem pageName="News" href="/news"/>
                 <NavItem pageName="Speakers" href="/speakers"/>
@@ -45,13 +44,13 @@ function NavBarPages() {
                 <NavItem pageName="Performance" href="/performance"/>
             </NavbarContent>
 
-            <NavbarContent justify="end">
-                <NavbarItem>
-                    <Button color="primary" href="#" variant="flat">
-                        Register
-                    </Button>
-                </NavbarItem>
-            </NavbarContent>
+            {/*<NavbarContent justify="end">*/}
+            {/*    <NavbarItem>*/}
+            {/*        <Button color="primary" href="#" variant="flat">*/}
+            {/*            Register*/}
+            {/*        </Button>*/}
+            {/*    </NavbarItem>*/}
+            {/*</NavbarContent>*/}
         </Navbar>
     );
 }

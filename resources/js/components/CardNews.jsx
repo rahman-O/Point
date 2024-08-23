@@ -3,7 +3,7 @@ import {Image} from "@nextui-org/react";
 
 export const CardNews = ({desc_en, event_time, image}) => {
     return (
-        <div className=" overflow-hidden py-6 ">
+        <div className=" overflow-hidden py-12 ">
             <div>
                 <Image
                     alt="Card background"
