@@ -12,7 +12,7 @@ class SpeakersController extends Controller
      */
     public function index()
     {
-        return Speakers::all();
+        return Speakers::paginate(10);
     }
 
     /**

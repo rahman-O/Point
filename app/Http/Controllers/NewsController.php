@@ -13,9 +13,9 @@ class NewsController extends Controller
      */
     public function index()
     {
-        $news = News::all();
-        return NewsResource::collection($news);
+        return News::paginate(10);
     }
+
     /**
      * Display the specified resource.
      */
@@ -43,7 +43,6 @@ class NewsController extends Controller
     {
         //
     }
-
 
 
     /**

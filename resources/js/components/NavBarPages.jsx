@@ -2,19 +2,20 @@ import React from 'react';
 import {NavLink, useLocation} from 'react-router-dom';
 import {Navbar, NavbarBrand, NavbarContent, NavbarItem} from "@nextui-org/navbar";
 import {Button} from "@nextui-org/button";
+import {Image} from "@nextui-org/react";
+import Logo from "../../../public/images/logoPoint.png"
 
 function NavBarPages() {
     const location = useLocation();
 
     const NavItem = ({pageName, href}) => {
         const isActive = location.pathname === href;
-
         return (
             <NavbarItem isActive={isActive}>
                 <NavLink
                     to={href}
                     className={`transition duration-300 ease-in-out transform ${
-                        isActive ? "scale-105 text-blue-500 font-bold" : "hover:scale-105 hover:text-blue-500"
+                        isActive ? " text-white" : "hover:text-white text-lime-500"
                     }`}
                     aria-current={isActive ? "page" : undefined}
                 >
@@ -25,12 +26,17 @@ function NavBarPages() {
     };
 
     return (
-        <Navbar>
+        <Navbar className="bg-black">
             <NavbarBrand>
-                <p className="font-bold text-inherit">Point</p>
+                <Image
+                    alt="logo"
+                    className="w-12"
+                    src={Logo}
+                />
+                <p className="font-bold text-2xl text-white px-3">POINT</p>
             </NavbarBrand>
 
-            <NavbarContent className="hidden sm:flex gap-4" justify="center">
+            <NavbarContent className="hidden sm:flex gap-4 	" justify="center">
                 <NavItem pageName="Home" href="/"/>
                 <NavItem pageName="News" href="/news"/>
                 <NavItem pageName="Speakers" href="/speakers"/>

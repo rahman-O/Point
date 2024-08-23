@@ -1,7 +1,7 @@
 import {Image} from "@nextui-org/react";
 
 
-export const CardSpeaker = ({name, job_en, image}) => {
+export const CardNews = ({desc_en, event_time, image}) => {
     return (
         <div className=" overflow-hidden py-6 ">
             <div>
@@ -13,8 +13,8 @@ export const CardSpeaker = ({name, job_en, image}) => {
             </div>
             {/*</div>*/}
             <div className="pb-0 pt-2 px-4 flex-col items-start">
-                <p className=" text-lg uppercase font-bold">{name}</p>
-                <p className="text-medium">{job_en}</p>
+                <p className=" text-lg uppercase text-gray-500">{event_time}</p>
+                <p className="text-medium font-bold">{desc_en}</p>
             </div>
         </div>
 
