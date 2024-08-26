@@ -1,8 +1,9 @@
 import React from 'react';
 import {NavLink, useLocation} from 'react-router-dom';
 import {Navbar, NavbarBrand, NavbarContent, NavbarItem} from "@nextui-org/navbar";
-import {Button, Image} from "@nextui-org/react";
+import {Image} from "@nextui-org/react";
 import Logo from "../../../public/images/logoPoint.png"
+import {FaFacebook, FaTwitter, FaYoutube} from "react-icons/fa";
 
 function NavBarPages() {
     const location = useLocation();
@@ -45,10 +46,11 @@ function NavBarPages() {
             </NavbarContent>
 
             <NavbarContent justify="end">
-                <NavbarItem>
-                    <Button color="primary" href="#" variant="flat">
-                        Register
-                    </Button>
+                <NavbarItem className="flex gap-2">
+                    <FaTwitter className="text-cyan-500 text-2xl"/>
+                    <FaFacebook className="text-blue-500 text-2xl"/>
+                    <FaYoutube className="text-red-500 text-2xl"/>
+
                 </NavbarItem>
             </NavbarContent>
         </Navbar>
