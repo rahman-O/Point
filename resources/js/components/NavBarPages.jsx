@@ -1,7 +1,7 @@
 import React from 'react';
 import {NavLink, useLocation} from 'react-router-dom';
 import {Navbar, NavbarBrand, NavbarContent, NavbarItem} from "@nextui-org/navbar";
-import {Image} from "@nextui-org/react";
+import {Button, Image} from "@nextui-org/react";
 import Logo from "../../../public/images/logoPoint.png"
 
 function NavBarPages() {
@@ -32,25 +32,25 @@ function NavBarPages() {
                     className="w-12"
                     src={Logo}
                 />
-                <p className="font-bold text-2xl text-white px-3">POINT</p>
+                <p className="font-bold text-2xl text-white ">POINT</p>
             </NavbarBrand>
 
-            <NavbarContent className="hidden sm:flex gap-8 	" justify="center">
+            <NavbarContent className="hidden sm:flex  	" justify="center">
                 <NavItem pageName="Home" href="/"/>
                 <NavItem pageName="News" href="/news"/>
                 <NavItem pageName="Speakers" href="/speakers"/>
                 <NavItem pageName="Programs" href="/programs"/>
                 <NavItem pageName="Stream" href="/stream"/>
-                <NavItem pageName="Performance" href="/performance"/>
+                <NavItem pageName="Conference" href="/conference"/>
             </NavbarContent>
 
-            {/*<NavbarContent justify="end">*/}
-            {/*    <NavbarItem>*/}
-            {/*        <Button color="primary" href="#" variant="flat">*/}
-            {/*            Register*/}
-            {/*        </Button>*/}
-            {/*    </NavbarItem>*/}
-            {/*</NavbarContent>*/}
+            <NavbarContent justify="end">
+                <NavbarItem>
+                    <Button color="primary" href="#" variant="flat">
+                        Register
+                    </Button>
+                </NavbarItem>
+            </NavbarContent>
         </Navbar>
     );
 }

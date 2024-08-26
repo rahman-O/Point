@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\api\Stream\SpecifiedStreamResource;
-use App\Http\Resources\api\Stream\StreamResource;
 use App\Models\Stream;
 use Illuminate\Http\Request;
 
@@ -14,9 +13,9 @@ class StreamController extends Controller
      */
     public function index()
     {
-       $streams = Stream::all();
-         return StreamResource::collection($streams);
+        return Stream::paginate(10);
     }
+
     /**
      * Display the specified resource.
      */
@@ -44,7 +43,6 @@ class StreamController extends Controller
     {
         //
     }
-
 
 
     /**

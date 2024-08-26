@@ -23,6 +23,17 @@ class ConferenceResource extends Resource
         return static::getModel()::count();
     }
 
+    public static function getNavigationUrl(): string
+    {
+        // Get the last record's ID
+        $lastRecord = static::getModel()::latest('id')->first();
+
+        // Redirect to the view page of the last record
+        return $lastRecord
+            ? static::getUrl('view', ['record' => $lastRecord->id])
+            : static::getUrl('index');
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -33,12 +44,12 @@ class ConferenceResource extends Resource
                 Forms\Components\TextInput::make('title_en')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\RichEditor::make('desc_ar')
+                Forms\Components\TextInput::make('desc_ar')
                     ->required()
                     ->columnSpanFull(),
-                Forms\Components\RichEditor::make('desc_en')
+                Forms\Components\TextInput::make('desc_en')
                     ->required()
-                   ->columnSpanFull(),
+                    ->columnSpanFull(),
                 Forms\Components\FileUpload::make('image')
                     ->image()
                     ->required()

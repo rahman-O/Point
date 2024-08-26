@@ -5,18 +5,28 @@ namespace App\Http\Controllers;
 use App\Models\Conference;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use function Termwind\render;
 
 class ConferenceController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-            public function index(): void
+    public function index(): void
     {
         Inertia::render('conferences/Index', [
             'conferences' => Conference::all(),
         ]);
+    }
+
+    public function last()
+    {
+        $lastConference = Conference::latest('id')->first();
+
+        if ($lastConference) {
+            return response()->json($lastConference);
+        }
+
+        return response()->json(['message' => 'No conference found'], 404);
     }
 
     /**

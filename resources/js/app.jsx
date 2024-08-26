@@ -10,10 +10,10 @@ import News from "./Pages/news/News.jsx";
 import Speakers from "./Pages/speakers/Speakers.jsx";
 import Programs from "./Pages/programs/Programs.jsx";
 import Stream from "./Pages/stream/Stream.jsx";
-import Performance from "./Pages/performance/Performance.jsx";
 import Voting from "@/Pages/voting/Voting.jsx";
 import {Layout} from "@/layout/Layout.jsx";
 import HomePage from "@/Pages/homePage/HomePage.jsx";
+import Conferences from "@/Pages/conferences/Conferences.jsx";
 
 const routes = [
     {
@@ -25,7 +25,7 @@ const routes = [
             {path: 'speakers', element: <Speakers/>},
             {path: 'programs', element: <Programs/>},
             {path: 'stream', element: <Stream/>},
-            {path: 'performance', element: <Performance/>},
+            {path: 'conference', element: <Conferences/>},
             {path: 'voting', element: <Voting/>},
         ],
     },

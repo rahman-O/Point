@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import {CardNews} from "@/Components/CardNews.jsx";
 import Pagination from "@/Components/Pagination.jsx";
+import {CardNews} from "@/Components/CardNews.jsx";
 
 export default function News() {
     const [news, setNews] = useState([]);
@@ -36,8 +36,9 @@ export default function News() {
     };
     return (
         <div className="py-6">
-            <div className="grid grid-cols-1 md:grid-cols-6 sm:grid-cols-3 gap-1 px-6 py-4">
+            <div className="grid grid-cols-1 md:grid-cols-5 sm:grid-cols-3 gap-3 px-2 ">
                 {news.map((post) => (
+
                     <CardNews
                         key={post.id}
                         desc_en={post.desc_en}
@@ -53,6 +54,8 @@ export default function News() {
                 onPageChange={handlePageChange}
             />
         </div>
-    );
+ 
+    )
+        ;
 }
 
