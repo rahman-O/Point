@@ -1,8 +1,6 @@
-import {useEffect, useState } from "react";
-import { TapsSessions } from "./componets/TapsSessions";
-import axios   from "axios";
-import React from "react";
-import { Avatar } from "flowbite-react";
+import React, {useEffect, useState} from "react";
+import {TapsSessions} from "./componets/TapsSessions";
+import axios from "axios";
 import {SpeakerList} from "@/Pages/programs/componets/SpeakerList.jsx";
 
 
@@ -30,12 +28,12 @@ export default function Programs() {
     const currentProgram = porgrams.find(program => program.id === activeTab);
 
 
-
     const sessionsProgram3 = currentProgram?.sessionsProgram.map((session) => (
         <div>
 
 
-            <div className="w-full text-center md:m-5 md:ml-[54] my-6 flex md:flex-row flex-col align-items-center animate-pulse"><span
+            <div
+                className="w-full text-center md:m-5 md:ml-[54] my-6 flex md:flex-row flex-col align-items-center  "><span
                 className="text-lg">{session.start_time} - {session.end_time}</span> <span
                 className="ml-5 text-lg font-bold">{session.name}</span></div>
 

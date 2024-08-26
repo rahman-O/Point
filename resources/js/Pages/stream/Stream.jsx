@@ -42,15 +42,16 @@ export default function Stream() {
 
     return (
         <div>
-            <div className="grid grid-cols-1 md:grid-cols-5 sm:grid-cols-3 gap-3 px-6 py-4 ">
+            <div className="grid grid-cols-1 md:grid-cols-5 sm:grid-cols-3 gap-3 px-2 py-2 ">
                 {streams.map((stream) => (
                     <div
+                        className="pb-8 grid gap-2"
                         key={stream.id}
                         style={{margin: "2px", cursor: "pointer",}}
                     >
                         {selectedVideoId === stream.youtube_video_id ? (
                             <iframe
-                                style={{width: "100%", borderRadius: "8px", height: "auto"}}
+                                style={{width: "100%", borderRadius: "8px", height: "100%"}}
                                 src={`https://www.youtube.com/embed/${stream.youtube_video_id}?autoplay=1`}
                                 frameBorder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -61,7 +62,7 @@ export default function Stream() {
                             <img
                                 src={`https://img.youtube.com/vi/${stream.youtube_video_id}/hqdefault.jpg`}
                                 alt={stream.title_en}
-                                style={{width: "100%", borderRadius: "8px"}}
+                                style={{width: "100%", borderRadius: "8px", height: "100%"}}
                                 onClick={() => handleVideoClick(stream.youtube_video_id)}
                             />
                         )}
