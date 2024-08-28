@@ -15,6 +15,18 @@ class SpeakersController extends Controller
         return Speakers::paginate(10);
     }
 
+//    public function allSpeakers()
+//    {
+//        return Speakers::all();
+//    }
+
+    public function allSpeakers()
+    {
+        $speakers = Speakers::all(); // Fetch all speakers
+
+        return response()->json($speakers);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

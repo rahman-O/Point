@@ -36,7 +36,7 @@ export default function Speakers() {
     };
     return (
         <div className="py-6">
-            <div className="grid grid-cols-1 md:grid-cols-5 sm:grid-cols-3 gap-3 px-6 py-4 ">
+            <div className="grid grid-cols-1 md:grid-cols-5 sm:grid-cols-3 gap-3 px-2 ">
                 {speakers.map((speaker) => (
 
                     <CardSpeaker

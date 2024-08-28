@@ -1,66 +1,19 @@
-// import {Image} from "@nextui-org/react";
-//
-//
-// export const CardNews = ({desc_en, event_time, image}) => {
-//     return (
-//         <div className=" overflow-hidden py-12 ">
-//             <div>
-//                 <Image
-//                     alt="Card background"
-//                     className="object-cover rounded-md  w-5/6 h-5/6"
-//                     src={`/api/images/${image}`}
-//                 />
-//             </div>
-//             {/*</div>*/}
-//             <div className="pb-0 pt-2 px-4 flex-col items-start">
-//                 <p className=" text-lg uppercase text-gray-500">{event_time}</p>
-//                 <p className="text-medium font-bold">{desc_en}</p>
-//
-//             </div>
-//         </div>
-//
-//     )
-// }
-
-//
-//
-// export const CardNews = ({desc_en, event_time, image}) => {
-//     return (
-//         <div className=" overflow-hidden py-12 " imgSrc={`/api/images/${image}`}>
-//             <div>
-//                 <Image
-//                     alt="Card background"
-//                     className="object-cover rounded-md  w-5/6 h-5/6"
-//                     src={`/api/images/${image}`}
-//                 />
-//             </div>
-//             {/*</div>*/}
-//             <div className="pb-0 pt-2 px-4 flex-col items-start">
-//                 <p className=" text-lg uppercase text-gray-500">{event_time}</p>
-//                 <p className="text-medium font-bold">{desc_en}</p>
-//
-//             </div>
-//         </div>
-//
-//     )
-// }
-
-//
-import {Card} from "flowbite-react";
+import {Card, CardBody, CardFooter} from "@nextui-org/react";
 
 export const CardNews = ({desc_en, event_time, image}) => {
     return (
-        <Card
-            className=""
-            imgAlt="Meaningful alt text for an image that is not purely decorative"
-            imgSrc={`/api/images/${image}`}
-        >
-            <div className=" flex-col items-start">
-                <p className=" text-sm text-gray-500">{event_time}</p>
-                <p className="text-medium font-bold">{desc_en}</p>
-
-            </div>
-
+        <Card shadow="sm">
+            <CardBody className="overflow-visible p-0">
+                <img
+                    width="100%"
+                    className="w-full object-cover h-[180px] shadow-sm rounded-t-lg"
+                    src={`/api/images/${image}`}
+                />
+            </CardBody>
+            <CardFooter className="text-small grid">
+                <b>{event_time}</b>
+                <p className="">{desc_en}</p>
+            </CardFooter>
         </Card>
     );
 }

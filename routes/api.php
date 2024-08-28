@@ -11,6 +11,8 @@ Route::get('/user', function (Request $request) {
 
 
 Route::get('/speakers', [App\Http\Controllers\SpeakersController::class, 'index']);
+Route::get('/all/speakers', [App\Http\Controllers\SpeakersController::class, 'allSpeakers']);
+
 Route::get('/images/{filename}', [ImageController::class, 'show']);
 
 //programs
@@ -20,6 +22,8 @@ Route::get('/programs/{id}', [App\Http\Controllers\ProgramsController::class, 's
 
 //news
 Route::get('/news', [App\Http\Controllers\NewsController::class, 'index']);
+Route::get('/all/news', [App\Http\Controllers\NewsController::class, 'allNews']);
+
 Route::get('/news/{id}', [App\Http\Controllers\NewsController::class, 'show']);
 
 

@@ -16,6 +16,13 @@ class NewsController extends Controller
         return News::paginate(10);
     }
 
+    public function allNews()
+    {
+        $news = News::all(); // Fetch all speakers
+
+        return response()->json($news);
+    }
+
     /**
      * Display the specified resource.
      */

@@ -41,8 +41,8 @@ function NavBarPages() {
                 <NavItem pageName="News" href="/news"/>
                 <NavItem pageName="Speakers" href="/speakers"/>
                 <NavItem pageName="Programs" href="/programs"/>
-                <NavItem pageName="Stream" href="/stream"/>
                 <NavItem pageName="Conference" href="/conference"/>
+                <NavItem pageName="Stream" href="/stream"/>
             </NavbarContent>
 
             <NavbarContent justify="end">
