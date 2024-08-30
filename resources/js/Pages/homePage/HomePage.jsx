@@ -10,7 +10,7 @@ export default function HomePage() {
             <div className="home-video" style={{backgroundImage: `url(${homeImage})`}}>
                 <video className="banner" muted autoPlay loop src={videoPlayes}></video>
             </div>
-            <div className="grid gap-6">
+            <div className="grid gap-6 py-12">
                 <h1 className="text-2xl font-bold px-2 text-center uppercase pt-6">News</h1>
                 <NewsSlider/>
                 <h1 className="text-2xl font-bold px-2 text-center uppercase">Speakers</h1>
