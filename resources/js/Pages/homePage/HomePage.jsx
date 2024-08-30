@@ -16,6 +16,9 @@ export default function HomePage() {
                 <h1 className="text-2xl font-bold px-2 text-center uppercase">Speakers</h1>
                 <SpeackerSlider/>
             </div>
+            <div className="h-75 bg-black text-white flex justify-center items-center mt-12">
+                <h1 className="h-full">Tawasul organization</h1>
+            </div>
         </div>
     );
 }
