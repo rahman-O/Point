@@ -11,6 +11,7 @@ export default function HomePage() {
                 <video className="banner" muted autoPlay loop src={videoPlayes}></video>
             </div>
             <div className="grid gap-6">
+                <h1 className="text-2xl font-bold px-2 text-center uppercase pt-6">News</h1>
                 <NewsSlider/>
                 <h1 className="text-2xl font-bold px-2 text-center uppercase">Speakers</h1>
                 <SpeackerSlider/>
