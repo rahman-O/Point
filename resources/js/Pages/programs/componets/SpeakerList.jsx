@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useContext} from 'react';
 
 
 import {Avatar, Card} from "flowbite-react";
+import LangContext from "@/components/langContext/LangContext.jsx";
 export function SpeakerList({ session }) {
 
-
+    const { lang, toggleLang} = useContext(LangContext);
     return (
 
         <Card className="w-full max-w-sm p-0 bg-transparent  border-transparent md:ml-[65] align-items-center justify-center" >
@@ -17,11 +18,11 @@ export function SpeakerList({ session }) {
                             size="lg"
                             img={`api/images/${speaker.image}`}
                             rounded
-                            alt={speaker.name_en}
+                            alt={ lang==='en'?   speaker.name_en: speaker.name_ar}
                         />
                         <div className="md:ml-3">
-                            <span className="text-medium block mt-4">{speaker.name_en}</span>
-                            <span className="text-medium block mt-2">{speaker.job_en}</span>
+                            <span className="text-medium block mt-4">{ lang==='en'?    speaker.name_en:speaker.name_ar}</span>
+                            <span className="text-medium block mt-2">{ lang==='en'?   speaker.job_en: speaker.job_ar}</span>
                             {/* Uncomment if you want to display speaker title */}
                             {/* <span className="text-2xl">{speaker.title}</span> */}
                         </div>

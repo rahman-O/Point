@@ -1,13 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import Pagination from "@/Components/Pagination.jsx";
+import LangContext from "@/components/langContext/LangContext.jsx";
 
 export default function Stream() {
     const [streams, setStreams] = useState([]);
     const [selectedVideoId, setSelectedVideoId] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-
+    const { lang, toggleLang} = useContext(LangContext);
     const fetchData = async (page) => {
         const response = await axios.get(`/api/stream?page=${page}`);
         if (response) {
@@ -56,17 +57,17 @@ export default function Stream() {
                                 frameBorder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen
-                                title={stream.title_en}
+                                title={lang==='en'?    stream.title_en: stream.title_ar}
                             ></iframe>
                         ) : (
                             <img
                                 src={`https://img.youtube.com/vi/${stream.youtube_video_id}/hqdefault.jpg`}
-                                alt={stream.title_en}
+                                alt={ lang==='en'?   stream.title_en: stream.title_ar}
                                 style={{width: "100%", borderRadius: "8px", height: "100%"}}
                                 onClick={() => handleVideoClick(stream.youtube_video_id)}
                             />
                         )}
-                        <h3 className="font-bold text-2xl uppercase">{stream.title_en}</h3>
+                        <h3 className="font-bold text-2xl uppercase">{ lang==='en'?    stream.title_en: stream.title_ar}</h3>
                     </div>
                 ))}
             </div>

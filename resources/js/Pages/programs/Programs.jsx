@@ -1,13 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {TapsSessions} from "./componets/TapsSessions";
 import axios from "axios";
 import {SpeakerList} from "@/Pages/programs/componets/SpeakerList.jsx";
+import LangContext from "@/components/langContext/LangContext.jsx";
 
 
 export default function Programs() {
 
     const [porgrams, setProgram] = React.useState([]);
-
+    const { lang, toggleLang} = useContext(LangContext);
 
     const [activeTab, setActiveTab] = useState(1);
 
@@ -15,7 +16,7 @@ export default function Programs() {
 
         axios.get('/api/programs')
             .then(response => {
-                console.log(response.data.data);
+
                 setProgram(response.data.data);
             })
             .catch(error => {

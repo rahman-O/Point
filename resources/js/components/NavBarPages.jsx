@@ -1,13 +1,15 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {NavLink, useLocation} from 'react-router-dom';
 import {Navbar, NavbarBrand, NavbarContent, NavbarItem} from "@nextui-org/navbar";
 import {Image} from "@nextui-org/react";
 import Logo from "../../../public/images/logoPoint.png"
 import {FaFacebook, FaTwitter, FaYoutube} from "react-icons/fa";
+import {Button} from "flowbite-react";
+import LangContext from "@/components/langContext/LangContext.jsx";
 
 function NavBarPages() {
     const location = useLocation();
-
+    const { lang, toggleLang} = useContext(LangContext);
     const NavItem = ({pageName, href}) => {
         const isActive = location.pathname === href;
         return (
@@ -37,12 +39,12 @@ function NavBarPages() {
             </NavbarBrand>
 
             <NavbarContent className="hidden sm:flex  	" justify="center">
-                <NavItem pageName="Home" href="/"/>
-                <NavItem pageName="News" href="/news"/>
-                <NavItem pageName="Speakers" href="/speakers"/>
-                <NavItem pageName="Programs" href="/programs"/>
-                <NavItem pageName="Conference" href="/conference"/>
-                <NavItem pageName="Stream" href="/stream"/>
+                <NavItem pageName={lang === 'en' ? 'Home' : 'الصفحة الرئيسية'} href="/" />
+                <NavItem pageName={lang === 'en' ? 'News' : 'الأخبار'} href="/news" />
+                <NavItem pageName={lang === 'en' ? 'Speakers' : 'الاجندة'} href="/speakers" />
+                <NavItem pageName={lang === 'en' ? 'Programs' : 'البرامج'} href="/programs" />
+                <NavItem pageName={lang === 'en' ? 'Conference' : 'المؤتمر'} href="/conference" />
+                <NavItem pageName={lang === 'en' ? 'Stream' : 'البث'} href="/stream" />
             </NavbarContent>
 
             <NavbarContent justify="end">
@@ -52,6 +54,20 @@ function NavBarPages() {
                     <FaYoutube className="text-red-500 text-2xl"/>
 
                 </NavbarItem>
+
+                <NavbarItem>
+                    <Button
+                        auto
+                        color="secondary"
+                        className="text-white ml-4"
+                         // Handle click event to toggle language
+                        onClick={toggleLang}
+                    >
+                        {lang === 'en' ? 'العربية' : 'English'}
+                    </Button>
+                </NavbarItem>
+
+
             </NavbarContent>
         </Navbar>
     );

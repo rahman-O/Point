@@ -1,10 +1,17 @@
-import React from "react";
+import React, {useContext} from "react";
 import NewsSlider from "@/Pages/homePage/NewsSlider.jsx";
 import SpeackerSlider from "@/Pages/homePage/SpeackerSlider.jsx";
 import videoPlayes from "../../../css/images/POINT12-24-25.mp4";
-import homeImage from '../../../css/images/point-za-sada.df9c31bdb1d7be8e.jpeg'; /* Adjust the path */
+import homeImage from '../../../css/images/point-za-sada.df9c31bdb1d7be8e.jpeg';
+
+
+import LangContext from "@/components/langContext/LangContext.jsx";
 
 export default function HomePage() {
+    const { lang, toggleLang} = useContext(LangContext);
+
+
+
     return (
         <div className="">
             <div className="home-video" style={{backgroundImage: `url(${homeImage})`}}>
@@ -13,7 +20,7 @@ export default function HomePage() {
             <div className="grid gap-6 py-12">
                 <h1 className="text-2xl font-bold px-2 text-center uppercase pt-6">News</h1>
                 <NewsSlider/>
-                <h1 className="text-2xl font-bold px-2 text-center uppercase">Speakers</h1>
+                <h1 className="text-2xl font-bold px-2 text-center uppercase"> {lang==="en"?'Speaker':'الاجندة'} </h1>
                 <SpeackerSlider/>
             </div>
             <div className="h-75 bg-black text-white flex justify-center items-center mt-12">

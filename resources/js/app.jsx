@@ -14,6 +14,9 @@ import Voting from "@/Pages/voting/Voting.jsx";
 import {Layout} from "@/layout/Layout.jsx";
 import HomePage from "@/Pages/homePage/HomePage.jsx";
 import Conferences from "@/Pages/conferences/Conferences.jsx";
+import LangProvider from "@/components/langContext/LangProvider.jsx";
+
+
 
 const routes = [
     {
@@ -34,5 +37,11 @@ const routes = [
 const router = createBrowserRouter(routes);
 
 createRoot(document.getElementById('root')).render(
-    <RouterProvider router={router}/>
+
+    <LangProvider>
+        <RouterProvider router={router} />
+    </LangProvider>
+
+
 );
+

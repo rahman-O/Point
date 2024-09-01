@@ -1,13 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import Pagination from "@/Components/Pagination.jsx";
 import {CardNews} from "@/Components/CardNews.jsx";
+import LangContext from "@/components/langContext/LangContext.jsx";
 
 export default function News() {
     const [news, setNews] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-
+    const { lang, toggleLang} = useContext(LangContext);
     const fetchData = async (page) => {
         const response = await axios.get(`/api/news?page=${page}`);
         if (response) {
@@ -41,7 +42,7 @@ export default function News() {
 
                     <CardNews
                         key={post.id}
-                        desc_en={post.desc_en}
+                        desc_en={lang==='en'?   post.desc_en:post.desc_ar}
                         event_time={post.event_time}
                         image={post.image}
                     />
@@ -54,7 +55,7 @@ export default function News() {
                 onPageChange={handlePageChange}
             />
         </div>
- 
+
     )
         ;
 }
