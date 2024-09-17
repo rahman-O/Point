@@ -16,6 +16,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import './components/HandelPages.jsx';
 import './components/NavBarPages.jsx';
+import './components/FooterPages.jsx';
+
 
 import './Pages/news/News.jsx';
 import './Pages/speakers/Speakers.jsx';

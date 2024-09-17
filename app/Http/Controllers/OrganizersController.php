@@ -12,7 +12,9 @@ class OrganizersController extends Controller
      */
     public function index()
     {
-        //
+        $orgs = Organizers::all();
+
+        return response()->json($orgs);
     }
 
     /**

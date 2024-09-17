@@ -34,3 +34,10 @@ Route::get('/stream/{id}', [App\Http\Controllers\StreamController::class, 'show'
 // Conference routes
 Route::get('/conferences', [ConferenceController::class, 'index']);
 Route::get('/conferences/last', [ConferenceController::class, 'last']);
+
+
+//orgs
+Route::get('/orgs', [App\Http\Controllers\OrganizersController::class, 'index']);
+
+//Partners
+Route::get('/partners', [App\Http\Controllers\PartnersController::class, 'index']);

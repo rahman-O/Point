@@ -8,7 +8,7 @@ export default function Speakers() {
     const [speakers, setSpeakers] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const { lang, toggleLang} = useContext(LangContext);
+    const {lang, toggleLang} = useContext(LangContext);
     const fetchData = async (page) => {
         const response = await axios.get(`/api/speakers?page=${page}`);
         if (response) {
@@ -42,10 +42,9 @@ export default function Speakers() {
 
                     <CardSpeaker
                         key={speaker.id}
-                        name={lang==='en'?    speaker.name_en: speaker.name_ar}
-                        job_en={lang==='en'?  speaker.job_en: speaker.job_ar}
+                        name={lang === 'en' ? speaker.name_en : speaker.name_ar}
+                        job_en={lang === 'en' ? speaker.job_en : speaker.job_ar}
                         image={speaker.image}
-                        conutry={lang==='en'?   speaker.country_en: speaker.country_ar}
                     />
                 ))}
             </div>

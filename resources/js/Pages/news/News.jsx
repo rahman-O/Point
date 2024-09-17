@@ -8,7 +8,12 @@ export default function News() {
     const [news, setNews] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const { lang, toggleLang} = useContext(LangContext);
+    const {lang, toggleLang} = useContext(LangContext);
+    const stripHtmlTags = (html) => {
+        const div = document.createElement('div');
+        div.innerHTML = html;
+        return div.textContent || div.innerText || '';
+    };
     const fetchData = async (page) => {
         const response = await axios.get(`/api/news?page=${page}`);
         if (response) {
@@ -42,7 +47,7 @@ export default function News() {
 
                     <CardNews
                         key={post.id}
-                        desc_en={lang==='en'?   post.desc_en:post.desc_ar}
+                        desc_en={lang === 'en' ? stripHtmlTags(post.desc_en.slice(0, 40)) + '...' : stripHtmlTags(post.desc_ar.slice(0, 40)) + '...'}
                         event_time={post.event_time}
                         image={post.image}
                     />

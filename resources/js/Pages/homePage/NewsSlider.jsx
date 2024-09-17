@@ -8,8 +8,12 @@ import LangContext from "@/components/langContext/LangContext.jsx";
 
 export default function NewsSlider() {
     const [news, setNews] = useState([]);
-    const { lang, toggleLang} = useContext(LangContext);
-
+    const {lang, toggleLang} = useContext(LangContext);
+    const stripHtmlTags = (html) => {
+        const div = document.createElement('div');
+        div.innerHTML = html;
+        return div.textContent || div.innerText || '';
+    };
     useEffect(() => {
         axios.get('/api/all/news').then(response => {
             setNews(response.data);
@@ -20,14 +24,24 @@ export default function NewsSlider() {
         dots: true,
         infinite: true,
         speed: 500,
-        slidesToShow: 3,
+        slidesToShow: 3, // Default for desktop
         slidesToScroll: 1,
         autoplay: true,
         autoplaySpeed: 3000,
+        responsive: [
+            {
+                breakpoint: 768, // For screens smaller than 768px (mobile)
+                settings: {
+                    slidesToShow: 1, // Show only 1 card on mobile
+                    slidesToScroll: 1,
+                    dots: true,
+                },
+            },
+        ],
     };
 
     return (
-        <div className=" h-80 overflow-hidden relative">
+        <div className="h-fit overflow-hidden">
             <Slider {...settings}>
                 {news.map((post) => (
                     <div key={post.id} className="p-4 ">
@@ -38,7 +52,7 @@ export default function NewsSlider() {
                                 alt="News Image"
                             />
                             <div className="p-4">
-                                <h2 className="text-lg font-bold mb-2">{lang==="en"?  post.desc_en:post.desc_en}</h2>
+                                <h2 className="text-lg font-bold mb-2">{lang === 'en' ? stripHtmlTags(post.desc_en.slice(0, 30)) + '...' : stripHtmlTags(post.desc_ar.slice(0, 30)) + '...'}</h2>
                                 <p className="text-sm text-gray-600">{post.event_time}</p>
                             </div>
                         </div>

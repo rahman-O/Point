@@ -39,12 +39,22 @@ class NewsResource extends Resource
                 Forms\Components\TextInput::make('author_ar')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('desc_en')
+//                Forms\Components\Textarea::make('desc_en')
+//                    ->required()
+//                    ->columnSpanFull(),
+
+                Forms\Components\RichEditor::make('desc_en')
                     ->required()
-                    ->columnSpanFull(),
-                Forms\Components\Textarea::make('desc_ar')
+                    ->columnSpanFull()
+                    ->dehydrateStateUsing(fn($state) => strip_tags($state)),
+
+                Forms\Components\RichEditor::make('desc_ar')
                     ->required()
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->dehydrateStateUsing(fn($state) => strip_tags($state)),
+//                Forms\Components\Textarea::make('desc_ar')
+//                    ->required()
+//                    ->columnSpanFull(),
                 Forms\Components\DatePicker::make('event_time')// Optionally set the current year as the default
                 ->required(),
                 Forms\Components\FileUpload::make('image')

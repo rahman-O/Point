@@ -8,7 +8,8 @@ export default function Stream() {
     const [selectedVideoId, setSelectedVideoId] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const { lang, toggleLang} = useContext(LangContext);
+    const {lang} = useContext(LangContext);
+
     const fetchData = async (page) => {
         const response = await axios.get(`/api/stream?page=${page}`);
         if (response) {
@@ -21,18 +22,6 @@ export default function Stream() {
         fetchData(currentPage);
     }, [currentPage]);
 
-    const handleNextPage = () => {
-        if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
-        }
-    };
-
-    const handlePrevPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
-        }
-    };
-
     const handlePageChange = (page) => {
         setCurrentPage(page);
     };
@@ -43,31 +32,47 @@ export default function Stream() {
 
     return (
         <div>
-            <div className="grid grid-cols-1 md:grid-cols-5 sm:grid-cols-3 gap-3 px-2 py-2 ">
+            <div
+                className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-6 px-2 py-2">
                 {streams.map((stream) => (
                     <div
-                        className="pb-8 grid gap-2"
+                        className="relative overflow-hidden rounded"
                         key={stream.id}
-                        style={{margin: "2px", cursor: "pointer",}}
+                        style={{cursor: "pointer"}}
+                        onClick={() => handleVideoClick(stream.youtube_video_id)}
                     >
                         {selectedVideoId === stream.youtube_video_id ? (
                             <iframe
-                                style={{width: "100%", borderRadius: "8px", height: "100%"}}
+                                style={{width: "100%", height: "100%", borderRadius: "8px"}}
                                 src={`https://www.youtube.com/embed/${stream.youtube_video_id}?autoplay=1`}
                                 frameBorder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen
-                                title={lang==='en'?    stream.title_en: stream.title_ar}
+                                title={lang === 'en' ? stream.title_en : stream.title_ar}
                             ></iframe>
                         ) : (
-                            <img
-                                src={`https://img.youtube.com/vi/${stream.youtube_video_id}/hqdefault.jpg`}
-                                alt={ lang==='en'?   stream.title_en: stream.title_ar}
-                                style={{width: "100%", borderRadius: "8px", height: "100%"}}
-                                onClick={() => handleVideoClick(stream.youtube_video_id)}
-                            />
+                            <>
+                                <img
+                                    src={`https://img.youtube.com/vi/${stream.youtube_video_id}/hqdefault.jpg`}
+                                    alt={lang === 'en' ? stream.title_en : stream.title_ar}
+                                    className="w-full h-full object-cover"
+                                />
+                                {/* Play Button Overlay */}
+                                <div
+                                    className="absolute inset-0 flex justify-center items-center bg-black bg-opacity-20">
+                                    <img
+                                        src="https://upload.wikimedia.org/wikipedia/commons/7/75/YouTube_social_white_squircle_%282017%29.svg"
+                                        alt="Play Button"
+                                        className="w-16 h-16"
+                                    />
+                                </div>
+                                {/* Title Overlay */}
+                                <div
+                                    className="absolute top-0 left-0 w-full px-3 py-2 bg-black bg-opacity-60 text-white text-sm font-bold">
+                                    {lang === 'en' ? stream.title_en : stream.title_ar}
+                                </div>
+                            </>
                         )}
-                        <h3 className="font-bold text-2xl uppercase">{ lang==='en'?    stream.title_en: stream.title_ar}</h3>
                     </div>
                 ))}
             </div>

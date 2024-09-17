@@ -3,16 +3,12 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\SpeakersResource\Pages;
-use App\Filament\Resources\SpeakersResource\RelationManagers;
 use App\Models\Speakers;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use function Pest\Laravel\options;
 
 class SpeakersResource extends Resource
 {
@@ -20,10 +16,12 @@ class SpeakersResource extends Resource
     protected static string $relationship = 'sessions';
     protected static ?string $navigationIcon = 'heroicon-o-queue-list';
     protected static ?string $navigationBadgeTooltip = 'عدد الاجندات';
+
     public static function getNavigationBadge(): ?string
     {
         return static::getModel()::count();
     }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -47,12 +45,12 @@ class SpeakersResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('year')
-                    ->options( array_combine(range(date('Y') + 1, 2017), range(date('Y') + 1, 2017)))
-
+                    ->options(array_combine(range(date('Y') + 1, 2017), range(date('Y') + 1, 2017)))
                     ->required(),
                 Forms\Components\RichEditor::make('desc_en')
                     ->required()
                     ->columnSpanFull(),
+
                 Forms\Components\RichEditor::make('desc_ar')
                     ->required()
                     ->columnSpanFull(),

@@ -1,15 +1,21 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import LangContext from './LangContext.jsx';
 
-const LangProvider = ({ children }) => {
+const LangProvider = ({children}) => {
     const [lang, setLang] = useState('ar');
-
+    useEffect(() => {
+        const storedLang = localStorage.getItem('lang');
+        if (storedLang) {
+            setLang(storedLang);
+        }
+    }, []);
     const toggleLang = () => {
-        setLang(lang === 'en' ? 'ar' : 'en');
+        const newLang = lang === 'en' ? 'ar' : 'en';
+        setLang(newLang);
+        localStorage.setItem('lang', newLang);
     };
-
     return (
-        <LangContext.Provider value={{ lang, toggleLang }}>
+        <LangContext.Provider value={{lang, toggleLang}}>
             {children}
         </LangContext.Provider>
     );

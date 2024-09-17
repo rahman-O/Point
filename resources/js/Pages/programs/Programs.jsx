@@ -1,14 +1,14 @@
 import React, {useContext, useEffect, useState} from "react";
 import {TapsSessions} from "./componets/TapsSessions";
 import axios from "axios";
-import {SpeakerList} from "@/Pages/programs/componets/SpeakerList.jsx";
 import LangContext from "@/components/langContext/LangContext.jsx";
+import {SpeakerList} from "@/Pages/programs/componets/SpeakerList.jsx";
 
 
 export default function Programs() {
 
     const [porgrams, setProgram] = React.useState([]);
-    const { lang, toggleLang} = useContext(LangContext);
+    const {lang, toggleLang} = useContext(LangContext);
 
     const [activeTab, setActiveTab] = useState(1);
 
@@ -31,14 +31,22 @@ export default function Programs() {
 
     const sessionsProgram3 = currentProgram?.sessionsProgram.map((session) => (
         <div>
+            {/*className="w-full text-center md:m-5 md:ml-[54] my-6 flex md:flex-row flex-col align-items-center"*/}
+            <div className="flex align-items-center pt-6">
+
+            <span
+                className="text-lg px-4 ">{session.start_time} - {session.end_time}
+            </span>
+
+                <span
+                    className=" text-lg font-bold">{session.name.toUpperCase()}
+                </span>
+            </div>
 
 
-            <div
-                className="w-full text-center md:m-5 md:ml-[54] my-6 flex md:flex-row flex-col align-items-center  "><span
-                className="text-lg">{session.start_time} - {session.end_time}</span> <span
-                className="ml-5 text-lg font-bold">{session.name}</span></div>
-
-            <SpeakerList session={session}/>
+            <div className="pl-32 py-2">
+                <SpeakerList session={session}/>
+            </div>
         </div>
 
 
@@ -46,7 +54,7 @@ export default function Programs() {
 
     return (
         <div className="mb-[100]">
-            <h1 className="text-2xl text-center mt-12 uppercase">Program</h1>
+            <h1 className="text-2xl text-center mt-12 uppercase">Programs</h1>
             <TapsSessions programsArray={porgrams} activeTab={activeTab} setActiveTab={setActiveTab}/>
 
             {currentProgram ? (
