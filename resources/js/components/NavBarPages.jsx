@@ -51,6 +51,9 @@ function NavBarPages() {
 	const handleLinkClick = () => {
 		setIsMenuOpen(false);
 	};
+	useEffect(() => {
+		document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+	}, [lang]);
 
 	const NavItem = ({ pageName, href }) => {
 		const isActive = location.pathname === href;
