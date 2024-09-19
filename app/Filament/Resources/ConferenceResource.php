@@ -15,11 +15,23 @@ class ConferenceResource extends Resource
 {
     protected static ?string $model = Conference::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static ?string $navigationBadgeTooltip = 'عدد المؤتمرات';
+
     public static function getNavigationBadge(): ?string
     {
         return static::getModel()::count();
+    }
+
+    public static function getNavigationUrl(): string
+    {
+        // Get the last record's ID
+        $lastRecord = static::getModel()::latest('id')->first();
+
+        // Redirect to the view page of the last record
+        return $lastRecord
+            ? static::getUrl('view', ['record' => $lastRecord->id])
+            : static::getUrl('index');
     }
 
     public static function form(Form $form): Form
@@ -32,15 +44,16 @@ class ConferenceResource extends Resource
                 Forms\Components\TextInput::make('title_en')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('desc_ar')
+                Forms\Components\TextInput::make('desc_ar')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('desc_en')
+                    ->columnSpanFull(),
+                Forms\Components\TextInput::make('desc_en')
                     ->required()
-                    ->maxLength(255),
+                    ->columnSpanFull(),
                 Forms\Components\FileUpload::make('image')
                     ->image()
-                    ->required(),
+                    ->required()
+                    ->columnSpanFull(),
             ]);
     }
 

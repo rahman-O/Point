@@ -12,6 +12,19 @@ import './bootstrap';
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 import '../css/app.css';
-import './Pages/HomePage.jsx';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import './components/HandelPages.jsx';
 import './components/NavBarPages.jsx';
+import './components/FooterPages.jsx';
+
+
+import './Pages/news/News.jsx';
+import './Pages/speakers/Speakers.jsx';
+import './Pages/programs/Programs.jsx';
+import './Pages/stream/Stream.jsx';
+import './Pages/performance/Performance.jsx';
+import './Pages/voting/Voting.jsx';
+import './Pages/homePage/HomePage.jsx';
+import './Pages/homePage/NewsSlider.jsx';
+import './Pages/homePage/SpeackerSlider.jsx';

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\api\Programs\ProgramsResource;
+use App\Http\Resources\api\Programs\specifiedProgramResource;
 use App\Models\Programs;
 use Illuminate\Http\Request;
 
@@ -12,8 +14,23 @@ class ProgramsController extends Controller
      */
     public function index()
     {
-        //
+        $programs = Programs::with('sessionsProgram')->get();
+        return new ProgramsResource($programs);
     }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show( $id)
+    {
+        $programs = Programs::with('sessionsProgram')->find($id);
+        if (!$programs) {
+            return response()->json(['message' => 'Not Found'], 404);
+        }
+        return new specifiedProgramResource($programs);
+    }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -31,13 +48,7 @@ class ProgramsController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Programs $programs)
-    {
-        //
-    }
+
 
     /**
      * Show the form for editing the specified resource.

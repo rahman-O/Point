@@ -12,7 +12,19 @@ class SpeakersController extends Controller
      */
     public function index()
     {
-        //
+        return Speakers::paginate(10);
+    }
+
+//    public function allSpeakers()
+//    {
+//        return Speakers::all();
+//    }
+
+    public function allSpeakers()
+    {
+        $speakers = Speakers::all(); // Fetch all speakers
+
+        return response()->json($speakers);
     }
 
     /**

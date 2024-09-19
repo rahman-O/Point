@@ -15,12 +15,14 @@ class NewsResource extends Resource
 {
     protected static ?string $model = News::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-newspaper';
     protected static ?string $navigationBadgeTooltip = 'غير الاخبار';
+
     public static function getNavigationBadge(): ?string
     {
         return static::getModel()::count();
     }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -37,17 +39,28 @@ class NewsResource extends Resource
                 Forms\Components\TextInput::make('author_ar')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('desc_en')
+//                Forms\Components\Textarea::make('desc_en')
+//                    ->required()
+//                    ->columnSpanFull(),
+
+                Forms\Components\RichEditor::make('desc_en')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('desc_ar')
+                    ->columnSpanFull()
+                    ->dehydrateStateUsing(fn($state) => strip_tags($state)),
+
+                Forms\Components\RichEditor::make('desc_ar')
                     ->required()
-                    ->maxLength(255),
+                    ->columnSpanFull()
+                    ->dehydrateStateUsing(fn($state) => strip_tags($state)),
+//                Forms\Components\Textarea::make('desc_ar')
+//                    ->required()
+//                    ->columnSpanFull(),
                 Forms\Components\DatePicker::make('event_time')// Optionally set the current year as the default
                 ->required(),
                 Forms\Components\FileUpload::make('image')
                     ->image()
-                    ->required(),
+                    ->required()
+                    ->columnSpanFull(),
             ]);
     }
 

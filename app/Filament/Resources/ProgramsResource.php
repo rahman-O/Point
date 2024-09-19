@@ -3,51 +3,42 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProgramsResource\Pages;
-use App\Filament\Resources\ProgramsResource\RelationManagers;
 use App\Filament\Resources\ProgramsResource\RelationManagers\SessionsProgramRelationManager;
 use App\Models\Programs;
-use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Routing\Route;
 
 class ProgramsResource extends Resource
 {
     protected static ?string $model = Programs::class;
 
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-tv';
     protected static ?string $navigationBadgeTooltip = 'عدد البرامج';
+
     public static function getNavigationBadge(): ?string
     {
         return static::getModel()::count();
     }
+
     public static function form(Form $form): Form
     {
-
 
 
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-
                     ->maxLength(255)
                     ->default(null),
                 Forms\Components\Select::make('year')
                     //for the year select, from 2017 to the current year + 1 and make value selected is name of the year
-                    ->options( array_combine(range(date('Y') + 1, 2017), range(date('Y') + 1, 2017))),
+                    ->options(array_combine(range(date('Y') + 1, 2017), range(date('Y') + 1, 2017))),
 
 
                 Forms\Components\Toggle::make('day1')
-
                     ->required(),
 
 
@@ -58,7 +49,7 @@ class ProgramsResource extends Resource
                             $set('day1', true);
 
 
-                        }else{
+                        } else {
                             $set('day1', false);
                             $set('day2', false);
                             $set('day3', false);
@@ -75,8 +66,7 @@ class ProgramsResource extends Resource
                             $set('day2', true);
 
 
-
-                        }else{
+                        } else {
                             $set('day1', false);
                             $set('day2', false);
                             $set('day3', false);
@@ -91,7 +81,7 @@ class ProgramsResource extends Resource
                             $set('day1', true);
                             $set('day2', true);
                             $set('day3', true);
-                        }else{
+                        } else {
                             $set('day1', false);
                             $set('day2', false);
                             $set('day3', false);
@@ -103,13 +93,13 @@ class ProgramsResource extends Resource
                 Forms\Components\Toggle::make('day5')
                     ->reactive()
                     ->afterStateUpdated(function (callable $set, $state) {
-                        if ($state&&'day1'&&'day2'&&'day3'&&'day4') {
+                        if ($state && 'day1' && 'day2' && 'day3' && 'day4') {
                             $set('day1', true);
                             $set('day2', true);
                             $set('day3', true);
                             $set('day4', true);
 
-                        }else{
+                        } else {
                             $set('day1', false);
                             $set('day2', false);
                             $set('day3', false);
@@ -133,17 +123,15 @@ class ProgramsResource extends Resource
 
 
                 Tables\Columns\IconColumn::make('day1')
-
                     ->boolean(),
                 Tables\Columns\IconColumn::make('day2')
-                   //if i day 2 is true change day 1 to tru
+                    //if i day 2 is true change day 1 to tru
                     ->boolean(),
                 Tables\Columns\IconColumn::make('day3')
                     ->boolean(),
                 Tables\Columns\IconColumn::make('day4')
                     ->boolean(),
                 Tables\Columns\IconColumn::make('day5')
-
                     ->boolean(),
 
                 Tables\Columns\TextColumn::make('created_at')
