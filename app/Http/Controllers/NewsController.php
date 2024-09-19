@@ -29,12 +29,14 @@ class NewsController extends Controller
     public function show($id)
     {
         $news = News::find($id);
+
         if (!$news) {
             return response()->json(['message' => 'Not Found'], 404);
         }
-        return new NewsResource($news);
-    }
 
+        // Return the raw model without wrapping it in a resource
+        return response()->json($news);
+    }
     /**
      * Show the form for creating a new resource.
      */
