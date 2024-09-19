@@ -3,73 +3,63 @@
 @tailwind utilities;
 
 body {
-    /*background-color: lightgray !important;*/
-
 }
-
+.logo_img_en {
+	opacity: 100 !important;
+}
+.logo_img_ar {
+	opacity: 100 !important;
+	transform: rotateY(180deg);
+}
 header {
-    /*padding: 0 5px 0 5px !important;*/
-    padding: 0 !important;
+	padding: 0 !important;
 
-    margin: 0 !important;
+	margin: 0 !important;
 }
-
-/*.MainHomePage {*/
-/*    height: 75%;*/
-/*}*/
-
-/*.MainNavbar {*/
-/*    height: 10%;*/
-/*}*/
-
-/*.MainFooter {*/
-/*    height: 15%;*/
-/*}*/
 
 .home-video {
-    aspect-ratio: 26 / 10;
-    background-position: 50%;
-    background-size: cover;
-    margin-bottom: .5rem;
-    overflow: hidden;
-    position: relative;
-    width: 100%;
+	aspect-ratio: 26 / 10;
+	background-position: 50%;
+	background-size: cover;
+	margin-bottom: 0.5rem;
+	overflow: hidden;
+	position: relative;
+	width: 100%;
 }
 
 .swiper-slide {
-    text-align: center;
-    font-size: 18px;
-    background: #fff;
-
-    /* Center slide text vertically */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+	text-align: center;
+	font-size: 18px;
+	background: #fff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .swiper-slide img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
 .swiper {
-    margin-left: auto;
-    margin-right: auto;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .aspect-w-16 {
-    position: relative;
-    width: 100%;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+	position: relative;
+	width: 100%;
+	padding-bottom: 56.25%; /* 16:9 aspect ratio */
 }
 
-.aspect-w-16 iframe, .aspect-w-16 img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.aspect-w-16 iframe,
+.aspect-w-16 img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
