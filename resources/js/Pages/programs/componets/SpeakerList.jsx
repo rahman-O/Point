@@ -21,7 +21,7 @@ export function SpeakerList({ session }) {
 								rounded
 								alt={lang === 'en' ? speaker.name_en : speaker.name_ar}
 							/>
-							<div className='ml-3 grid justify-items-start items-center gap-0'>
+							<div className='ml-3 grid justify-items-start items-start gap-0'>
 								<span className='text-medium p-0 font-bold'>
 									{lang === 'en' ? speaker.name_en : speaker.name_ar}
 								</span>

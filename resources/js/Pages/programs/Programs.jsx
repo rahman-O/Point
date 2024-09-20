@@ -13,7 +13,7 @@ export default function Programs() {
 		axios
 			.get('/api/programs')
 			.then((response) => {
-				setProgram(response.data); // Access the data directly, no need for response.data.data if it's already an array
+				setProgram(response.data);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -34,8 +34,8 @@ export default function Programs() {
 
 				<span className=' text-lg font-bold'>
 					{lang === 'en'
-						? session.presentation_en.toUpperCase()
-						: session.presentation_ar.toUpperCase()}
+						? session.presentation_en.toUpperCase()..slice(0, 50) + '...'
+						: session.presentation_ar.toUpperCase()..slice(0, 50) + '...'}
 				</span>
 			</div>
 
