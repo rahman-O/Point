@@ -34,8 +34,8 @@ export default function Programs() {
 
 				<span className=' text-lg font-bold'>
 					{lang === 'en'
-						? session.presentation_en.toUpperCase().slice(0, 50) + '...'
-						: session.presentation_ar.toUpperCase().slice(0, 50) + '...'}
+						? session.presentation_en.toUpperCase().slice(0, 40) + '...'
+						: session.presentation_ar.toUpperCase().slice(0, 40) + '...'}
 				</span>
 			</div>
 

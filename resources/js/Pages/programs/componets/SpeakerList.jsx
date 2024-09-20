@@ -16,7 +16,7 @@ export function SpeakerList({ session }) {
 						<div key={speaker.id} className='flex mx-3 mb-3 gap-4'>
 							<Avatar
 								className='justify-center'
-								size='lg'
+								size={window.innerWidth < 768 ? 'sm' : 'lg'}
 								img={`api/images/${speaker.image}`}
 								rounded
 								alt={lang === 'en' ? speaker.name_en : speaker.name_ar}
@@ -25,7 +25,8 @@ export function SpeakerList({ session }) {
 								<span className='text-medium p-0 font-bold'>
 									{lang === 'en' ? speaker.name_en : speaker.name_ar}
 								</span>
-								<span className='text-medium -mt-6'>
+								<span className='text-medium' style={{ textAlign: 'start' }}>
+									{' '}
 									{lang === 'en' ? speaker.job_en : speaker.job_ar}
 								</span>
 							</div>
