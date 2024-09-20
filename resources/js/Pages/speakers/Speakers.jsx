@@ -49,8 +49,8 @@ export default function Speakers() {
 						job_en={lang === 'en' ? speaker.job_en : speaker.job_ar}
 						desc={
 							lang === 'en'
-								? stripHtmlTags(speaker.desc_en)
-								: stripHtmlTags(speaker.desc_ar)
+								? stripHtmlTags(speaker.desc_en.slice(0, 40) + '...')
+								: stripHtmlTags(speaker.desc_ar.slice(0, 40) + '...')
 						}
 						image={speaker.image}
 					/>
