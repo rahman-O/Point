@@ -57,7 +57,7 @@ export default function Programs() {
 			{currentProgram ? (
 				<div className='w-full text-center'>{sessionsProgram3}</div>
 			) : (
-				<p>No program selected or invalid tab index</p>
+				<p>No program selected</p>
 			)}
 		</div>
 	);
