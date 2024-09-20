@@ -30,9 +30,6 @@ class ProgramsResource extends Resource
 
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->maxLength(255)
-                    ->default(null),
                 Forms\Components\Select::make('year')
                     //for the year select, from 2017 to the current year + 1 and make value selected is name of the year
                     ->options(array_combine(range(date('Y') + 1, 2017), range(date('Y') + 1, 2017))),
@@ -116,8 +113,6 @@ class ProgramsResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('year')
                     ->searchable(),
 

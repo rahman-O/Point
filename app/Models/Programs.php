@@ -9,12 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Programs extends Model
 {
     use HasFactory;
-
-    /*
-     * $table->string('name')->nullable();
-            $table->string('year');
-            $table->integer('days')->default(5);*/
-    protected $fillable = ['name', 'year', 'day1', 'day2', 'day3', 'day4', 'day5',];
+    protected $fillable = ['year', 'day1', 'day2', 'day3', 'day4', 'day5',];
 
 
     //get days from program
@@ -22,7 +17,4 @@ class Programs extends Model
     {
         return $this->hasMany(SessionsProgram::class);
     }
-
-
-
 }

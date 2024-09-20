@@ -13,9 +13,9 @@ class ProgramsController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        $programs = Programs::with('sessionsProgram')->get();
-        return new ProgramsResource($programs);
+    {$programs = Programs::with(['sessionsProgram.speakers'])->get();;
+
+        return response()->json($programs);
     }
 
     /**

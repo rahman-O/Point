@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('programs', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
             $table->string('year');
             $table->boolean('day1')->default(false);
             $table->boolean('day2')->default(false);

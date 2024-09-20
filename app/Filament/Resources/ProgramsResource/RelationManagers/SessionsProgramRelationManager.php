@@ -44,11 +44,8 @@ class SessionsProgramRelationManager extends RelationManager
                     ->required(),
                 Forms\Components\TextInput::make('year')
                     ->default($this->year)
-
                     ->readOnly()
                     ->required(),
-                Forms\Components\TextInput::make('name')
-                    ->maxLength(255),
                 Forms\Components\Select::make('day')
                     //get the day select options from porgams table where day1, day2, day3, day4, day5 == true
                     ->options($this->getOption())
@@ -69,10 +66,10 @@ class SessionsProgramRelationManager extends RelationManager
                     ->required()
                     ->columnSpan(2)
                     ->maxLength(255),
-                Forms\Components\TextInput::make('pres_en')
+                Forms\Components\TextInput::make('presentation_en')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('pres_ar')
+                Forms\Components\TextInput::make('presentation_ar')
                     ->required()
                     ->maxLength(255),
                Select::make('speakers')
@@ -92,9 +89,8 @@ class SessionsProgramRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('name')
+            ->recordTitleAttribute('presentation_ar')
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('year'),
                 Tables\Columns\TextColumn::make('day')
                     ->formatStateUsing(fn ($state) => match ($state) {
@@ -109,8 +105,7 @@ class SessionsProgramRelationManager extends RelationManager
                     ->date('H:i'),
                 Tables\Columns\TextColumn::make('end_time')
                     ->date('H:i'),
-                Tables\Columns\TextColumn::make('speaker')
-                    ->searchable(),
+                    Tables\Columns\TextColumn::make('speakers.name_en')                    ->searchable(),
 
             ])
             ->filters([

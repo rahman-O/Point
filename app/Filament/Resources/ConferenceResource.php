@@ -44,10 +44,10 @@ class ConferenceResource extends Resource
                 Forms\Components\TextInput::make('title_en')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('desc_ar')
+                    Forms\Components\RichEditor::make('desc_ar')
                     ->required()
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('desc_en')
+                    Forms\Components\RichEditor::make('desc_en')
                     ->required()
                     ->columnSpanFull(),
                 Forms\Components\FileUpload::make('image')

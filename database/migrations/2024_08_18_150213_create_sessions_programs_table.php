@@ -14,15 +14,14 @@ return new class extends Migration
         Schema::create('sessions_programs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('programs_id')->constrained()->cascadeOnDelete();
-            $table->string('name')->nullable();
             $table->string('day');
             $table->string('year');
             $table->time('start_time');
             $table->time('end_time');
             $table->string('sub_en');
             $table->string('sub_ar');
-            $table->string('pres_en');
-            $table->string('pres_ar');
+            $table->string('presentation_en');
+            $table->string('presentation_ar');
             //speaker
             //
             //$table->foreignId('speaker_id')->constrained()->cascadeOnDelete();
