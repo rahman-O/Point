@@ -45,7 +45,7 @@ export default function NewsSlider() {
 			<Slider {...settings}>
 				{news.map((post) => (
 					<div key={post.id} className='p-4 h-80'>
-						<div className='border rounded-lg shadow-lg overflow-hidden h-full '>
+						<div className='border rounded shadow-lg overflow-hidden h-full '>
 							<img
 								className='w-full h-40 object-cover'
 								src={`/api/images/${post.image}`}

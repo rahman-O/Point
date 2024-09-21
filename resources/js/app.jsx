@@ -8,6 +8,7 @@ import '../css/app.css';
 // Import Layout and Page Components
 import News from './Pages/news/News.jsx';
 import NewsDetails from './Pages/news/NewsDetails.jsx';
+import SpeakersDetails from './Pages/speakers/SpeakersDetails.jsx';
 import Speakers from './Pages/speakers/Speakers.jsx';
 import Programs from './Pages/programs/Programs.jsx';
 import Stream from './Pages/stream/Stream.jsx';
@@ -26,6 +27,7 @@ const routes = [
 			{ path: 'news', element: <News /> },
 			{ path: 'news/:id', element: <NewsDetails /> },
 			{ path: 'speakers', element: <Speakers /> },
+			{ path: 'speakers/:id', element: <SpeakersDetails /> },
 			{ path: 'programs', element: <Programs /> },
 			{ path: 'stream', element: <Stream /> },
 			{ path: 'conference', element: <Conferences /> },

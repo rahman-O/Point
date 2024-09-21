@@ -18,7 +18,6 @@ export default function HomePage() {
 			</div>
 			<div className='grid gap-6'>
 				<h1 className='text-2xl font-bold px-2 text-center uppercase pt-6'>
-					{' '}
 					{lang === 'en' ? 'News' : 'الاخبار'}{' '}
 				</h1>
 				<NewsSlider />

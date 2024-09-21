@@ -45,6 +45,7 @@ export default function Speakers() {
 				{speakers.map((speaker) => (
 					<CardSpeaker
 						key={speaker.id}
+						id={speaker.id}
 						name={lang === 'en' ? speaker.name_en : speaker.name_ar}
 						job_en={lang === 'en' ? speaker.job_en : speaker.job_ar}
 						desc={

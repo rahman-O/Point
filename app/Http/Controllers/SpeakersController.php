@@ -15,10 +15,17 @@ class SpeakersController extends Controller
         return Speakers::paginate(10);
     }
 
-//    public function allSpeakers()
-//    {
-//        return Speakers::all();
-//    }
+    public function show($id)
+    {
+        $speakers = Speakers::find($id);
+
+        if (!$speakers) {
+            return response()->json(['message' => 'Not Found'], 404);
+        }
+
+        // Return the raw model without wrapping it in a resource
+        return response()->json($speakers);
+    }
 
     public function allSpeakers()
     {
@@ -43,13 +50,6 @@ class SpeakersController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Speakers $speakers)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.

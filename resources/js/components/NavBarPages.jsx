@@ -12,7 +12,7 @@ import {
 } from '@nextui-org/react';
 import { FaTwitter, FaFacebook, FaYoutube } from 'react-icons/fa';
 import { Image } from '@nextui-org/react';
-import Logo from '../../../public/images/logoPoint.png';
+import Logo from '../../../public/images/favicon.png';
 import LangContext from '@/components/langContext/LangContext.jsx';
 import { color } from 'framer-motion';
 import { useLocation } from 'react-router-dom';

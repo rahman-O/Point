@@ -31,9 +31,9 @@ export default function NewsSlider() {
 
 	return (
 		<div>
-			<div className='h-fit overflow-hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2'>
+			<div className='h-fit overflow-hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 px-4'>
 				{speakers.map((speaker) => (
-					<div key={speaker.id}>
+					<div key={speaker.id} className=''>
 						<div className='border rounded shadow-lg overflow-hidden'>
 							<img
 								className='w-full h-48 object-cover'
@@ -47,7 +47,9 @@ export default function NewsSlider() {
 									</h2>
 									<span className='text-right'>
 										<CgWorkAlt className='inline pr-2 text-3xl' />
-										{lang === 'en' ? speaker.job_en : speaker.job_ar}
+										{lang === 'en'
+											? speaker.job_en.slice(0, 20) + '..'
+											: speaker.job_ar.slice(0, 20) + '..'}
 									</span>
 								</div>
 								<p className='text-sm text-gray-600'>

@@ -78,10 +78,6 @@ class NewsResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('title_en')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('desc_en')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('desc_ar')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('event_time')
                     ->dateTime()
                     ->sortable(),

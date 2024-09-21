@@ -26,32 +26,23 @@ class ProgramsResource extends Resource
 
     public static function form(Form $form): Form
     {
-
-
         return $form
             ->schema([
                 Forms\Components\Select::make('year')
                     //for the year select, from 2017 to the current year + 1 and make value selected is name of the year
-                    ->options(array_combine(range(date('Y') + 1, 2017), range(date('Y') + 1, 2017))),
-
-
+                    ->options(array_combine(range(date('Y') + 1, 2017), range(date('Y') + 1, 2017)))->columnSpan('full'),
                 Forms\Components\Toggle::make('day1')
                     ->required(),
-
-
                 Forms\Components\Toggle::make('day2')
                     ->reactive()
                     ->afterStateUpdated(function (callable $set, $state) {
                         if ($state) {
                             $set('day1', true);
-
-
                         } else {
                             $set('day1', false);
                             $set('day2', false);
                             $set('day3', false);
                             $set('day4', false);
-
                         }
                     })
                     ->required(),
