@@ -23,7 +23,7 @@ export default function HomePage() {
 				<NewsSlider />
 				<h1 className='text-2xl font-bold px-2 text-center uppercase'>
 					{' '}
-					{lang === 'en' ? 'Speaker' : 'الاجندة'}{' '}
+					{lang === 'en' ? 'Speaker' : 'المتحدثين'}{' '}
 				</h1>
 				<SpeackerSlider />
 			</div>

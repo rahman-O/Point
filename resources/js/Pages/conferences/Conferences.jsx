@@ -21,11 +21,11 @@ export default function Conferences() {
 
 	return (
 		<div className='w-full grid justify-items-center items-center'>
-			<div className='grid gap-4 w-1/2 pt-4'>
+			<div className='grid gap-4 sm:w-1/2 pt-4 md:w-2/3 w-3/4 '>
 				<h1 className='sm:text-4xl text-lg md:text-xl font-bold uppercase'>
 					{lang === 'en' ? conference.title_en : conference.title_ar}
 				</h1>
-				<img className='' src={`/api/images/${conference.image}`} />
+				<img className='w-full' src={`/api/images/${conference.image}`} />
 				<p className='text-justify'>
 					{lang === 'en'
 						? stripHtmlTags(conference.desc_en)

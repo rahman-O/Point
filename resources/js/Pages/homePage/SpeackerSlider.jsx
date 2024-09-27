@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { CgWorkAlt } from 'react-icons/cg';
 import LangContext from '@/components/langContext/LangContext.jsx';
+import { Link } from 'react-router-dom';
 
 export default function NewsSlider() {
 	const [speakers, setSpeakers] = useState([]);
@@ -16,7 +17,9 @@ export default function NewsSlider() {
 			setTotalPages(response.data.last_page);
 		}
 	};
-
+	const handleSpeakerClick = (speakerId) => {
+		router.push(`/speakers/${speakerId}`);
+	};
 	useEffect(() => {
 		fetchData(currentPage);
 	}, []);
@@ -33,31 +36,33 @@ export default function NewsSlider() {
 		<div>
 			<div className='h-fit overflow-hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 px-4'>
 				{speakers.map((speaker) => (
-					<div key={speaker.id} className=''>
-						<div className='border rounded shadow-lg overflow-hidden'>
-							<img
-								className='w-full h-48 object-cover'
-								src={`/api/images/${speaker.image}`}
-								alt='Speaker Image'
-							/>
-							<div className='p-4'>
-								<div className='flex justify-between items-center'>
-									<h2 className='text-lg font-bold mb-2'>
-										{lang === 'en' ? speaker.name_en : speaker.name_ar}
-									</h2>
-									<span className='text-right'>
-										<CgWorkAlt className='inline pr-2 text-3xl' />
-										{lang === 'en'
-											? speaker.job_en.slice(0, 20) + '..'
-											: speaker.job_ar.slice(0, 20) + '..'}
-									</span>
+					<Link to={`/speakers/${speaker.id}`}>
+						<div key={speaker.id} className='cursor-pointer'>
+							<div className='border rounded shadow-lg overflow-hidden'>
+								<img
+									className='w-full h-48 object-cover'
+									src={`/api/images/${speaker.image}`}
+									alt='Speaker Image'
+								/>
+								<div className='p-4'>
+									<div className='flex justify-between items-center'>
+										<h2 className='text-lg font-bold mb-2'>
+											{lang === 'en' ? speaker.name_en : speaker.name_ar}
+										</h2>
+										<span className='text-right'>
+											<CgWorkAlt className='inline pr-2 text-3xl' />
+											{lang === 'en'
+												? speaker.job_en.slice(0, 20) + '..'
+												: speaker.job_ar.slice(0, 20) + '..'}
+										</span>
+									</div>
+									<p className='text-sm text-gray-600'>
+										{lang === 'en' ? speaker.country_en : speaker.country_ar}
+									</p>
 								</div>
-								<p className='text-sm text-gray-600'>
-									{lang === 'en' ? speaker.country_en : speaker.country_ar}
-								</p>
 							</div>
 						</div>
-					</div>
+					</Link>
 				))}
 			</div>
 			{currentPage < totalPages && (

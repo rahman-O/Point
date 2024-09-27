@@ -21,19 +21,31 @@ export default function SpeakersDetails() {
 	if (!speakersDetails) return <div>Loading...</div>;
 
 	return (
-		<div className='w-full flex justify-center  items-center p-6'>
-			<div className=' grid gap-4  w-1/2 pt-4'>
-				<h1 className='sm:text-4xl text-lg md:text-xl font-bold uppercase'>
-					{lang === 'en' ? speakersDetails.name_en : speakersDetails.name_ar}
-				</h1>
-				<img className='rounded' src={`/api/images/${speakersDetails.image}`} />
-
-				<div className=' flex justify-between  items-center'>
+		<div className='w-full flex justify-center items-center p-6'>
+			<div
+				className={`flex justify-center items-start sm:w-1/2 w-3/4 md:w-3/4 ${
+					lang === 'ar' ? 'flex-row' : ''
+				}`}
+			>
+				<div style={{ width: '30%' }}>
+					<img
+						className=' h-[300px] object-cover'
+						src={`/api/images/${speakersDetails.image}`}
+						alt={name}
+					/>
+				</div>
+				<div
+					style={{ width: '70%' }}
+					className={`${lang === 'ar' ? 'pr-4' : 'pl-4'}`}
+				>
+					<h1 className='sm:text-4xl text-lg md:text-xl font-bold uppercase'>
+						{lang === 'en' ? speakersDetails.name_en : speakersDetails.name_ar}
+					</h1>
 					<div>
 						<p className='text-gray-600 text-sm mb-2'>
 							{lang === 'en' ? speakersDetails.job_en : speakersDetails.job_ar}
 						</p>
-						<p className='text-gray-800 leading-relaxed'>
+						<p className='text-gray-800 leading-relaxed text-justify'>
 							{lang === 'en'
 								? stripHtmlTags(speakersDetails.desc_en)
 								: stripHtmlTags(speakersDetails.desc_ar)}

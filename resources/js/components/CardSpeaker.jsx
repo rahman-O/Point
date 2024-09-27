@@ -7,11 +7,11 @@ const stripHtmlTags = (content) => {
 export const CardSpeaker = ({ id, name, job, image, desc }) => {
 	return (
 		<Link to={`/speakers/${id}`}>
-			<div className=' rounded-none p-1 '>
+			<div className=' rounded-none p-1'>
 				<div className='overflow-visible p-0'>
 					<img
 						width='100%'
-						className='w-full object-cover h-[180px] '
+						className='w-full object-cover '
 						src={`/api/images/${image}`}
 					/>
 				</div>

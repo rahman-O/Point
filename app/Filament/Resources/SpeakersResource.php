@@ -9,7 +9,8 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-
+use Intervention\Image\Facades\Image;
+use Filament\Forms\Components\FileUpload;
 class SpeakersResource extends Resource
 {
     protected static ?string $model = Speakers::class;
@@ -54,9 +55,28 @@ class SpeakersResource extends Resource
                 Forms\Components\RichEditor::make('desc_ar')
                     ->required()
                     ->columnSpanFull(),
-                Forms\Components\FileUpload::make('image')
+                    FileUpload::make('image')
                     ->image()
-                    ->required(),
+                    ->required()
+                    ->afterStateUpdated(function ($state, callable $set) {
+                        // Get the uploaded image's path
+                        $imagePath = $state->getRealPath();
+
+                        // Use Intervention Image to resize the image
+                        $image = Image::make($imagePath);
+
+                        // Resize to 600x400 pixels (3:2 aspect ratio)
+                        $image->resize(600, 400, function ($constraint) {
+                            $constraint->aspectRatio(); // Maintain aspect ratio
+                            $constraint->upsize(); // Prevents upsizing of smaller images
+                        });
+
+                        // Save the resized image
+                        $image->save($imagePath);
+
+                        // Optionally, update the field's state (e.g., to a different path)
+                        // $set('image', 'path/to/new-image.jpg');
+                    }),
             ]);
     }
 

@@ -10,7 +10,7 @@ import {
 	Link,
 	Button,
 } from '@nextui-org/react';
-import { FaTwitter, FaFacebook, FaYoutube } from 'react-icons/fa';
+import { FaInstagram, FaFacebook, FaYoutube } from 'react-icons/fa';
 import { Image } from '@nextui-org/react';
 import Logo from '../../../public/images/favicon.png';
 import LangContext from '@/components/langContext/LangContext.jsx';
@@ -22,15 +22,11 @@ export default function NavBarPages() {
 	const { lang, toggleLang } = React.useContext(LangContext);
 	const location = useLocation();
 	const menuItems = [
-		{
-			name: lang === 'en' ? 'Home' : 'الصفحة الرئيسية',
-			link: '/',
-		},
 		{ name: lang === 'en' ? 'News' : 'الأخبار', link: '/news' },
-		{ name: lang === 'en' ? 'Speakers' : 'الاجندة', link: '/speakers' },
+		{ name: lang === 'en' ? 'Speakers' : 'المتحدثين', link: '/speakers' },
 		{ name: lang === 'en' ? 'Programs' : 'البرامج', link: '/programs' },
 		{ name: lang === 'en' ? 'Conference' : 'المؤتمر', link: '/conference' },
-		{ name: lang === 'en' ? 'Stream' : 'البث', link: '/stream' },
+		{ name: lang === 'en' ? 'Stream' : 'مقاطع الفيديو', link: '/stream' },
 	];
 	useEffect(() => {
 		document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
@@ -53,7 +49,9 @@ export default function NavBarPages() {
 			{/* Logo and Brand */}
 			<NavbarContent className='sm:hidden pr-3 ' justify='center'>
 				<NavbarBrand>
-					<Image src={Logo} alt='logo' className='w-12 ' />
+					<Link href='/'>
+						<Image src={Logo} alt='logo' className='w-12 ' />
+					</Link>
 					{/* <p className='font-bold text-inherit'>POINT</p> */}
 				</NavbarBrand>
 			</NavbarContent>
@@ -65,9 +63,13 @@ export default function NavBarPages() {
 			>
 				<NavbarBrand className='px-4'>
 					{lang === 'en' ? (
-						<Image src={Logo} alt='logo' className='w-16 px-2 logo_img_en' />
+						<Link href='/'>
+							<Image src={Logo} alt='logo' className='w-16 px-2 logo_img_en' />
+						</Link>
 					) : (
-						<Image src={Logo} alt='logo' className='w-16 px-2 logo_img_ar ' />
+						<Link href='/'>
+							<Image src={Logo} alt='logo' className='w-16 px-2 logo_img_ar ' />
+						</Link>
 					)}
 					{/* <p className='font-bold text-2xl'>POINT</p> */}
 				</NavbarBrand>
@@ -88,9 +90,27 @@ export default function NavBarPages() {
 			{/* Social Icons and Language Switch Button */}
 			<NavbarContent justify='end'>
 				<div className='flex gap-4'>
-					<FaTwitter className='text-cyan-500 text-2xl' />
-					<FaFacebook className='text-blue-500 text-2xl' />
-					<FaYoutube className='text-red-500 text-2xl' />
+					<a
+						href='https://www.instagram.com/tawasoul.ngo?igsh=NWZnM3A3cDJqbTRo'
+						target='_blank'
+						rel='noopener noreferrer'
+					>
+						<FaInstagram className='text-rose-500 text-2xl' />
+					</a>
+					<a
+						href='https://web.facebook.com/Tawasoulorganization/about'
+						target='_blank'
+						rel='noopener noreferrer'
+					>
+						<FaFacebook className='text-blue-500 text-2xl' />
+					</a>
+					<a
+						href='https://www.instagram.com/tawasoul.ngo?igsh=NWZnM3A3cDJqbTRo'
+						target='_blank'
+						rel='noopener noreferrer'
+					>
+						<FaYoutube className='text-red-500 text-2xl' />
+					</a>
 				</div>
 				<Button
 					auto
