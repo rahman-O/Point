@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Avatar } from 'flowbite-react';
 import LangContext from '@/components/langContext/LangContext.jsx';
+import { Link } from 'react-router-dom';
 
 export function SpeakerList({ session }) {
 	const { lang } = useContext(LangContext);
@@ -13,27 +14,33 @@ export function SpeakerList({ session }) {
 			<div className='text-center flex flex-col gap-8 justify-center md:justify-start'>
 				{speakers.length > 0 ? (
 					speakers.map((speaker) => (
-						<div key={speaker.id} className='flex mx-3 mb-3 gap-4'>
-							<Avatar
-								className='justify-center'
-								size={window.innerWidth < 768 ? 'sm' : 'lg'}
-								img={`api/images/${speaker.image}`}
-								rounded
-								alt={lang === 'en' ? speaker.name_en : speaker.name_ar}
-							/>
-							<div className='ml-3 grid justify-items-start items-start gap-0'>
-								<span className='text-medium p-0 font-bold'>
-									{lang === 'en' ? speaker.name_en : speaker.name_ar}
-								</span>
-								<span className='text-medium' style={{ textAlign: 'start' }}>
-									{' '}
-									{lang === 'en' ? speaker.job_en : speaker.job_ar}
-								</span>
+						<Link to={`/speakers/${speaker.id}`}>
+							<div key={speaker.id} className='flex mx-3 mb-3 gap-4'>
+								<Avatar
+									className='justify-center'
+									size={window.innerWidth < 768 ? 'sm' : 'lg'}
+									img={`api/images/${speaker.image}`}
+									rounded
+									alt={lang === 'en' ? speaker.name_en : speaker.name_ar}
+								/>
+								<div className='ml-3 grid justify-items-start items-start gap-0'>
+									<span className='text-medium p-0 font-bold'>
+										{lang === 'en' ? speaker.name_en : speaker.name_ar}
+									</span>
+									<span className='text-medium' style={{ textAlign: 'start' }}>
+										{' '}
+										{lang === 'en' ? speaker.job_en : speaker.job_ar}
+									</span>
+								</div>
 							</div>
-						</div>
+						</Link>
 					))
 				) : (
-					<p>No speakers available for this session.</p>
+					<p>
+						{lang === 'en'
+							? 'No speakers available for this session.'
+							: 'لا يوجد متحدثين متوفرين لهذه الجلسة . '}
+					</p>
 				)}
 			</div>
 		</div>

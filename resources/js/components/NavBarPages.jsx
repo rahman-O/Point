@@ -24,7 +24,7 @@ export default function NavBarPages() {
 	const menuItems = [
 		{ name: lang === 'en' ? 'News' : 'الأخبار', link: '/news' },
 		{ name: lang === 'en' ? 'Speakers' : 'المتحدثين', link: '/speakers' },
-		{ name: lang === 'en' ? 'Programs' : 'البرامج', link: '/programs' },
+		{ name: lang === 'en' ? 'Programs' : 'جدول الاعمال', link: '/programs' },
 		{ name: lang === 'en' ? 'Conference' : 'المؤتمر', link: '/conference' },
 		{ name: lang === 'en' ? 'Stream' : 'مقاطع الفيديو', link: '/stream' },
 	];

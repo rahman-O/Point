@@ -19,7 +19,7 @@ Route::get('/images/{filename}', [ImageController::class, 'show']);
 //programs
 Route::get('/programs', [App\Http\Controllers\ProgramsController::class, 'index']);
 Route::get('/programs/{id}', [App\Http\Controllers\ProgramsController::class, 'show']);
-
+Route::get('/programs/current/year', [App\Http\Controllers\ProgramsController::class, 'currentYearProgram']);
 
 //news
 Route::get('/news', [App\Http\Controllers\NewsController::class, 'index']);

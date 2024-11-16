@@ -105,7 +105,7 @@ class SessionsProgramRelationManager extends RelationManager
                     ->date('H:i'),
                 Tables\Columns\TextColumn::make('end_time')
                     ->date('H:i'),
-                    Tables\Columns\TextColumn::make('speakers.name_en')                    ->searchable(),
+                    Tables\Columns\TextColumn::make('speakers.name_en')->searchable(),
 
             ])
             ->filters([

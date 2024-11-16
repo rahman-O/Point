@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('programs', function (Blueprint $table) {
             $table->id();
-            $table->string('year');
+            $table->string('year')->unique();;
             $table->boolean('day1')->default(false);
             $table->boolean('day2')->default(false);
             $table->boolean('day3')->default(false);

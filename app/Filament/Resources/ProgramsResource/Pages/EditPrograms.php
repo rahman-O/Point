@@ -14,7 +14,7 @@ class EditPrograms extends EditRecord
     {
         return [
            // Actions\ViewAction::make(),
-            Actions\DeleteAction::make()->label("Delete Program"),
+            Actions\DeleteAction::make()->label("Delete Agenda"),
         ];
     }
 }

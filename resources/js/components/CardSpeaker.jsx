@@ -11,7 +11,7 @@ export const CardSpeaker = ({ id, name, job, image, desc }) => {
 				<div className='overflow-visible p-0'>
 					<img
 						width='100%'
-						className='w-full object-cover '
+						className='w-full h-[220px] object-cover '
 						src={`/api/images/${image}`}
 					/>
 				</div>

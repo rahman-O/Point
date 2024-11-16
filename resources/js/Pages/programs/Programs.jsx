@@ -5,13 +5,13 @@ import LangContext from '@/components/langContext/LangContext.jsx';
 import { SpeakerList } from '@/Pages/programs/componets/SpeakerList.jsx';
 
 export default function Programs() {
-	const [porgrams, setProgram] = useState([]);
+	const [program, setProgram] = useState(null);
 	const { lang } = useContext(LangContext);
-	const [activeTab, setActiveTab] = useState(1);
+	const [activeTab, setActiveTab] = useState('day1');
 
 	useEffect(() => {
 		axios
-			.get('/api/programs')
+			.get('/api/programs/current/year')
 			.then((response) => {
 				setProgram(response.data);
 			})
@@ -20,26 +20,30 @@ export default function Programs() {
 			});
 	}, []);
 
-	const isValidIndex = activeTab >= 0 && porgrams.length > 0;
-	const currentProgram = isValidIndex
-		? porgrams.find((program) => program.id === activeTab)
-		: null;
+	const isValidIndex = program && program[activeTab];
+	const currentSessions = isValidIndex
+		? program.sessions_program.filter((session) => session.day === activeTab)
+		: [];
 
-	const sessionsProgram3 = currentProgram?.sessions_program.map((session) => (
+	const sessionsProgram = currentSessions.map((session) => (
 		<div key={session.id}>
 			<div className='flex align-items-center py-4'>
-				<span className='text-lg px-4 '>
+				<span className='text-lg px-4'>
 					{session.start_time} - {session.end_time}
 				</span>
 
-				<span className=' text-lg font-bold'>
+				<span
+					className={`text-lg font-bold text-start w-1/2 ${
+						lang === 'ar' ? 'arabic-font' : ''
+					}`}
+				>
 					{lang === 'en'
-						? session.presentation_en.toUpperCase().slice(0, 40) + '...'
-						: session.presentation_ar.toUpperCase().slice(0, 40) + '...'}
+						? session.presentation_en.toUpperCase()
+						: session.presentation_ar.toUpperCase()}
 				</span>
 			</div>
 
-			<div className={`${lang === 'ar' ? 'pr-32' : 'pl-32'} py-2`}>
+			<div className={`${lang === 'ar' ? 'pr-32 arabic-font' : 'pl-32'}`}>
 				<SpeakerList session={session} />
 			</div>
 		</div>
@@ -47,17 +51,27 @@ export default function Programs() {
 
 	return (
 		<div className='mb-[100]'>
-			<h1 className='text-2xl text-center mt-12 uppercase'>Programs</h1>
+			<h1
+				className={`text-2xl text-center mt-12 uppercase ${
+					lang === 'ar' ? 'arabic-font' : ''
+				}`}
+			>
+				{lang === 'en' ? 'Agenda' : 'جدول الاعمال'}
+			</h1>
 			<TapsSessions
-				programsArray={porgrams}
 				activeTab={activeTab}
 				setActiveTab={setActiveTab}
+				program={program}
 			/>
 
-			{currentProgram ? (
-				<div className='w-full text-center'>{sessionsProgram3}</div>
+			{program ? (
+				<div
+					className={`w-full text-center ${lang === 'ar' ? 'arabic-font' : ''}`}
+				>
+					{sessionsProgram}
+				</div>
 			) : (
-				<p>No program selected</p>
+				<p>{lang === 'en' ? 'No program selected' : ' لا توجد برامج محددة'}</p>
 			)}
 		</div>
 	);
