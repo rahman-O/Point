@@ -12,7 +12,7 @@ import {
 } from '@nextui-org/react';
 import { FaInstagram, FaFacebook, FaYoutube } from 'react-icons/fa';
 import { Image } from '@nextui-org/react';
-import Logo from '../../../public/images/favicon.png';
+import Logo from '../../../public/images/logo_point_wite.png';
 import LangContext from '@/components/langContext/LangContext.jsx';
 import { color } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
@@ -24,7 +24,7 @@ export default function NavBarPages() {
 	const menuItems = [
 		{ name: lang === 'en' ? 'News' : 'الأخبار', link: '/news' },
 		{ name: lang === 'en' ? 'Speakers' : 'المتحدثين', link: '/speakers' },
-		{ name: lang === 'en' ? 'Programs' : 'جدول الاعمال', link: '/programs' },
+		{ name: lang === 'en' ? 'Agenda' : 'جدول الاعمال', link: '/programs' },
 		{ name: lang === 'en' ? 'Conference' : 'المؤتمر', link: '/conference' },
 		{ name: lang === 'en' ? 'Stream' : 'مقاطع الفيديو', link: '/stream' },
 	];
@@ -64,11 +64,15 @@ export default function NavBarPages() {
 				<NavbarBrand className='px-4'>
 					{lang === 'en' ? (
 						<Link href='/'>
-							<Image src={Logo} alt='logo' className='w-16 px-2 logo_img_en' />
+							<Image
+								src={Logo}
+								alt='logo'
+								className='w-28 px-2  logo_img_en '
+							/>
 						</Link>
 					) : (
 						<Link href='/'>
-							<Image src={Logo} alt='logo' className='w-16 px-2 logo_img_ar ' />
+							<Image src={Logo} alt='logo' className='w-28 px-2 logo_img_en ' />
 						</Link>
 					)}
 					{/* <p className='font-bold text-2xl'>POINT</p> */}

@@ -6,7 +6,7 @@ export const Layout = ({}) => {
 	return (
 		<>
 			<NavBarPages />
-			<div>
+			<div class='mb-16'>
 				<Outlet />
 			</div>
 			<FooterPages />
