@@ -11,10 +11,15 @@ export default function NewsSlider() {
 	const { lang } = useContext(LangContext);
 
 	const fetchData = async (page) => {
-		const response = await axios.get(`/api/speakers?page=${page}`);
-		if (response) {
-			setSpeakers((prevSpeakers) => [...prevSpeakers, ...response.data.data]);
-			setTotalPages(response.data.last_page);
+		try {
+			const response = await axios.get(`/api/speakers?page=${page}`);
+			const speakersData = response.data.speakers;
+			if (speakersData) {
+				setSpeakers((prevSpeakers) => [...prevSpeakers, ...speakersData.data]);
+				setTotalPages(speakersData.last_page);
+			}
+		} catch (error) {
+			return error;
 		}
 	};
 	const handleSpeakerClick = (speakerId) => {
