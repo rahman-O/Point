@@ -50,7 +50,7 @@ export default function Speakers() {
 						key={year}
 						onClick={() => handleYearChange(year)}
 						className={`px-4 py-2 border rounded ${
-							selectedYear === year ? 'bg-blue-500 text-white' : 'bg-gray-200'
+							selectedYear === year ? 'bg-lime-500 text-white' : 'bg-gray-200'
 						}`}
 					>
 						{year}
