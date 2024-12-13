@@ -10,10 +10,26 @@ class SpeakersController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        return Speakers::paginate(10);
+    public function index(Request $request)
+{
+    $year = $request->input('year');
+
+    // Get all unique years from the speakers table
+    $years = Speakers::select('year')->distinct()->orderBy('year', 'desc')->pluck('year');
+
+    $query = Speakers::query();
+
+    if ($year) {
+        $query->where('year', $year);
     }
+
+    $speakers = $query->orderBy('created_at', 'desc')->paginate(30);
+
+    return response()->json([
+        'speakers' => $speakers,
+        'years' => $years,
+    ]);
+}
 
     public function show($id)
     {

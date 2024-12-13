@@ -27,7 +27,7 @@ export default function Stream() {
 	};
 
 	const handleVideoClick = (videoId) => {
-		setSelectedVideoId(videoId);
+		setSelectedVideoId(videoId === selectedVideoId ? null : videoId);
 	};
 
 	return (
@@ -40,36 +40,17 @@ export default function Stream() {
 						style={{ cursor: 'pointer' }}
 						onClick={() => handleVideoClick(stream.youtube_video_id)}
 					>
-						{selectedVideoId === stream.youtube_video_id ? (
-							<iframe
-								style={{ borderRadius: '8px' }}
-								src={`https://www.youtube.com/embed/${stream.youtube_video_id}?autoplay=1`}
-								frameBorder='0'
-								allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-								allowFullScreen
-								title={lang === 'en' ? stream.title_en : stream.title_ar}
-							></iframe>
-						) : (
-							<>
-								<img
-									src={`https://img.youtube.com/vi/${stream.youtube_video_id}/hqdefault.jpg`}
-									alt={lang === 'en' ? stream.title_en : stream.title_ar}
-									className='  object-cover'
-								/>
-								{/* Play Button Overlay */}
-								<div className='absolute inset-0 flex justify-center items-center bg-black bg-opacity-20'>
-									<img
-										src='https://upload.wikimedia.org/wikipedia/commons/7/75/YouTube_social_white_squircle_%282017%29.svg'
-										alt='Play Button'
-										className='w-16 h-16'
-									/>
-								</div>
-								{/* Title Overlay */}
-								<div className='absolute top-0 left-0 w-full px-3 py-2 bg-black bg-opacity-60 text-white text-sm font-bold'>
-									{lang === 'en' ? stream.title_en : stream.title_ar}
-								</div>
-							</>
-						)}
+						<iframe
+							style={{ borderRadius: '8px' }}
+							src={`https://www.youtube.com/embed/${stream.youtube_video_id}${
+								selectedVideoId === stream.youtube_video_id ? '?autoplay=1' : ''
+							}`}
+							frameBorder='0'
+							allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+							allowFullScreen
+							title={lang === 'en' ? stream.title_en : stream.title_ar}
+							className='w-full h-56'
+						></iframe>
 					</div>
 				))}
 			</div>
