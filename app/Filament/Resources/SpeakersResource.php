@@ -50,11 +50,11 @@ class SpeakersResource extends Resource
                 Forms\Components\Select::make('year')
                     ->options(array_combine(range(date('Y') + 1, 2017), range(date('Y') + 1, 2017)))
                     ->required(),
-                Forms\Components\TinyEditor::make('desc_en')
+                TinyEditor::make('desc_en')
                     ->required()
                     ->columnSpanFull(),
 
-                Forms\Components\TinyEditor::make('desc_ar')
+                TinyEditor::make('desc_ar')
                     ->required()
                     ->columnSpanFull(),
                     FileUpload::make('image')
