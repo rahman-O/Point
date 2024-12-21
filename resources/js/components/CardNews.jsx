@@ -1,7 +1,7 @@
 import { Card, CardBody, CardFooter } from '@nextui-org/react';
 import { Link } from 'react-router-dom';
 
-export const CardNews = ({ id, desc_en, event_time, image }) => {
+export const CardNews = ({ id, title, desc_en, event_time, image }) => {
 	return (
 		<Link to={`/news/${id}`}>
 			<Card shadow='sm' className=' rounded'>
@@ -14,7 +14,7 @@ export const CardNews = ({ id, desc_en, event_time, image }) => {
 				</CardBody>
 				<CardFooter className='text-small grid'>
 					<b>{event_time}</b>
-					<p className=''>{desc_en} </p>
+					<p className=''>{title} </p>
 				</CardFooter>
 			</Card>
 		</Link>

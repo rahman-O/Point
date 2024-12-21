@@ -61,13 +61,20 @@ export default function News() {
 						<CardNews
 							key={post.id}
 							id={post.id}
-							title={lang === 'en' ? post.title_en : post.title_ar}
-							author={lang === 'en' ? post.author_en : post.author_ar}
-							desc={
+							title={
 								lang === 'en'
-									? stripHtmlTags(post.desc_en.slice(0, 40)) + '...'
-									: stripHtmlTags(post.desc_ar.slice(0, 40)) + '...'
+									? 'point iraq: ' +
+									  (post.title_en
+											? stripHtmlTags(post.title_en).slice(0, 40) +
+											  (post.title_en.length > 40 ? '...' : '')
+											: '')
+									: 'بوينت العراق : ' +
+									  (post.title_ar
+											? stripHtmlTags(post.title_ar).slice(0, 40) +
+											  (post.title_ar.length > 40 ? '...' : '')
+											: '')
 							}
+							author={lang === 'en' ? post.author_en : post.author_ar}
 							event_time={post.event_time}
 							image={post.image}
 						/>
