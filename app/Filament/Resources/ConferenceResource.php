@@ -10,6 +10,8 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Mohamedsabil83\FilamentFormsTinyeditor\Components\TinyEditor;
+
 
 class ConferenceResource extends Resource
 {
@@ -44,10 +46,10 @@ class ConferenceResource extends Resource
                 Forms\Components\TextInput::make('title_en')
                     ->required()
                     ->maxLength(255),
-                    Forms\Components\RichEditor::make('desc_ar')
+                    Forms\Components\TinyEditor::make('desc_ar')
                     ->required()
                     ->columnSpanFull(),
-                    Forms\Components\RichEditor::make('desc_en')
+                    Forms\Components\TinyEditor::make('desc_en')
                     ->required()
                     ->columnSpanFull(),
                 Forms\Components\FileUpload::make('image')

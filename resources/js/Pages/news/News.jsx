@@ -5,27 +5,37 @@ import { CardNews } from '@/Components/CardNews.jsx';
 import LangContext from '@/components/langContext/LangContext.jsx';
 
 export default function News() {
-	const [news, setNews] = useState([]);
+	const [news, setNews] = useState([]); // Ensure this matches the API response type
 	const [currentPage, setCurrentPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
-	const { lang, toggleLang } = useContext(LangContext);
+	const { lang } = useContext(LangContext);
+
+	// Helper function to strip HTML tags
 	const stripHtmlTags = (html) => {
 		const div = document.createElement('div');
 		div.innerHTML = html;
 		return div.textContent || div.innerText || '';
 	};
+
+	// Fetch data from API
 	const fetchData = async (page) => {
-		const response = await axios.get(`/api/news?page=${page}`);
-		if (response) {
-			setNews(response.data.data);
-			setTotalPages(response.data.last_page);
+		try {
+			const response = await axios.get(`/api/all-news?page=${page}`);
+			if (response && response.data.data) {
+				setNews(response.data.data);
+				setTotalPages(1);
+			}
+		} catch (error) {
+			console.error('Error fetching news:', error);
 		}
 	};
 
+	// Effect to fetch data when the page changes
 	useEffect(() => {
 		fetchData(currentPage);
 	}, [currentPage]);
 
+	// Pagination Handlers
 	const handleNextPage = () => {
 		if (currentPage < totalPages) {
 			setCurrentPage(currentPage + 1);
@@ -37,25 +47,34 @@ export default function News() {
 			setCurrentPage(currentPage - 1);
 		}
 	};
+
 	const handlePageChange = (page) => {
 		setCurrentPage(page);
 	};
+
+	// Render Component
 	return (
 		<div className='py-6'>
-			<div className='grid grid-cols-1 md:grid-cols-5 sm:grid-cols-3 gap-3 px-2 '>
-				{news.map((post) => (
-					<CardNews
-						key={post.id}
-						id={post.id}
-						desc_en={
-							lang === 'en'
-								? stripHtmlTags(post.desc_en.slice(0, 40)) + '...'
-								: stripHtmlTags(post.desc_ar.slice(0, 40)) + '...'
-						}
-						event_time={post.event_time}
-						image={post.image}
-					/>
-				))}
+			<div className='grid grid-cols-1 md:grid-cols-5 sm:grid-cols-3 gap-3 px-2'>
+				{news.length > 0 ? (
+					news.map((post) => (
+						<CardNews
+							key={post.id}
+							id={post.id}
+							title={lang === 'en' ? post.title_en : post.title_ar}
+							author={lang === 'en' ? post.author_en : post.author_ar}
+							desc={
+								lang === 'en'
+									? stripHtmlTags(post.desc_en.slice(0, 40)) + '...'
+									: stripHtmlTags(post.desc_ar.slice(0, 40)) + '...'
+							}
+							event_time={post.event_time}
+							image={post.image}
+						/>
+					))
+				) : (
+					<p>No news available.</p>
+				)}
 			</div>
 
 			<Pagination

@@ -11,6 +11,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Intervention\Image\Facades\Image;
 use Filament\Forms\Components\FileUpload;
+use Mohamedsabil83\FilamentFormsTinyeditor\Components\TinyEditor;
+
 class SpeakersResource extends Resource
 {
     protected static ?string $model = Speakers::class;
@@ -48,11 +50,11 @@ class SpeakersResource extends Resource
                 Forms\Components\Select::make('year')
                     ->options(array_combine(range(date('Y') + 1, 2017), range(date('Y') + 1, 2017)))
                     ->required(),
-                Forms\Components\RichEditor::make('desc_en')
+                Forms\Components\TinyEditor::make('desc_en')
                     ->required()
                     ->columnSpanFull(),
 
-                Forms\Components\RichEditor::make('desc_ar')
+                Forms\Components\TinyEditor::make('desc_ar')
                     ->required()
                     ->columnSpanFull(),
                     FileUpload::make('image')

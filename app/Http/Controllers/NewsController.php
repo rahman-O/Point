@@ -15,10 +15,18 @@ class NewsController extends Controller
     {
         return News::paginate(10);
     }
+    public function newsWithFilter(Request $request)
+{
+    $query = News::query();
+
+    $news = $query->orderBy('created_at', 'desc')->paginate(10);
+
+    return response()->json($news);
+}
 
     public function allNews()
     {
-        $news = News::all(); // Fetch all speakers
+        $news = News::all();
 
         return response()->json($news);
     }

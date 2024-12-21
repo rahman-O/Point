@@ -45,11 +45,15 @@ export default function SpeakersDetails() {
 						<p className='text-gray-600 text-sm mb-2'>
 							{lang === 'en' ? speakersDetails.job_en : speakersDetails.job_ar}
 						</p>
-						<p className='text-gray-800 leading-relaxed text-justify'>
-							{lang === 'en'
-								? stripHtmlTags(speakersDetails.desc_en)
-								: stripHtmlTags(speakersDetails.desc_ar)}
-						</p>
+						<p
+							className='text-gray-800 leading-relaxed text-justify'
+							dangerouslySetInnerHTML={{
+								__html:
+									lang === 'en'
+										? speakersDetails.desc_en
+										: speakersDetails.desc_ar,
+							}}
+						></p>
 					</div>
 				</div>
 			</div>

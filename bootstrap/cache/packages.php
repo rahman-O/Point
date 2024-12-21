@@ -124,13 +124,20 @@
   ),
   'livewire/livewire' => 
   array (
+    'aliases' => 
+    array (
+      'Livewire' => 'Livewire\\Livewire',
+    ),
     'providers' => 
     array (
       0 => 'Livewire\\LivewireServiceProvider',
     ),
-    'aliases' => 
+  ),
+  'mohamedsabil83/filament-forms-tinyeditor' => 
+  array (
+    'providers' => 
     array (
-      'Livewire' => 'Livewire\\Livewire',
+      0 => 'Mohamedsabil83\\FilamentFormsTinyeditor\\FilamentFormsTinyeditorServiceProvider',
     ),
   ),
   'nesbot/carbon' => 

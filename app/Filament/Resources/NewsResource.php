@@ -10,6 +10,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Mohamedsabil83\FilamentFormsTinyeditor\Components\TinyEditor;
 
 class NewsResource extends Resource
 {
@@ -39,23 +40,14 @@ class NewsResource extends Resource
                 Forms\Components\TextInput::make('author_ar')
                     ->required()
                     ->maxLength(255),
-//                Forms\Components\Textarea::make('desc_en')
-//                    ->required()
-//                    ->columnSpanFull(),
-
-                Forms\Components\RichEditor::make('desc_en')
+                    TinyEditor::make('desc_en')
                     ->required()
-                    ->columnSpanFull()
-                    ->dehydrateStateUsing(fn($state) => strip_tags($state)),
-
-                Forms\Components\RichEditor::make('desc_ar')
+                    ->columnSpanFull(),
+                    TinyEditor::make('desc_ar')
                     ->required()
-                    ->columnSpanFull()
-                    ->dehydrateStateUsing(fn($state) => strip_tags($state)),
-//                Forms\Components\Textarea::make('desc_ar')
-//                    ->required()
-//                    ->columnSpanFull(),
-                Forms\Components\DatePicker::make('event_time')// Optionally set the current year as the default
+                    ->columnSpanFull(),
+
+                Forms\Components\DatePicker::make('event_time')
                 ->required(),
                 Forms\Components\FileUpload::make('image')
                     ->image()
