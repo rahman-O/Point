@@ -19,14 +19,10 @@ export default function News() {
 
 	// Fetch data from API
 	const fetchData = async (page) => {
-		try {
-			const response = await axios.get(`/api/all-news?page=${page}`);
-			if (response && response.data.data) {
-				setNews(response.data.data);
-				setTotalPages(1);
-			}
-		} catch (error) {
-			console.error('Error fetching news:', error);
+		const response = await axios.get(`/api/all-news?page=${page}`);
+		if (response && response.data.data) {
+			setNews(response.data.data);
+			setTotalPages(response.data.last_page);
 		}
 	};
 
@@ -34,19 +30,6 @@ export default function News() {
 	useEffect(() => {
 		fetchData(currentPage);
 	}, [currentPage]);
-
-	// Pagination Handlers
-	const handleNextPage = () => {
-		if (currentPage < totalPages) {
-			setCurrentPage(currentPage + 1);
-		}
-	};
-
-	const handlePrevPage = () => {
-		if (currentPage > 1) {
-			setCurrentPage(currentPage - 1);
-		}
-	};
 
 	const handlePageChange = (page) => {
 		setCurrentPage(page);
@@ -83,7 +66,6 @@ export default function News() {
 					<p>No news available.</p>
 				)}
 			</div>
-
 			<Pagination
 				currentPage={currentPage}
 				totalPages={totalPages}
