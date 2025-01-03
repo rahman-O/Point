@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\DB;
 
 use App\Http\Resources\api\News\NewsResource;
 use App\Models\News;
@@ -15,6 +16,32 @@ class NewsController extends Controller
     {
         return News::paginate(10);
     }
+
+
+    public function getByEventTime(Request $request)
+{
+    $year = $request->input('year');
+
+    $years = News::select(DB::raw('YEAR(event_time) as year'))
+        ->distinct()
+        ->orderBy('year', 'desc')
+        ->pluck('year');
+
+    $query = News::query();
+
+    if ($year) {
+        $query->whereYear('event_time', $year);
+    }
+
+    $news = $query->orderBy('created_at', 'desc')->paginate(30);
+
+    return response()->json([
+        'news' => $news,
+        'years' => $years,
+    ]);
+}
+
+
     public function newsWithFilter(Request $request)
 {
     $query = News::query();
