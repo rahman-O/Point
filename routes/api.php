@@ -25,7 +25,7 @@ Route::get('/programs/current/year', [App\Http\Controllers\ProgramsController::c
 Route::get('/news', [App\Http\Controllers\NewsController::class, 'index']);
 Route::get('/news/event', [App\Http\Controllers\NewsController::class, 'getByEventTime']);
 
-Route::get('/all/news', [App\Http\Controllers\NewsController::class, 'allNews']);
+Route::get('/all/news', [App\Http\Controllers\NewsController::class, 'latestNews']);
 Route::get('/all-news', [App\Http\Controllers\NewsController::class, 'newsWithFilter']);
 
 

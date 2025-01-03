@@ -9,20 +9,20 @@ import { Link } from 'react-router-dom';
 
 export default function NewsSlider() {
 	const [news, setNews] = useState([]);
-	const { lang, toggleLang } = useContext(LangContext);
+	const { lang } = useContext(LangContext);
+
 	const stripHtmlTags = (html) => {
 		const div = document.createElement('div');
 		div.innerHTML = html;
 		return div.textContent || div.innerText || '';
 	};
+
 	useEffect(() => {
 		axios.get('/api/all/news').then((response) => {
 			setNews(response.data);
 		});
 	}, []);
-	const handleNewsClick = (newId) => {
-		router.push(`/news/${newId}`);
-	};
+
 	const settings = {
 		dots: true,
 		infinite: true,
@@ -31,6 +31,7 @@ export default function NewsSlider() {
 		slidesToScroll: 1,
 		autoplay: true,
 		autoplaySpeed: 3000,
+		rtl: lang === 'ar',
 		responsive: [
 			{
 				breakpoint: 768,
@@ -47,16 +48,16 @@ export default function NewsSlider() {
 		<div className='overflow-hidden'>
 			<Slider {...settings}>
 				{news.map((post) => (
-					<Link to={`/news/${post.id}`}>
-						<div key={post.id} className='p-4 h-80 cursor-pointer'>
-							<div className='border rounded shadow-lg overflow-hidden h-full '>
+					<Link to={`/news/${post.id}`} key={post.id}>
+						<div className='p-4 h-80 cursor-pointer'>
+							<div className='border rounded shadow-lg overflow-hidden h-full'>
 								<img
 									className='w-full h-40 object-cover'
 									src={`/api/images/${post.image}`}
 									alt='News Image'
 								/>
 								<div className='p-4 flex flex-col justify-between'>
-									<h2 className='text-lg font-bold mb-2 '>
+									<h2 className='text-lg font-bold mb-2'>
 										{lang === 'en'
 											? stripHtmlTags(post.desc_en.slice(0, 30)) + '...'
 											: stripHtmlTags(post.desc_ar.slice(0, 30)) + '...'}

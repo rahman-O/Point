@@ -16,8 +16,12 @@ class NewsController extends Controller
     {
         return News::paginate(10);
     }
+    public function latestNews()
+    {
+        $news = News::orderBy('created_at', 'desc')->take(10)->get();
 
-
+        return response()->json($news);
+    }
     public function getByEventTime(Request $request)
 {
     $year = $request->input('year');
