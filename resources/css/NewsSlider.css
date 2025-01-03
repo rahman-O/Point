@@ -27,3 +27,12 @@
 .slick-list {
 	height: 340px !important;
 }
+.text-rtl {
+	text-align: right;
+	direction: rtl;
+}
+
+.text-ltr {
+	text-align: left;
+	direction: ltr;
+}

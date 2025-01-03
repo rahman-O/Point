@@ -39,7 +39,9 @@ export default function NewsSlider() {
 	};
 
 	return (
-		<div className='overflow-hidden'>
+		<div
+			className={`overflow-hidden ${lang === 'ar' ? 'text-rtl' : 'text-ltr'}`}
+		>
 			<Slider {...settings}>
 				{news.map((post) => (
 					<Link to={`/news/${post.id}`} key={post.id}>
@@ -54,7 +56,7 @@ export default function NewsSlider() {
 									<h2 className='text-lg font-bold mb-2'>
 										{lang === 'en'
 											? post.title_en.slice(0, 30) + '...'
-											: post.title_ar.slice(0, 30) + '...'}
+											: '...' + post.title_ar.slice(0, 30)}
 									</h2>
 									<p className='text-sm text-gray-600'>{post.event_time}</p>
 								</div>
