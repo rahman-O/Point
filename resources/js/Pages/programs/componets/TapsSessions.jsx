@@ -37,7 +37,11 @@ export function TapsSessions({ activeTab, setActiveTab, program }) {
 					</div>
 				))
 			) : (
-				<p>No days available with sessions</p>
+				<p>
+					{lang === 'en'
+						? 'No days available with sessions'
+						: 'لا توجد ايام محددة لهذه الجلسة'}{' '}
+				</p>
 			)}
 		</div>
 	);

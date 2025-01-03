@@ -71,7 +71,9 @@ export default function Programs() {
 					{sessionsProgram}
 				</div>
 			) : (
-				<p>{lang === 'en' ? 'No program selected' : ' لا توجد برامج محددة'}</p>
+				<p className='px-4'>
+					{lang === 'en' ? 'No program selected' : ' لا توجد برامج محددة'}
+				</p>
 			)}
 		</div>
 	);
