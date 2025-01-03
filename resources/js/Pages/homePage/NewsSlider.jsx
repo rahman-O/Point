@@ -11,12 +11,6 @@ export default function NewsSlider() {
 	const [news, setNews] = useState([]);
 	const { lang } = useContext(LangContext);
 
-	const stripHtmlTags = (html) => {
-		const div = document.createElement('div');
-		div.innerHTML = html;
-		return div.textContent || div.innerText || '';
-	};
-
 	useEffect(() => {
 		axios.get('/api/all/news').then((response) => {
 			setNews(response.data);
@@ -59,8 +53,8 @@ export default function NewsSlider() {
 								<div className='p-4 flex flex-col justify-between'>
 									<h2 className='text-lg font-bold mb-2'>
 										{lang === 'en'
-											? stripHtmlTags(post.desc_en.slice(0, 30)) + '...'
-											: stripHtmlTags(post.desc_ar.slice(0, 30)) + '...'}
+											? post.title_en.slice(0, 30) + '...'
+											: post.title_ar.slice(0, 30) + '...'}
 									</h2>
 									<p className='text-sm text-gray-600'>{post.event_time}</p>
 								</div>
