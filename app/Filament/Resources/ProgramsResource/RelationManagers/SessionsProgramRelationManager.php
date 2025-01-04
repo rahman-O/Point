@@ -74,8 +74,8 @@ class SessionsProgramRelationManager extends RelationManager
                     ->maxLength(255),
                Select::make('speakers')
                     ->relationship('speakers', 'name_en' )
-                   ->multiple()
-                    ->required(),
+                   ->multiple(),
+                    // ->required(),
 
 
                 Forms\Components\Select::make('facilitator_id')
