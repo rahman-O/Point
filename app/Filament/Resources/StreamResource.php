@@ -37,7 +37,7 @@ class StreamResource extends Resource
                 Forms\Components\TextInput::make('url')
                     ->label('YouTube URL')
                     ->required(),
-                Forms\Components\TextInput::make('date')
+                    Forms\Components\DatePicker::make('date')
                     ->required(),
             ]);
     }
