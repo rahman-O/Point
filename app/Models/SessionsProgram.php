@@ -10,7 +10,7 @@ class SessionsProgram extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['programs_id','day', 'year', 'start_time', 'end_time', 'sub_en', 'sub_ar', 'presentation_en', 'presentation_ar','facilitator_id'];
+    protected $fillable = ['programs_id','day', 'year', 'start_time', 'end_time', 'subject_en', 'subject_ar', 'presentation_en', 'presentation_ar','facilitator_id','title_en','title_ar'];
 
 //speaker
 

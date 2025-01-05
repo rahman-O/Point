@@ -58,25 +58,26 @@ class SessionsProgramRelationManager extends RelationManager
                 Forms\Components\TimePicker::make('end_time')
                     ->seconds(false)
                     ->required(),
-                Forms\Components\RichEditor::make('sub_en')
+                    Forms\Components\TextInput::make('title_en')
+                ->maxLength(255),
+                Forms\Components\TextInput::make('title_ar')
+                ->maxLength(255),
+                Forms\Components\RichEditor::make('subject_en')
                     ->columnSpan(2)
                     ->required()
                     ->maxLength(255),
-                Forms\Components\RichEditor::make('sub_ar')
+                Forms\Components\RichEditor::make('subject_ar')
                     ->required()
                     ->columnSpan(2)
                     ->maxLength(255),
                 Forms\Components\TextInput::make('presentation_en')
-                    ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('presentation_ar')
-                    ->required()
                     ->maxLength(255),
                Select::make('speakers')
                     ->relationship('speakers', 'name_en' )
                    ->multiple(),
                     // ->required(),
-
 
                 Forms\Components\Select::make('facilitator_id')
                     ->options(

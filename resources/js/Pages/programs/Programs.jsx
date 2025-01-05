@@ -38,8 +38,8 @@ export default function Programs() {
 					}`}
 				>
 					{lang === 'en'
-						? session.presentation_en.toUpperCase()
-						: session.presentation_ar.toUpperCase()}
+						? session.title_en?.toUpperCase()
+						: session.title_ar?.toUpperCase()}
 				</span>
 			</div>
 
