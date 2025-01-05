@@ -26,11 +26,13 @@ export default function Conferences() {
 					{lang === 'en' ? conference.title_en : conference.title_ar}
 				</h1>
 				<img className='w-full' src={`/api/images/${conference.image}`} />
-				<p className='text-justify'>
-					{lang === 'en'
-						? stripHtmlTags(conference.desc_en)
-						: stripHtmlTags(conference.desc_ar)}
-				</p>
+				<p
+					className='text-gray-800 leading-relaxed text-justify'
+					dangerouslySetInnerHTML={{
+						__html:
+							lang === 'en' ? speakersDetails.desc_en : speakersDetails.desc_ar,
+					}}
+				></p>
 			</div>
 		</div>
 	);
