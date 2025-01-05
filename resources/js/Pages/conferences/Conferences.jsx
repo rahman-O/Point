@@ -27,7 +27,7 @@ export default function Conferences() {
 				</h1>
 				<img className='w-full' src={`/api/images/${conference.image}`} />
 				<p
-					className='text-gray-800 leading-relaxed text-justify'
+					className='text-gray-800 leading-relaxed text-justify p-0'
 					dangerouslySetInnerHTML={{
 						__html: lang === 'en' ? conference.desc_en : conference.desc_ar,
 					}}
