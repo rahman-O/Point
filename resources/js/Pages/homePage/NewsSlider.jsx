@@ -40,13 +40,15 @@ export default function NewsSlider() {
 
 	return (
 		<div
-			className={`overflow-hidden ${lang === 'ar' ? 'text-rtl' : 'text-ltr'}`}
+			className={`overflow-hidden ${
+				lang === 'ar' ? 'text-rtl' : 'text-ltr'
+			} mt-3`}
 		>
 			<Slider {...settings}>
 				{news.map((post) => (
 					<Link to={`/news/${post.id}`} key={post.id}>
-						<div className='p-4 h-80 cursor-pointer'>
-							<div className='border rounded shadow-lg overflow-hidden h-full'>
+						<div className='px-1 h-72 cursor-pointer'>
+							<div className='border-none  overflow-hidden h-full'>
 								<img
 									className='w-full h-40 object-cover'
 									src={`/api/images/${post.image}`}
@@ -54,9 +56,7 @@ export default function NewsSlider() {
 								/>
 								<div className='p-4 flex flex-col justify-between'>
 									<h2 className='text-lg font-bold mb-2'>
-										{lang === 'en'
-											? post.title_en.slice(0, 30) + '...'
-											: '...' + post.title_ar.slice(0, 30)}
+										{lang === 'en' ? post.title_en : post.title_ar}
 									</h2>
 									<p className='text-sm text-gray-600'>{post.event_time}</p>
 								</div>

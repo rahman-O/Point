@@ -39,11 +39,11 @@ export default function NewsSlider() {
 
 	return (
 		<div>
-			<div className='h-fit overflow-hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 px-4'>
+			<div className='h-fit overflow-hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 px-4 my-8'>
 				{speakers.map((speaker) => (
 					<Link to={`/speakers/${speaker.id}`}>
 						<div key={speaker.id} className='cursor-pointer'>
-							<div className='border rounded shadow-lg overflow-hidden'>
+							<div className='overflow-visible p-0'>
 								<img
 									className='w-full h-48 object-cover'
 									src={`/api/images/${speaker.image}`}
@@ -51,18 +51,12 @@ export default function NewsSlider() {
 								/>
 								<div className='p-4'>
 									<div className='flex justify-between items-center'>
-										<h2 className='text-lg font-bold mb-2'>
+										<h2 className='text-xl font-bold mb-2'>
 											{lang === 'en' ? speaker.name_en : speaker.name_ar}
 										</h2>
-										<span className='text-right'>
-											<CgWorkAlt className='inline pr-2 text-3xl' />
-											{lang === 'en'
-												? speaker.job_en.slice(0, 20) + '..'
-												: speaker.job_ar.slice(0, 20) + '..'}
-										</span>
 									</div>
-									<p className='text-sm text-gray-600'>
-										{lang === 'en' ? speaker.country_en : speaker.country_ar}
+									<p className='text-lg'>
+										{lang === 'en' ? speaker.job_en : speaker.job_ar}
 									</p>
 								</div>
 							</div>

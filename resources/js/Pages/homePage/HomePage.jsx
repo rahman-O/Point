@@ -16,12 +16,9 @@ export default function HomePage() {
 			>
 				<video className='banner' muted autoPlay loop src={videoPlayes}></video>
 			</div>
-			<div className='grid gap-6'>
-				<h1 className='text-2xl font-bold px-2 text-center uppercase pt-6'>
-					{lang === 'en' ? 'News' : 'الاخبار'}{' '}
-				</h1>
+			<div className='grid gap-6 px-4'>
 				<NewsSlider />
-				<h1 className='text-2xl font-bold px-2 text-center uppercase'>
+				<h1 className='text-3xl font-bold px-2 text-center uppercase'>
 					{' '}
 					{lang === 'en' ? 'Speaker' : 'المتحدثين'}{' '}
 				</h1>
