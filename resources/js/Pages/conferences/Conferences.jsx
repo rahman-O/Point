@@ -29,8 +29,7 @@ export default function Conferences() {
 				<p
 					className='text-gray-800 leading-relaxed text-justify'
 					dangerouslySetInnerHTML={{
-						__html:
-							lang === 'en' ? speakersDetails.desc_en : speakersDetails.desc_ar,
+						__html: lang === 'en' ? conference.desc_en : conference.desc_ar,
 					}}
 				></p>
 			</div>
