@@ -49,12 +49,10 @@ export default function NewsSlider() {
 									src={`/api/images/${speaker.image}`}
 									alt='Speaker Image'
 								/>
-								<div className='p-4'>
-									<div className='flex justify-between items-center'>
-										<h2 className='text-xl font-bold mb-2'>
-											{lang === 'en' ? speaker.name_en : speaker.name_ar}
-										</h2>
-									</div>
+								<div className='pt-2'>
+									<p className='text-xl font-bold'>
+										{lang === 'en' ? speaker.name_en : speaker.name_ar}
+									</p>
 									<p className='text-lg'>
 										{lang === 'en' ? speaker.job_en : speaker.job_ar}
 									</p>
