@@ -72,3 +72,17 @@ ol {
 	margin-left: 20px;
 	padding-left: 20px;
 }
+.loader {
+	border-width: 6px;
+	border-style: solid;
+	border-color: transparent;
+	border-top-color: #4caf50;
+	border-radius: 50%;
+	animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}

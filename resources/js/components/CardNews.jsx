@@ -4,19 +4,19 @@ import { Link } from 'react-router-dom';
 export const CardNews = ({ id, title, desc_en, event_time, image }) => {
 	return (
 		<Link to={`/news/${id}`}>
-			<Card shadow='sm' className=' rounded'>
-				<CardBody className='overflow-visible p-0'>
+			<div className='  '>
+				<div className='overflow-visible p-0'>
 					<img
 						width='100%'
-						className='w-full object-cover h-[180px] shadow-sm rounded-t'
+						className='w-full object-cover h-[180px] '
 						src={`/api/images/${image}`}
 					/>
-				</CardBody>
-				<CardFooter className='text-small grid'>
-					<b>{event_time}</b>
-					<p className=''>{title} </p>
-				</CardFooter>
-			</Card>
+				</div>
+				<div className=' grid mt-2'>
+					<b className='text-gray-500 bold'>{event_time}</b>
+					<p className='text-lg'>{title} </p>
+				</div>
+			</div>
 		</Link>
 	);
 };

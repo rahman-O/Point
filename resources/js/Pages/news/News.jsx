@@ -29,7 +29,7 @@ export default function News() {
 			setNews(response.data.news.data);
 			setTotalPages(response.data.news.last_page);
 			if (!years.length) {
-				setYears(response.data.years); // Update available years
+				setYears(response.data.years);
 			}
 		}
 	};
@@ -48,53 +48,53 @@ export default function News() {
 	};
 
 	return (
-		<div className='py-6'>
+		<div className='py-6 px-2'>
 			<div className='flex justify-center mb-4 gap-2'>
-				{years.map((year) => (
-					<button
-						key={year}
-						onClick={() => handleYearChange(year)}
-						className={`px-4 py-2 border rounded ${
-							selectedYear === year ? 'bg-lime-500 text-white' : 'bg-gray-200'
-						}`}
-					>
-						{year}
-					</button>
-				))}
+				{news.length > 0
+					? years.map((year) => (
+							<button
+								key={year}
+								onClick={() => handleYearChange(year)}
+								className={`px-4 py-2 border rounded ${
+									selectedYear === year
+										? 'bg-lime-500 text-white'
+										: 'bg-gray-200'
+								}`}
+							>
+								{year}
+							</button>
+					  ))
+					: ''}
 			</div>
-			<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 px-4'>
-				{news.length > 0 ? (
-					news.map((post) => (
-						<CardNews
-							key={post.id}
-							id={post.id}
-							title={
-								lang === 'en'
-									? 'point iraq: ' +
-									  (post.title_en
-											? stripHtmlTags(post.title_en).slice(0, 40) +
-											  (post.title_en.length > 40 ? '...' : '')
-											: '')
-									: 'بوينت العراق : ' +
-									  (post.title_ar
-											? stripHtmlTags(post.title_ar).slice(0, 40) +
-											  (post.title_ar.length > 40 ? '...' : '')
-											: '')
-							}
-							author={lang === 'en' ? post.author_en : post.author_ar}
-							event_time={post.event_time}
-							image={post.image}
-						/>
-					))
-				) : (
+			<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 px-4'>
+				{news.length > 0
+					? news.map((post) => (
+							<CardNews
+								key={post.id}
+								id={post.id}
+								title={
+									lang === 'en'
+										? 'point iraq: ' + stripHtmlTags(post.title_en)
+										: 'بوينت العراق : ' + stripHtmlTags(post.title_ar)
+								}
+								author={lang === 'en' ? post.author_en : post.author_ar}
+								event_time={post.event_time}
+								image={post.image}
+							/>
+					  ))
+					: ''}
+			</div>
+			{news.length > 0 ? (
+				<Pagination
+					currentPage={currentPage}
+					totalPages={totalPages}
+					onPageChange={handlePageChange}
+				/>
+			) : (
+				<div className=' h-40 flex justify-center items-center text-xl'>
 					<p>{lang === 'en' ? ' No news available.' : 'لا توجد اخبار بعد'}</p>
-				)}
-			</div>
-			<Pagination
-				currentPage={currentPage}
-				totalPages={totalPages}
-				onPageChange={handlePageChange}
-			/>
+				</div>
+			)}
 		</div>
 	);
 }

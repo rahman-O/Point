@@ -68,11 +68,19 @@ export default function Speakers() {
 					/>
 				))}
 			</div>
-			<Pagination
-				currentPage={currentPage}
-				totalPages={totalPages}
-				onPageChange={handlePageChange}
-			/>
+			{speakers.length > 0 ? (
+				<Pagination
+					currentPage={currentPage}
+					totalPages={totalPages}
+					onPageChange={handlePageChange}
+				/>
+			) : (
+				<div className=' h-40 flex justify-center items-center text-xl'>
+					<p>
+						{lang === 'en' ? ' No speakers available.' : 'لا يوجد متحدثين بعد'}
+					</p>
+				</div>
+			)}
 		</div>
 	);
 }

@@ -38,6 +38,7 @@ export default function NavBarPages() {
 			isMenuOpen={isMenuOpen}
 			onMenuOpenChange={setIsMenuOpen}
 			className='bg-black text-white'
+			style={{ height: '9%' }}
 		>
 			{/* Hamburger Menu for Small Screens */}
 			<NavbarContent className='sm:hidden bg-black' justify='start'>

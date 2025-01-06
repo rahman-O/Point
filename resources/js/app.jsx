@@ -1,6 +1,7 @@
 // resources/js/app.js
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import axios from 'axios';
 
 // Import CSS
 import '../css/app.css';
@@ -16,9 +17,40 @@ import Voting from '@/Pages/voting/Voting.jsx';
 import { Layout } from '@/layout/Layout.jsx';
 import HomePage from '@/Pages/homePage/HomePage.jsx';
 import NotFoundPage from '@/Pages/NotFoundPage';
-
 import Conferences from '@/Pages/conferences/Conferences.jsx';
+
+// Import Contexts and Loader
 import LangProvider from '@/components/langContext/LangProvider.jsx';
+import {
+	LoaderProvider,
+	useLoader,
+} from '@/components/loaderContext/LoaderContext.jsx';
+import Loader from '@/components/Loader.jsx';
+
+// Set up Axios interceptors
+function setupAxiosInterceptors(showLoader, hideLoader) {
+	axios.interceptors.request.use(
+		(config) => {
+			showLoader();
+			return config;
+		},
+		(error) => {
+			hideLoader();
+			return Promise.reject(error);
+		}
+	);
+
+	axios.interceptors.response.use(
+		(response) => {
+			hideLoader();
+			return response;
+		},
+		(error) => {
+			hideLoader();
+			return Promise.reject(error);
+		}
+	);
+}
 
 const routes = [
 	{
@@ -41,8 +73,24 @@ const routes = [
 
 const router = createBrowserRouter(routes);
 
+function App() {
+	const { isLoading, showLoader, hideLoader } = useLoader();
+
+	// Set up Axios interceptors
+	setupAxiosInterceptors(showLoader, hideLoader);
+
+	return (
+		<>
+			{isLoading && <Loader />}
+			<RouterProvider router={router} />
+		</>
+	);
+}
+
 createRoot(document.getElementById('root')).render(
 	<LangProvider>
-		<RouterProvider router={router} />
+		<LoaderProvider>
+			<App />
+		</LoaderProvider>
 	</LangProvider>
 );
