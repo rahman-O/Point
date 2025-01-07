@@ -49,7 +49,7 @@ export default function News() {
 
 	return (
 		<div className='py-6 px-2'>
-			<div className='flex justify-center mb-4 gap-2'>
+			<div className='flex flex-wrap justify-center mb-4 gap-2'>
 				{news.length > 0
 					? years.map((year) => (
 							<button

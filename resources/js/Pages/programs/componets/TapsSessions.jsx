@@ -23,10 +23,10 @@ export function TapsSessions({ activeTab, setActiveTab, program }) {
 	});
 
 	return (
-		<div className='flex flex-row w-full mt-[60] justify-center'>
+		<div className='flex flex-row w-full mt-[60] justify-center  flex-wrap item-center text-center'>
 			{availableDays.length > 0 ? (
 				availableDays.map((day, index) => (
-					<div key={index} className='gap-4 mr-3'>
+					<div key={index} className='gap-4 mx-3'>
 						<Tabs
 							aria-label={day.key}
 							variant={activeTab === day.key ? 'pills' : 'default'}

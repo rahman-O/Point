@@ -41,7 +41,25 @@ export default function NavBarPages() {
 			style={{ height: '9%' }}
 		>
 			{/* Hamburger Menu for Small Screens */}
-			<NavbarContent className='sm:hidden bg-black' justify='start'>
+			<NavbarContent className='sm:hidden bg-black' justify='between'>
+				{lang === 'en' ? (
+					<a href='/'>
+						<Image
+							src={Logo}
+							alt='logo'
+							className='min-w-28 max-w-28  px-1  logo_img_en '
+						/>
+					</a>
+				) : (
+					<a href='/'>
+						<Image
+							src={Logo}
+							alt='logo'
+							className='min-w-28 max-w-28 px-1 logo_img_en '
+						/>
+					</a>
+				)}
+				{/* <p className='font-bold text-2xl'>POINT</p> */}
 				<NavbarMenuToggle
 					aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
 				/>
@@ -68,12 +86,16 @@ export default function NavBarPages() {
 							<Image
 								src={Logo}
 								alt='logo'
-								className='w-28 px-2  logo_img_en '
+								className='min-w-28 max-w-28 px-2  logo_img_en '
 							/>
 						</Link>
 					) : (
 						<Link href='/'>
-							<Image src={Logo} alt='logo' className='w-28 px-2 logo_img_en ' />
+							<Image
+								src={Logo}
+								alt='logo'
+								className='min-w-28 max-w-28 px-2 logo_img_en '
+							/>
 						</Link>
 					)}
 					{/* <p className='font-bold text-2xl'>POINT</p> */}
@@ -93,6 +115,7 @@ export default function NavBarPages() {
 			</NavbarContent>
 
 			{/* Social Icons and Language Switch Button */}
+
 			<NavbarContent justify='end'>
 				<div className='flex gap-4'>
 					<a

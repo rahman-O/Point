@@ -44,7 +44,7 @@ export default function Speakers() {
 
 	return (
 		<div className='py-6'>
-			<div className='flex justify-center mb-4 gap-2'>
+			<div className='flex justify-center flex-wrap mb-4 gap-2'>
 				{years.map((year) => (
 					<button
 						key={year}

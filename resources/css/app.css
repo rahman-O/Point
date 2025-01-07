@@ -13,7 +13,6 @@ body {
 }
 .logo_img_ar {
 	opacity: 100 !important;
-	transform: rotateY(180deg);
 }
 header {
 	padding: 0 !important;

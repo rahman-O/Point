@@ -64,7 +64,7 @@ export default function FooterPages() {
 							<a href='/speakers'>Partners</a>
 						</span>
 					</div>
-					<div className=' sm:text-xl text-medium md:text-lg flex justify-center items-center gap-3 '>
+					<div className=' sm:text-xl text-medium md:text-lg flex justify-center items-center text-center gap-3 '>
 						Tawasoul Organization for Youth Empowerment . Iraq – Baghdad –
 						Karradah city . Mobile: +964 770 790 6400
 					</div>
