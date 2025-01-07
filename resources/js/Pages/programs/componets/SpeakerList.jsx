@@ -15,15 +15,18 @@ export function SpeakerList({ session }) {
 				{speakers.length > 0
 					? speakers.map((speaker) => (
 							<Link to={`/speakers/${speaker.id}`}>
-								<div key={speaker.id} className='flex mx-3 mb-3 gap-4'>
+								<div
+									key={speaker.id}
+									className=' grid grid-cols-3 justify-items-start content-start'
+								>
 									<Avatar
-										className='justify-center object-cover'
+										className='justify-center object-cover col-span-1 justify-self-center'
 										size={window.innerWidth < 768 ? 'sm' : 'lg'}
 										img={`api/images/${speaker.image}`}
 										rounded
 										alt={lang === 'en' ? speaker.name_en : speaker.name_ar}
 									/>
-									<div className='ml-3 grid justify-items-start items-start gap-0'>
+									<div className='ml-3 grid justify-items-start items-start gap-0 col-span-2'>
 										<span className='text-medium p-0 font-bold'>
 											{lang === 'en' ? speaker.name_en : speaker.name_ar}
 										</span>
