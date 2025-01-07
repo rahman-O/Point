@@ -17,7 +17,7 @@ export function SpeakerList({ session }) {
 							<Link to={`/speakers/${speaker.id}`}>
 								<div key={speaker.id} className='flex mx-3 mb-3 gap-4'>
 									<Avatar
-										className='justify-center'
+										className='justify-center object-cover'
 										size={window.innerWidth < 768 ? 'sm' : 'lg'}
 										img={`api/images/${speaker.image}`}
 										rounded
