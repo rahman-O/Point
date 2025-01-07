@@ -41,7 +41,10 @@ export default function NavBarPages() {
 			style={{ height: '9%' }}
 		>
 			{/* Hamburger Menu for Small Screens */}
-			<NavbarContent className='sm:hidden bg-black' justify='between'>
+			<NavbarContent
+				className='sm:hidden bg-black w-full flex justify-between'
+				justify='between'
+			>
 				{lang === 'en' ? (
 					<a href='/'>
 						<Image
@@ -59,7 +62,6 @@ export default function NavBarPages() {
 						/>
 					</a>
 				)}
-				{/* <p className='font-bold text-2xl'>POINT</p> */}
 				<NavbarMenuToggle
 					aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
 				/>
@@ -113,10 +115,9 @@ export default function NavBarPages() {
 					</NavbarItem>
 				))}
 			</NavbarContent>
-
 			{/* Social Icons and Language Switch Button */}
 
-			<NavbarContent justify='end'>
+			<NavbarContent className='hidden sm:flex gap-4 text-green' justify='end'>
 				<div className='flex gap-4'>
 					<a
 						href='https://www.instagram.com/tawasoul.ngo?igsh=NWZnM3A3cDJqbTRo'
@@ -151,8 +152,9 @@ export default function NavBarPages() {
 
 			{/* Menu for Small Screens */}
 			<NavbarMenu>
+				{/* Menu Items */}
 				{menuItems.map((item, index) => (
-					<NavbarMenuItem key={`${item.name}-${index}`} className=''>
+					<NavbarMenuItem key={`${item.name}-${index}`}>
 						<Link
 							className={`w-full text-black ${
 								location.pathname === item.link ? 'text-lime-500 font-bold' : ''
@@ -164,6 +166,39 @@ export default function NavBarPages() {
 						</Link>
 					</NavbarMenuItem>
 				))}
+				{/* Social Links and Language Toggle */}
+				<div className='flex gap-4 items-center justify-center mt-4'>
+					{/* Social Links */}
+					<a
+						href='https://www.instagram.com/tawasoul.ngo?igsh=NWZnM3A3cDJqbTRo'
+						target='_blank'
+						rel='noopener noreferrer'
+					>
+						<FaInstagram className='text-rose-500 text-2xl' />
+					</a>
+					<a
+						href='https://web.facebook.com/Tawasoulorganization/about'
+						target='_blank'
+						rel='noopener noreferrer'
+					>
+						<FaFacebook className='text-blue-500 text-2xl' />
+					</a>
+					<a
+						href='https://www.instagram.com/tawasoul.ngo?igsh=NWZnM3A3cDJqbTRo'
+						target='_blank'
+						rel='noopener noreferrer'
+					>
+						<FaYoutube className='text-red-500 text-2xl' />
+					</a>
+					{/* Language Toggle */}
+					<button
+						auto
+						className=' text-white bg-lime-500 rounded-lg Py-1 px-2'
+						onClick={toggleLang}
+					>
+						{lang === 'en' ? 'AR' : 'EN'}
+					</button>
+				</div>
 			</NavbarMenu>
 		</Navbar>
 	);
