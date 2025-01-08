@@ -39,15 +39,28 @@ export default function SpeakersDetails() {
 
 				{/* Text Content Section */}
 				<div className='w-full md:w-2/3 flex flex-col gap-4'>
-					<h1 className='text-xl sm:text-3xl md:text-4xl font-bold uppercase text-start md:text-left'>
+					<h1
+						className={`text-xl sm:text-3xl md:text-4xl font-bold uppercase text-start  ${
+							lang === 'ar' ? 'text-right' : 'text-left'
+						}`}
+					>
 						{lang === 'en' ? speakersDetails.name_en : speakersDetails.name_ar}
 					</h1>
 					<div className='flex justify-between items-center'>
-						<p className='text-gray-600 text-base sm:text-lg text-start md:text-left  flex justify-center gap-1 items-center'>
+						<p
+							className={`text-gray-600 text-base sm:text-lg text-start   flex justify-center gap-1 items-center ${
+								lang === 'ar' ? 'text-right' : 'text-left'
+							}`}
+						>
 							<CgWorkAlt className='text-xl' />
 							{lang === 'en' ? speakersDetails.job_en : speakersDetails.job_ar}
 						</p>
-						<p className='text-gray-600 text-base sm:text-lg text-start md:text-left flex justify-center gap-1 items-center'>
+						<p
+							className={`text-gray-600 text-base sm:text-lg text-start   flex justify-center gap-1 items-center ${
+								lang === 'ar' ? 'text-right' : 'text-left'
+							}`}
+						>
+							{' '}
 							<AiOutlineGlobal className='text-xl' />
 							{lang === 'en'
 								? speakersDetails.country_en
