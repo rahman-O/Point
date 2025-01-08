@@ -37,46 +37,37 @@ export default function NavBarPages() {
 			isBordered
 			isMenuOpen={isMenuOpen}
 			onMenuOpenChange={setIsMenuOpen}
-			className='bg-black text-white'
+			className='bg-black text-white w-full'
 			style={{ height: '9%' }}
 		>
 			{/* Hamburger Menu for Small Screens */}
 			<NavbarContent
-				className='sm:hidden bg-black w-full flex justify-between'
+				className='sm:hidden bg-black w-full px-4 flex justify-between'
 				justify='between'
 			>
-				{lang === 'en' ? (
-					<a href='/'>
-						<Image
-							src={Logo}
-							alt='logo'
-							className='min-w-28 max-w-28  px-1  logo_img_en '
-						/>
-					</a>
-				) : (
-					<a href='/'>
-						<Image
-							src={Logo}
-							alt='logo'
-							className='min-w-28 max-w-28 px-1 logo_img_en '
-						/>
-					</a>
-				)}
+				<div className=''>
+					{lang === 'en' ? (
+						<a href='/'>
+							<Image
+								src={Logo}
+								alt='logo'
+								className='min-w-28 max-w-28   logo_img_en '
+							/>
+						</a>
+					) : (
+						<a href='/'>
+							<Image
+								src={Logo}
+								alt='logo'
+								className='min-w-28 max-w-28  first-letter: logo_img_en '
+							/>
+						</a>
+					)}
+				</div>
 				<NavbarMenuToggle
 					aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
 				/>
 			</NavbarContent>
-
-			{/* Logo and Brand */}
-			<NavbarContent className='sm:hidden pr-3 ' justify='center'>
-				<NavbarBrand>
-					<Link href='/'>
-						<Image src={Logo} alt='logo' className='w-12 ' />
-					</Link>
-					{/* <p className='font-bold text-inherit'>POINT</p> */}
-				</NavbarBrand>
-			</NavbarContent>
-
 			{/* Navbar Content for Larger Screens */}
 			<NavbarContent
 				className='hidden sm:flex gap-4 text-green'
@@ -152,7 +143,6 @@ export default function NavBarPages() {
 
 			{/* Menu for Small Screens */}
 			<NavbarMenu>
-				{/* Menu Items */}
 				{menuItems.map((item, index) => (
 					<NavbarMenuItem key={`${item.name}-${index}`}>
 						<Link
@@ -166,9 +156,7 @@ export default function NavBarPages() {
 						</Link>
 					</NavbarMenuItem>
 				))}
-				{/* Social Links and Language Toggle */}
 				<div className='flex gap-4 items-center justify-center mt-4'>
-					{/* Social Links */}
 					<a
 						href='https://www.instagram.com/tawasoul.ngo?igsh=NWZnM3A3cDJqbTRo'
 						target='_blank'
@@ -190,7 +178,6 @@ export default function NavBarPages() {
 					>
 						<FaYoutube className='text-red-500 text-2xl' />
 					</a>
-					{/* Language Toggle */}
 					<button
 						auto
 						className=' text-white bg-lime-500 rounded-lg Py-1 px-2'
