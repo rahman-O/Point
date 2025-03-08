@@ -1,48 +1,50 @@
-import React, { useContext } from 'react';
-import { Avatar } from 'flowbite-react';
+import React, {useContext} from 'react';
+import {Avatar} from 'flowbite-react';
 import LangContext from '@/components/langContext/LangContext.jsx';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
-export function SpeakerList({ session }) {
-	const { lang } = useContext(LangContext);
+export function SpeakerList({session}) {
+    const {lang} = useContext(LangContext);
 
-	// Ensure speakers is an array before mapping over it
-	const speakers = session?.speakers ?? [];
+    // Ensure speakers is an array before mapping over it
+    const speakers = session?.speakers ?? [];
 
-	return (
-		<div className='w-full max-w-sm p-0 bg-transparent border-transparent md:ml-[65] align-items-center justify-center'>
-			<div className='text-center flex flex-col gap-8 justify-center md:justify-start'>
-				{speakers.length > 0
-					? speakers.map((speaker) => (
-							<Link to={`/speakers/${speaker.id}`}>
-								<div
-									key={speaker.id}
-									className=' grid grid-cols-3 justify-items-start content-start'
-								>
-									<Avatar
-										className='justify-center object-cover col-span-1 justify-self-center'
-										size={window.innerWidth < 768 ? 'sm' : 'lg'}
-										img={`api/images/${speaker.image}`}
-										rounded
-										alt={lang === 'en' ? speaker.name_en : speaker.name_ar}
-									/>
-									<div className='ml-3 grid justify-items-start items-start gap-0 col-span-2'>
+    return (
+        <div
+            className='w-full max-w-sm p-0 bg-transparent border-transparent md:ml-[65] align-items-center justify-center'>
+            <div className='text-center flex flex-col gap-8 justify-center md:justify-start'>
+                {speakers.length > 0
+                    ? speakers.map((speaker) => (
+                        <Link to={`/speakers/${speaker.id}`}>
+                            <div
+                                key={speaker.id}
+                                className=' flex justify-start items-center  content-start'
+                            >
+                                <Avatar
+                                    className='justify-center object-cover col-span-1 justify-self-center'
+                                    size={window.innerWidth < 768 ? 'sm' : 'lg'}
+                                    img={`api/images/${speaker.image}`}
+                                    rounded
+                                    alt={lang === 'en' ? speaker.name_en : speaker.name_ar}
+                                />
+                                <div
+                                    className='ml-3 ml-3 flex flex-col items-start justify-center space-y-0.5 col-span-2'>
 										<span className='text-medium p-0 font-bold'>
 											{lang === 'en' ? speaker.name_en : speaker.name_ar}
 										</span>
-										<span
-											className='text-medium'
-											style={{ textAlign: 'start' }}
-										>
+                                    <span
+                                        className='text-medium'
+                                        style={{textAlign: 'start'}}
+                                    >
 											{' '}
-											{lang === 'en' ? speaker.job_en : speaker.job_ar}
+                                        {lang === 'en' ? speaker.job_en : speaker.job_ar}
 										</span>
-									</div>
-								</div>
-							</Link>
-					  ))
-					: ''}
-			</div>
-		</div>
-	);
+                                </div>
+                            </div>
+                        </Link>
+                    ))
+                    : ''}
+            </div>
+        </div>
+    );
 }
