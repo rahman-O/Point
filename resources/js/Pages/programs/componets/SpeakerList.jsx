@@ -8,6 +8,7 @@ export function SpeakerList({session}) {
 
     // Ensure speakers is an array before mapping over it
     const speakers = session?.speakers ?? [];
+    const facilitatorId = session?.facilitator_id;
 
     return (
         <div
@@ -15,11 +16,8 @@ export function SpeakerList({session}) {
             <div className='text-center flex flex-col gap-8 justify-center md:justify-start'>
                 {speakers.length > 0
                     ? speakers.map((speaker) => (
-                        <Link to={`/speakers/${speaker.id}`}>
-                            <div
-                                key={speaker.id}
-                                className=' flex justify-start items-center  content-start'
-                            >
+                        <Link to={`/speakers/${speaker.id}`} key={speaker.id}>
+                            <div className='flex justify-start items-center content-start'>
                                 <Avatar
                                     className='justify-center object-cover col-span-1 justify-self-center'
                                     size={window.innerWidth < 768 ? 'sm' : 'lg'}
@@ -27,18 +25,18 @@ export function SpeakerList({session}) {
                                     rounded
                                     alt={lang === 'en' ? speaker.name_en : speaker.name_ar}
                                 />
-                                <div
-                                    className='ml-3 ml-3 flex flex-col items-start justify-center space-y-0.5 col-span-2'>
-										<span className='text-medium p-0 font-bold'>
-											{lang === 'en' ? speaker.name_en : speaker.name_ar}
-										</span>
-                                    <span
-                                        className='text-medium'
-                                        style={{textAlign: 'start'}}
-                                    >
-											{' '}
+                                <div className='ml-3 flex flex-col items-start justify-center space-y-0.5 col-span-2'>
+                                    <span className='text-medium p-0 font-bold'>
+                                        {lang === 'en' ? speaker.name_en : speaker.name_ar}
+                                        {speaker.id === facilitatorId && (
+                                            <span className='mx-2 text-sm text-gray-500'>
+                                                {lang === 'en' ? '(Facilitator)' : '(ميسر)'}
+                                            </span>
+                                        )}
+                                    </span>
+                                    <span className='text-medium' style={{textAlign: 'start'}}>
                                         {lang === 'en' ? speaker.job_en : speaker.job_ar}
-										</span>
+                                    </span>
                                 </div>
                             </div>
                         </Link>
