@@ -17,6 +17,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Http;
 
 class SessionsProgramRelationManager extends RelationManager
 {
@@ -74,16 +75,45 @@ class SessionsProgramRelationManager extends RelationManager
                     ->maxLength(255),
                 Forms\Components\TextInput::make('presentation_ar')
                     ->maxLength(255),
-               Select::make('speakers')
-                    ->relationship('speakers', 'name_en' )
-                   ->multiple(),
-                    // ->required(),
+                    Select::make('speakers')
+                        ->label('Speakers')
+                        ->relationship('speakers', 'name_en')
+                        ->multiple()
+                        ->searchable()
+                        ->getSearchResultsUsing(function (string $search) {
+                            $year = $this->year ?? now()->year;
 
-                Forms\Components\Select::make('facilitator_id')
-                    ->options(
-                        Speakers::pluck('name_en', 'id')
-                    )
+                            return Speakers::where('year', $year)
+                                ->where(function($query) use ($search) {
+                                    $query->where('name_en', 'like', "%{$search}%")
+                                          ->orWhere('name_ar', 'like', "%{$search}%");
+                                })
+                                ->limit(20)
+                                ->pluck('name_en', 'id')
+                                ->toArray();
+                        })
+                        ->getOptionLabelUsing(function ($value) {
+                            return Speakers::find($value)?->name_en ?? '';
+                        }),
 
+                    Select::make('facilitator_id')
+                        ->label('Facilitator')
+                        ->searchable()
+                            ->getSearchResultsUsing(function (string $search) {
+                                $year = $this->year ?? now()->year;
+
+                                return Speakers::where('year', $year)
+                                    ->where(function($query) use ($search) {
+                                        $query->where('name_en', 'like', "%{$search}%")
+                                              ->orWhere('name_ar', 'like', "%{$search}%");
+                                    })
+                                    ->limit(20)
+                                    ->pluck('name_en', 'id')
+                                    ->toArray();
+                            })
+                            ->getOptionLabelUsing(function ($value) {
+                                return Speakers::find($value)?->name_en ?? '';
+                            }),
             ]);
     }
 

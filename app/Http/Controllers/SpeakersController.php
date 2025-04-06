@@ -49,6 +49,30 @@ class SpeakersController extends Controller
 
         return response()->json($speakers);
     }
+public function speakersByYear(Request $request)
+{
+    $year = $request->input('year');
+    $search = $request->input('search');
+
+    if (!$year) {
+        return response()->json(['message' => 'Year is required'], 400);
+    }
+
+    $query = Speakers::where('year', $year);
+
+    if ($search) {
+        $query->where(function ($q) use ($search) {
+            $q->where('name_en', 'like', '%' . $search . '%')
+              ->orWhere('name_ar', 'like', '%' . $search . '%');
+        });
+    }
+
+    $speakers = $query->orderBy('created_at', 'desc')
+        ->limit(20)
+        ->get(['id', 'name_en']);
+
+    return response()->json($speakers);
+}
 
     /**
      * Show the form for creating a new resource.

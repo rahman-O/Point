@@ -13,6 +13,7 @@ Route::get('/user', function (Request $request) {
 Route::get('/speakers', [App\Http\Controllers\SpeakersController::class, 'index']);
 Route::get('/all/speakers', [App\Http\Controllers\SpeakersController::class, 'allSpeakers']);
 Route::get('/speakers/{id}', [App\Http\Controllers\SpeakersController::class, 'show']);
+Route::get('/speakers-by-year', [App\Http\Controllers\SpeakersController::class, 'speakersByYear']);
 
 Route::get('/images/{filename}', [ImageController::class, 'show']);
 
