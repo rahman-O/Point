@@ -98,9 +98,7 @@ class SpeakersResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('country_ar')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('year')
-                    ->dateTime()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('year'),
                 Tables\Columns\ImageColumn::make('image'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
