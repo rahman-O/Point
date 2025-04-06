@@ -81,9 +81,7 @@ class SessionsProgramRelationManager extends RelationManager
                         ->multiple()
                         ->searchable()
                         ->getSearchResultsUsing(function (string $search) {
-                            $year = $this->year ?? now()->year;
-
-                            return Speakers::where('year', $year)
+                            return Speakers::where('year', 2023)
                                 ->where(function($query) use ($search) {
                                     $query->where('name_en', 'like', "%{$search}%")
                                           ->orWhere('name_ar', 'like', "%{$search}%");
@@ -99,21 +97,19 @@ class SessionsProgramRelationManager extends RelationManager
                     Select::make('facilitator_id')
                         ->label('Facilitator')
                         ->searchable()
-                            ->getSearchResultsUsing(function (string $search) {
-                                $year = $this->year ?? now()->year;
-
-                                return Speakers::where('year', $year)
-                                    ->where(function($query) use ($search) {
-                                        $query->where('name_en', 'like', "%{$search}%")
-                                              ->orWhere('name_ar', 'like', "%{$search}%");
-                                    })
-                                    ->limit(20)
-                                    ->pluck('name_en', 'id')
-                                    ->toArray();
-                            })
-                            ->getOptionLabelUsing(function ($value) {
-                                return Speakers::find($value)?->name_en ?? '';
-                            }),
+                        ->getSearchResultsUsing(function (string $search) {
+                            return Speakers::where('year', 2023)
+                                ->where(function($query) use ($search) {
+                                    $query->where('name_en', 'like', "%{$search}%")
+                                          ->orWhere('name_ar', 'like', "%{$search}%");
+                                })
+                                ->limit(20)
+                                ->pluck('name_en', 'id')
+                                ->toArray();
+                        })
+                        ->getOptionLabelUsing(function ($value) {
+                            return Speakers::find($value)?->name_en ?? '';
+                        }),
             ]);
     }
 
