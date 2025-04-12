@@ -33,14 +33,14 @@ export default function Programs() {
 				</span>
 
                 <span
-                    className={`text-lg font-bold text-start w-1/2 ${
+                    className={`text-sm md:text-lg font-bold text-start w-1/2 ${
                         lang === 'ar' ? 'arabic-font' : ''
                     }`}
                 >
-					{lang === 'en'
+                    {lang === 'en'
                         ? session.title_en?.toUpperCase()
                         : session.title_ar?.toUpperCase()}
-				</span>
+                </span>
             </div>
 
             <div className={`${lang === 'ar' ? 'pr-4 md:pr-32 arabic-font' : 'pl-4 md:pl-32'}`}>
