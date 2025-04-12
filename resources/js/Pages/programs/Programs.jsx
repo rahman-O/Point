@@ -66,7 +66,7 @@ export default function Programs() {
 
             {program ? (
                 <div
-                    className={`w-full mx-24 text-center ${lang === 'ar' ? ' arabic-font' : ''}`}
+                    className={`w-full md:mx-24 text-center ${lang === 'ar' ? ' arabic-font' : ''}`}
                 >
                     {sessionsProgram}
                 </div>
