@@ -17,26 +17,28 @@ export function SpeakerList({session}) {
                 {speakers.length > 0
                     ? speakers.map((speaker) => (
                         <Link to={`/speakers/${speaker.id}`} key={speaker.id}>
-                            <div className='flex justify-start items-center content-start'>
-                                <Avatar
-                                    className='justify-center object-cover col-span-1 justify-self-center'
-                                    size={window.innerWidth < 768 ? 'sm' : 'lg'}
-                                    img={`api/images/${speaker.image}`}
-                                    rounded
-                                    alt={lang === 'en' ? speaker.name_en : speaker.name_ar}
-                                />
-                                <div className='ml-3 flex flex-col items-start justify-center space-y-0.5 col-span-2'>
-                                    <span className='text-medium p-0 font-bold'>
-                                        {lang === 'en' ? speaker.name_en : speaker.name_ar}
-                                        {speaker.id === facilitatorId && (
-                                            <span className='mx-2 text-sm text-gray-500'>
-                                                {lang === 'en' ? '(Facilitator)' : '(ميسر)'}
-                                            </span>
-                                        )}
-                                    </span>
-                                    <span className='text-medium' style={{textAlign: 'start'}}>
-                                        {lang === 'en' ? speaker.job_en : speaker.job_ar}
-                                    </span>
+                            <div className='flex justify-start items-start content-start'>
+                                <div className='flex-shrink-0'>
+                                    <Avatar
+                                        className='justify-center object-cover'
+                                        size={window.innerWidth < 768 ? 'sm' : 'lg'}
+                                        img={`api/images/${speaker.image}`}
+                                        rounded
+                                        alt={lang === 'en' ? speaker.name_en : speaker.name_ar}
+                                    />
+                                </div>
+                                <div className='mx-3 flex flex-col items-start justify-center space-y-0.5 flex-1'>
+        <span className='text-medium p-0 font-bold break-words'>
+            {lang === 'en' ? speaker.name_en : speaker.name_ar}
+            {speaker.id === facilitatorId && (
+                <span className='mx-2 text-sm text-gray-500'>
+                    {lang === 'en' ? '(Facilitator)' : '(ميسر)'}
+                </span>
+            )}
+        </span>
+                                    <span className='text-medium text-start'>
+            {lang === 'en' ? speaker.job_en : speaker.job_ar}
+        </span>
                                 </div>
                             </div>
                         </Link>

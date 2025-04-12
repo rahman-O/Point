@@ -29,7 +29,7 @@ export default function Programs() {
         <div key={session.id}>
             <div className='flex align-items-center py-4'>
 				<span className='text-lg px-4'>
-					{session.start_time} - {session.end_time}
+					{session.start_time.slice(0, 5)} - {session.end_time.slice(0, 5)}
 				</span>
 
                 <span
@@ -66,7 +66,7 @@ export default function Programs() {
 
             {program ? (
                 <div
-                    className={`w-full mx-24 text-center ${lang === 'ar' ? 'arabic-font' : ''}`}
+                    className={`w-full mx-24 text-center ${lang === 'ar' ? ' arabic-font' : ''}`}
                 >
                     {sessionsProgram}
                 </div>
