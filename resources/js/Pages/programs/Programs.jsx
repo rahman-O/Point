@@ -27,7 +27,7 @@ export default function Programs() {
 
     const sessionsProgram = currentSessions.map((session) => (
         <div key={session.id}>
-            <div className='flex align-items-center py-4'>
+            <div className='flex align-items-center py-4 overflow-hidden'>
 				<span className='text-lg px-4'>
 					{session.start_time.slice(0, 5)} - {session.end_time.slice(0, 5)}
 				</span>
@@ -43,7 +43,7 @@ export default function Programs() {
 				</span>
             </div>
 
-            <div className={`${lang === 'ar' ? 'pr-32 arabic-font' : 'pl-32'}`}>
+            <div className={`${lang === 'ar' ? 'pr-4 md:pr-32 arabic-font' : 'pl-4 md:pl-32'}`}>
                 <SpeakerList session={session}/>
             </div>
         </div>

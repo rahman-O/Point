@@ -12,7 +12,7 @@ export function SpeakerList({session}) {
 
     return (
         <div
-            className='w-full max-w-sm p-0 bg-transparent border-transparent md:ml-[65] align-items-center justify-center'>
+            className='w-full max-w-sm p-0 bg-transparent border-transparent md:ml-[65] align-items-center justify-center overflow-hidden'>
             <div className='text-center flex flex-col gap-8 justify-center md:justify-start'>
                 {speakers.length > 0
                     ? speakers.map((speaker) => (
