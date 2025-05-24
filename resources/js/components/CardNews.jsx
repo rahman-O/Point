@@ -8,7 +8,7 @@ export const CardNews = ({ id, title, desc_en, event_time, image }) => {
 				<div className='overflow-visible p-0'>
 					<img
 						width='100%'
-						className='w-full object-cover h-[180px] '
+						className='w-full object-cover h-[180px] rounded-md'
 						src={`/api/images/${image}`}
 					/>
 				</div>

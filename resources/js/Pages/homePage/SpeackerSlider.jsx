@@ -39,13 +39,13 @@ export default function NewsSlider() {
 
 	return (
 		<div>
-			<div className='h-fit overflow-hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 px-4 my-8'>
+			<div className='h-fit overflow-hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-12 px-4 my-8'>
 				{speakers.map((speaker) => (
 					<Link to={`/speakers/${speaker.id}`}>
 						<div key={speaker.id} className='cursor-pointer'>
 							<div className='overflow-visible p-0'>
 								<img
-									className='w-full h-48 object-cover'
+									className='w-full h-48 object-cover rounded-md'
 									src={`/api/images/${speaker.image}`}
 									alt='Speaker Image'
 								/>

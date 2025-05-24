@@ -50,7 +50,7 @@ export default function NewsSlider() {
 						<div className='px-1 h-72 cursor-pointer'>
 							<div className='border-none  overflow-hidden h-full'>
 								<img
-									className='w-full h-40 object-cover'
+									className='w-full h-40 object-cover rounded-md'
 									src={`/api/images/${post.image}`}
 									alt='News Image'
 								/>

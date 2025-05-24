@@ -22,7 +22,7 @@ export default function NewsDetails() {
 					{lang === 'en' ? newsDetails.title_en : newsDetails.title_ar}
 				</h1>
 				<img
-					className='rounded w-full'
+					className='w-full rounded-md'
 					src={`/api/images/${newsDetails.image}`}
 					alt='News'
 				/>
