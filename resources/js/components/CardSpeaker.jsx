@@ -15,10 +15,10 @@ export const CardSpeaker = ({ id, name, job, image, desc }) => {
 						src={`/api/images/${image}`}
 					/>
 				</div>
-				<div className='text-small grid'>
+				<div className='text-xl grid '>
 					<b>{name}</b>
-					<p className='text-gray-500'>{job}</p>
-					<p className='text-gray-500'>{desc}</p>
+					{/* <p className='text-gray-500'>{job}</p>
+					<p className='text-gray-500'>{desc}</p> */}
 				</div>
 			</div>
 		</Link>

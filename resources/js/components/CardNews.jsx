@@ -13,8 +13,8 @@ export const CardNews = ({ id, title, desc_en, event_time, image }) => {
 					/>
 				</div>
 				<div className=' grid mt-2'>
-					<b className='text-gray-500 bold'>{event_time}</b>
-					<p className='text-lg'>{title} </p>
+					<b className='text-gray-500 bold text-xs'>{event_time}</b>
+					<p className='text-base'>{title} </p>
 				</div>
 			</div>
 		</Link>

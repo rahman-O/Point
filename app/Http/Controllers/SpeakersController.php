@@ -30,6 +30,28 @@ class SpeakersController extends Controller
         'years' => $years,
     ]);
 }
+public function getTopSpeakers()
+    {
+         $speakers = Speakers::orderBy('created_at', 'desc')
+        ->limit(30)
+        ->get();
+
+
+    return response()->json([
+        'speakers' => $speakers,
+    ]);
+    }
+// public function getTopSpeakers()
+// {
+//     dd('Inside getTopSpeakers()');
+//     // $speakers = Speakers::orderBy('created_at', 'desc')
+//     //     ->limit(30)
+//     //     ->get();
+
+//     // return response()->json([
+//     //     'speakers' => $speakers,
+//     // ]);
+// }
 
     public function show($id)
     {

@@ -134,7 +134,7 @@ export default function NavBarPages() {
 				</div>
 				<Button
 					auto
-					className='ml-4 text-white  bg-lime-500'
+					className='ml-4 text-white  bg-black border border-white font-bold'
 					onClick={toggleLang}
 				>
 					{lang === 'en' ? 'العربية' : 'English'}

@@ -4,6 +4,7 @@ use App\Http\Controllers\ConferenceController;
 use App\Http\Controllers\ImageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SpeakersController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -14,7 +15,7 @@ Route::get('/speakers', [App\Http\Controllers\SpeakersController::class, 'index'
 Route::get('/all/speakers', [App\Http\Controllers\SpeakersController::class, 'allSpeakers']);
 Route::get('/speakers/{id}', [App\Http\Controllers\SpeakersController::class, 'show']);
 Route::get('/speakers-by-year', [App\Http\Controllers\SpeakersController::class, 'speakersByYear']);
-
+Route::get('/top/speakers', [App\Http\Controllers\SpeakersController::class, 'getTopSpeakers']);
 Route::get('/images/{filename}', [ImageController::class, 'show']);
 
 //programs

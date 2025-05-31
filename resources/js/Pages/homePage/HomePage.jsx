@@ -16,11 +16,11 @@ export default function HomePage() {
 			>
 				<video className='banner' muted autoPlay loop src={videoPlayes}></video>
 			</div>
-			<div className='grid gap-6 px-4'>
+			<div className='-mt-3'>
 				<NewsSlider />
-				<h1 className='text-3xl font-bold px-2 text-center uppercase'>
+				<h1 className='text-3xl font-bold px-2 text-center uppercase pt-4'>
 					{' '}
-					{lang === 'en' ? 'Speaker' : 'المتحدثين'}{' '}
+					{lang === 'en' ? 'Speaker' : 'المتحدثين'}
 				</h1>
 				<SpeackerSlider />
 			</div>

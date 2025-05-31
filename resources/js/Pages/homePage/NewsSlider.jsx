@@ -21,7 +21,7 @@ export default function NewsSlider() {
 		dots: true,
 		infinite: true,
 		speed: 500,
-		slidesToShow: 3,
+		slidesToShow: 5,
 		slidesToScroll: 1,
 		autoplay: true,
 		autoplaySpeed: 3000,
@@ -47,18 +47,27 @@ export default function NewsSlider() {
 			<Slider {...settings}>
 				{news.map((post) => (
 					<Link to={`/news/${post.id}`} key={post.id}>
-						<div className='px-1 h-72 cursor-pointer'>
+						<div className='px-0 h-72 cursor-pointer'>
 							<div className='border-none  overflow-hidden h-full'>
 								<img
-									className='w-full h-40 object-cover rounded-md'
+									className='w-full h-40 object-cover'
 									src={`/api/images/${post.image}`}
 									alt='News Image'
 								/>
 								<div className='p-4 flex flex-col justify-between'>
-									<h2 className='text-lg font-bold mb-2'>
-										{lang === 'en' ? post.title_en : post.title_ar}
+									<h2
+										className='text-base font-bold mb-2'
+										dir={lang === 'ar' ? 'rtl' : 'ltr'}
+									>
+										{lang === 'en'
+											? post.title_en.length > 50
+												? post.title_en.slice(0, 50) + '...'
+												: post.title_en
+											: post.title_ar.length > 50
+											? post.title_ar.slice(0, 50) + '...'
+											: post.title_ar}
 									</h2>
-									<p className='text-sm text-gray-600'>{post.event_time}</p>
+									<p className='text-xs text-gray-600'>{post.event_time}</p>
 								</div>
 							</div>
 						</div>

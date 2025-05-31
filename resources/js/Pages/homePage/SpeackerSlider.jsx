@@ -4,22 +4,21 @@ import { CgWorkAlt } from 'react-icons/cg';
 import LangContext from '@/components/langContext/LangContext.jsx';
 import { Link } from 'react-router-dom';
 
-export default function NewsSlider() {
+export default function SpeackerSlider() {
 	const [speakers, setSpeakers] = useState([]);
 	const [currentPage, setCurrentPage] = useState(1);
-	const [totalPages, setTotalPages] = useState(1);
 	const { lang } = useContext(LangContext);
 
 	const fetchData = async (page) => {
 		try {
-			const response = await axios.get(`/api/speakers?page=${page}`);
+			const response = await axios.get('/api/top/speakers');
 			const speakersData = response.data.speakers;
-			if (speakersData) {
-				setSpeakers((prevSpeakers) => [...prevSpeakers, ...speakersData.data]);
-				setTotalPages(speakersData.last_page);
+
+			if (Array.isArray(speakersData)) {
+				setSpeakers((prevSpeakers) => [...prevSpeakers, ...speakersData]);
 			}
 		} catch (error) {
-			return error;
+			console.error('Fetch error:', error);
 		}
 	};
 	const handleSpeakerClick = (speakerId) => {
@@ -29,17 +28,9 @@ export default function NewsSlider() {
 		fetchData(currentPage);
 	}, []);
 
-	const handleLoadMore = () => {
-		if (currentPage < totalPages) {
-			const nextPage = currentPage + 1;
-			setCurrentPage(nextPage);
-			fetchData(nextPage);
-		}
-	};
-
 	return (
 		<div>
-			<div className='h-fit overflow-hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-12 px-4 my-8'>
+			<div className='h-fit overflow-hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 px-2 my-8'>
 				{speakers.map((speaker) => (
 					<Link to={`/speakers/${speaker.id}`}>
 						<div key={speaker.id} className='cursor-pointer'>
@@ -50,10 +41,10 @@ export default function NewsSlider() {
 									alt='Speaker Image'
 								/>
 								<div className='pt-2'>
-									<p className='text-xl font-bold'>
+									<p className='text-base font-bold'>
 										{lang === 'en' ? speaker.name_en : speaker.name_ar}
 									</p>
-									<p className='text-lg'>
+									<p className='text-xs'>
 										{lang === 'en' ? speaker.job_en : speaker.job_ar}
 									</p>
 								</div>
@@ -62,16 +53,6 @@ export default function NewsSlider() {
 					</Link>
 				))}
 			</div>
-			{currentPage < totalPages && (
-				<div className='flex justify-center mt-4'>
-					<button
-						onClick={handleLoadMore}
-						className='bg-lime-500 text-white font-bold py-2 px-4 rounded hover:bg-lime-700'
-					>
-						{lang === 'en' ? 'Load More' : 'تحميل المزيد'}
-					</button>
-				</div>
-			)}
 		</div>
 	);
 }
