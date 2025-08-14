@@ -85,7 +85,7 @@ export default function FooterPages() {
 
 					<div className='text-center leading-relaxed max-w-md sm:max-w-full'>
 						Tawasoul Organization for Youth Empowerment · Iraq – Baghdad –
-						Karradah city · Mobile: +964 770 790 6400
+						Karradah city · Mobile: +964 770 211 1332
 					</div>
 
 					<a
