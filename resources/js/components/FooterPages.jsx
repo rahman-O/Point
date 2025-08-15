@@ -29,7 +29,7 @@ export default function FooterPages() {
 				{/* Organizers */}
 				<div className='flex flex-col items-center gap-6 w-full'>
 					<h1 className='font-bold text-lg  tracking-widest text-center'>
-						Organizers
+						{lang === 'en' ? 'Organizers' : 'المنظمين'}
 					</h1>
 					<div className='flex flex-wrap justify-center gap-4'>
 						{orgs.map((org) => (
@@ -47,7 +47,7 @@ export default function FooterPages() {
 				{/* Partners */}
 				<div className='flex flex-col items-center gap-6 w-full'>
 					<h1 className='font-bold text-lg  tracking-widest text-center'>
-						Partners
+						{lang === 'en' ? 'Partners' : 'الشركاء'}
 					</h1>
 					<div className='flex flex-wrap justify-center gap-6'>
 						{partners.map((partner) => (
@@ -72,20 +72,36 @@ export default function FooterPages() {
 							href='/'
 							className='hover:underline hover:underline-offset-8 hover:text-white text-[lawngreen]'
 						>
-							© Point conference
+							{lang === 'en' ? '© Point Conference' : '© مؤتمر بوينت'}
 						</a>
 						|
 						<a
 							href='/speakers'
 							className='hover:underline hover:underline-offset-8 hover:text-white text-[lawngreen]'
 						>
-							Partners
+							{lang === 'en' ? 'Speakers' : 'المتحدثين'}
+						</a>
+						|
+						<a
+							href='/partners'
+							className='hover:underline hover:underline-offset-8 hover:text-white text-[lawngreen]'
+						>
+							{lang === 'en' ? 'Partners' : 'الشركاء'}
 						</a>
 					</div>
 
 					<div className='text-center leading-relaxed max-w-md sm:max-w-full'>
-						Tawasoul Organization for Youth Empowerment · Iraq – Baghdad –
-						Karradah city · Mobile: +964 770 211 1332
+						{lang === 'en' ? (
+							<>
+								Tawasoul Organization for Youth Empowerment · Iraq – Baghdad –
+								Karradah city · Mobile: +964 770 211 1332
+							</>
+						) : (
+							<>
+								منظمة تواصل لتمكين الشباب · العراق – بغداد – مدينة الكرادة ·
+								الهاتف: +964 770 211 1332
+							</>
+						)}
 					</div>
 
 					<a
