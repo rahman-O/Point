@@ -1,6 +1,9 @@
 /node_modules
-/public/build
 /public/hot
 /vendor
 .env
+.env.production
 .phpunit.cache
+storage/*.key
+.DS_Store
+Thumbs.db
