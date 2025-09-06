@@ -1,8 +1,7 @@
 import React, { useContext } from 'react';
 import SpeackerSlider from '@/Pages/homePage/SpeackerSlider.jsx';
 import videoPlayes from '../../../css/images/POINT12-24-25.mp4';
-import homeImageAr from '../../../css/images/point_home_page_ar.jpeg';
-import homeImageEn from '../../../css/images/point_home_page_en.jpeg';
+import homeImage from '../../../css/images/point_home_page.jpeg';
 import LangContext from '@/components/langContext/LangContext.jsx';
 import NewsSlider from '@/Pages/homePage/NewsSlider.jsx';
 
@@ -11,21 +10,25 @@ export default function HomePage() {
 
 	return (
 		<div className='MainHomePage'>
-			{lang === 'en' ? (
+			<div
+				className='home-video'
+				style={{ backgroundImage: `url(${homeImage})` }}
+			>
+				{/* <video className='banner' muted autoPlay loop src={videoPlayes}></video> */}
+			</div>
+			{/* {lang === 'en' ? (
 				<div
 					className='home-video'
-					style={{ backgroundImage: `url(${homeImageEn})` }}
+					style={{ backgroundImage: `url(${homeImage})` }}
 				>
-					{/* <video className='banner' muted autoPlay loop src={videoPlayes}></video> */}
 				</div>
 			) : (
 				<div
 					className='home-video'
-					style={{ backgroundImage: `url(${homeImageAr})` }}
+					style={{ backgroundImage: `url(${homeImage})` }}
 				>
-					{/* <video className='banner' muted autoPlay loop src={videoPlayes}></video> */}
 				</div>
-			)}
+			)} */}
 
 			<div className='-mt-3'>
 				<NewsSlider />
