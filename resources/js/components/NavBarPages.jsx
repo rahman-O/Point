@@ -12,7 +12,7 @@ import {
 } from '@nextui-org/react';
 import { FaInstagram, FaFacebook, FaYoutube } from 'react-icons/fa';
 import { Image } from '@nextui-org/react';
-import Logo from '../../../public/images/logo_point_wite.png';
+import Logo from '../../../public/images/logo_point_white.jpeg';
 import LangContext from '@/components/langContext/LangContext.jsx';
 import { color } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
@@ -97,7 +97,9 @@ export default function NavBarPages() {
 					<NavbarItem key={index}>
 						<Link
 							className={`text-white text-xl px-2 ${
-								location.pathname === item.link ? 'text-lime-500 font-bold' : ''
+								location.pathname === item.link
+									? 'text-point-rose font-bold'
+									: ''
 							}`}
 							href={item.link}
 						>
@@ -111,21 +113,21 @@ export default function NavBarPages() {
 			<NavbarContent className='hidden sm:flex gap-4 text-green' justify='end'>
 				<div className='flex gap-4'>
 					<a
-						href='https://www.instagram.com/tawasoul.ngo?igsh=NWZnM3A3cDJqbTRo'
+						href='https://www.instagram.com/point_iq?igsh=MTJ5N242ZTlyb3ppag=='
 						target='_blank'
 						rel='noopener noreferrer'
 					>
 						<FaInstagram className='text-rose-500 text-2xl' />
 					</a>
 					<a
-						href='https://web.facebook.com/Tawasoulorganization/about'
+						href='https://www.facebook.com/share/1DTsbaixU8/'
 						target='_blank'
 						rel='noopener noreferrer'
 					>
 						<FaFacebook className='text-blue-500 text-2xl' />
 					</a>
 					<a
-						href='https://www.instagram.com/tawasoul.ngo?igsh=NWZnM3A3cDJqbTRo'
+						href='https://youtu.be/d_VUTCryWAs?si=eXKr9Ms3BLwffC7l'
 						target='_blank'
 						rel='noopener noreferrer'
 					>
@@ -134,7 +136,7 @@ export default function NavBarPages() {
 				</div>
 				<Button
 					auto
-					className='ml-4 text-white  bg-black border border-white font-bold'
+					className='ml-4 text-white bg-point-teal transition-colors border border-point-teal font-bold'
 					onClick={toggleLang}
 				>
 					{lang === 'en' ? 'العربية' : 'English'}
@@ -147,7 +149,9 @@ export default function NavBarPages() {
 					<NavbarMenuItem key={`${item.name}-${index}`}>
 						<Link
 							className={`w-full text-black ${
-								location.pathname === item.link ? 'text-lime-500 font-bold' : ''
+								location.pathname === item.link
+									? 'text-point-rose font-bold'
+									: ''
 							}`}
 							href={item.link}
 							size='lg'
@@ -180,7 +184,7 @@ export default function NavBarPages() {
 					</a>
 					<button
 						auto
-						className=' text-white bg-lime-500 rounded-lg Py-1 px-2'
+						className='text-white bg-point-teal  transition-colors rounded-lg py-1 px-2'
 						onClick={toggleLang}
 					>
 						{lang === 'en' ? 'AR' : 'EN'}

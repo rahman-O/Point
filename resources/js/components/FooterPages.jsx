@@ -24,7 +24,7 @@ export default function FooterPages() {
 	}, []);
 
 	return (
-		<section className='bg-black py-12 px-4'>
+		<section className='bg-point-teal py-12 px-4'>
 			<div className='text-white flex flex-col items-center gap-12 max-w-screen-xl mx-auto'>
 				{/* Organizers */}
 				<div className='flex flex-col items-center gap-6 w-full'>
@@ -70,21 +70,21 @@ export default function FooterPages() {
 					<div className='space-x-2'>
 						<a
 							href='/'
-							className='hover:underline hover:underline-offset-8 hover:text-white text-[lawngreen]'
+							className='hover:underline hover:underline-offset-8 text-white hover:text-point-rose transition-colors'
 						>
 							{lang === 'en' ? '© Point Conference' : '© مؤتمر بوينت'}
 						</a>
 						|
 						<a
 							href='/speakers'
-							className='hover:underline hover:underline-offset-8 hover:text-white text-[lawngreen]'
+							className='hover:underline hover:underline-offset-8 text-white hover:text-point-rose transition-colors'
 						>
 							{lang === 'en' ? 'Speakers' : 'المتحدثين'}
 						</a>
 						|
 						<a
 							href='/partners'
-							className='hover:underline hover:underline-offset-8 hover:text-white text-[lawngreen]'
+							className='hover:underline hover:underline-offset-8 text-white hover:text-point-rose transition-colors'
 						>
 							{lang === 'en' ? 'Partners' : 'الشركاء'}
 						</a>
@@ -99,14 +99,14 @@ export default function FooterPages() {
 						) : (
 							<>
 								منظمة تواصل لتمكين الشباب · العراق – بغداد – مدينة الكرادة ·
-								الهاتف: +964 770 211 1332
+								الهاتف: 1332 211 770 967+
 							</>
 						)}
 					</div>
 
 					<a
 						href='/'
-						className='hover:underline hover:underline-offset-8 hover:text-white text-[lawngreen]'
+						className='hover:underline hover:underline-offset-8 text-white hover:text-point-rose transition-colors'
 					>
 						point-iraq.org
 					</a>

@@ -13,7 +13,12 @@ export default {
 		flowbite.content(),
 	],
 	theme: {
-		extend: {},
+		extend: {
+			colors: {
+				'point-teal': '#487879',
+				'point-rose': '#bc4d58',
+			},
+		},
 	},
 	plugins: [nextui(), flowbite.plugin()],
 };

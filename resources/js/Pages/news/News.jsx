@@ -76,10 +76,10 @@ export default function News() {
 							<button
 								key={year}
 								onClick={() => handleYearChange(year)}
-								className={`px-4 py-2 border rounded ${
+								className={`px-4 py-2 border rounded transition-colors ${
 									selectedYear === year
-										? 'bg-lime-500 text-white'
-										: 'bg-gray-200'
+										? 'bg-point-teal text-white border-point-teal'
+										: 'bg-gray-200 hover:bg-gray-300'
 								}`}
 							>
 								{year}
