@@ -127,7 +127,7 @@ export default function NavBarPages() {
 						<FaFacebook className='text-blue-500 text-2xl' />
 					</a>
 					<a
-						href='https://youtu.be/d_VUTCryWAs?si=eXKr9Ms3BLwffC7l'
+						href='https://www.youtube.com/@pointmenaconference4041'
 						target='_blank'
 						rel='noopener noreferrer'
 					>

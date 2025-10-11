@@ -57,28 +57,22 @@ class SpeakersResource extends Resource
                 TinyEditor::make('desc_ar')
                     ->required()
                     ->columnSpanFull(),
-                    FileUpload::make('image')
+                FileUpload::make('image')
                     ->image()
                     ->required()
-                    ->afterStateUpdated(function ($state, callable $set) {
-                        // Get the uploaded image's path
-                        $imagePath = $state->getRealPath();
-
-                        // Use Intervention Image to resize the image
-                        $image = Image::make($imagePath);
-
-                        // Resize to 600x400 pixels (3:2 aspect ratio)
-                        $image->resize(600, 400, function ($constraint) {
-                            $constraint->aspectRatio(); // Maintain aspect ratio
-                            $constraint->upsize(); // Prevents upsizing of smaller images
-                        });
-
-                        // Save the resized image
-                        $image->save($imagePath);
-
-                        // Optionally, update the field's state (e.g., to a different path)
-                        // $set('image', 'path/to/new-image.jpg');
-                    }),
+                    ->imageEditor()
+                    ->imageEditorAspectRatios([
+                        null,
+                        '16:9',
+                        '4:3',
+                        '3:2',
+                        '1:1',
+                    ])
+                    ->imageEditorMode(2)
+                    ->imageEditorEmptyFillColor('#000000')
+                    ->imageResizeMode('cover')
+                    ->imageResizeTargetWidth('600')
+                    ->imageResizeTargetHeight('400'),
             ]);
     }
 
