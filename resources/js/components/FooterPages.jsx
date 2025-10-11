@@ -35,7 +35,7 @@ export default function FooterPages() {
 						{orgs.map((org) => (
 							<div key={org.id} className='flex justify-center items-center'>
 								<img
-									className='h-10 sm:h-14 md:h-16 object-contain'
+									className='w-36 h-36 object-contain'
 									src={`/api/images/${org.image}`}
 									alt={org.name}
 								/>
@@ -56,7 +56,7 @@ export default function FooterPages() {
 								className='flex justify-center items-center'
 							>
 								<img
-									className='h-16 sm:h-20 md:h-24 object-contain'
+									className='w-36 h-36 object-contain'
 									src={`/api/images/${partner.image}`}
 									alt={partner.name}
 								/>
