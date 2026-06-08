@@ -12,6 +12,7 @@
 		"blade-ui-kit/blade-icons": "^1.7",
 		"doctrine/dbal": "^4.2",
 		"filament/filament": "^3.2",
+		"g4t/swagger": "^4.0",
 		"inertiajs/inertia-laravel": "^1.3",
 		"intervention/image": "^2.7",
 		"laravel/framework": "^11.9",

@@ -70,7 +70,7 @@ export default function SpeakersDetails() {
 					</div>
 
 					<p
-						className='text-gray-800 text-sm sm:text-base leading-relaxed text-justify'
+						className='rich-content text-gray-800 text-sm sm:text-base leading-relaxed text-justify'
 						dangerouslySetInnerHTML={{
 							__html:
 								lang === 'en'

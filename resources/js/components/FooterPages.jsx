@@ -28,41 +28,52 @@ export default function FooterPages() {
 			<div className='text-white flex flex-col items-center gap-12 max-w-screen-xl mx-auto'>
 				{/* Organizers */}
 				<div className='flex flex-col items-center gap-6 w-full'>
-					<h1 className='font-bold text-lg  tracking-widest text-center'>
+					<h2 className='font-bold text-base sm:text-lg tracking-widest text-center uppercase'>
 						{lang === 'en' ? 'Organizers' : 'المنظمين'}
-					</h1>
-					<div className='flex flex-wrap justify-center gap-4'>
+					</h2>
+					<ul className='flex flex-wrap justify-center gap-x-6 gap-y-8 sm:gap-x-10'>
 						{orgs.map((org) => (
-							<div key={org.id} className='flex justify-center items-center'>
+							<li
+								key={org.id}
+								className='flex flex-col items-center gap-2 w-20 sm:w-24'
+							>
 								<img
-									className='w-36 h-36 object-contain'
+									className='h-12 w-12 sm:h-14 sm:w-14 md:h-16 md:w-16 object-contain rounded-2xl transition-transform duration-200 hover:scale-110 focus-visible:scale-110'
 									src={`/api/images/${org.image}`}
 									alt={org.name}
+									loading='lazy'
 								/>
-							</div>
+								<span className='text-[11px] sm:text-xs text-center leading-tight text-white/90 line-clamp-2'>
+									{org.name}
+								</span>
+							</li>
 						))}
-					</div>
+					</ul>
 				</div>
 
 				{/* Partners */}
 				<div className='flex flex-col items-center gap-6 w-full'>
-					<h1 className='font-bold text-lg  tracking-widest text-center'>
+					<h2 className='font-bold text-base sm:text-lg tracking-widest text-center uppercase'>
 						{lang === 'en' ? 'Partners' : 'الشركاء'}
-					</h1>
-					<div className='flex flex-wrap justify-center gap-6'>
+					</h2>
+					<ul className='flex flex-wrap justify-center gap-x-6 gap-y-8 sm:gap-x-10'>
 						{partners.map((partner) => (
-							<div
+							<li
 								key={partner.id}
-								className='flex justify-center items-center'
+								className='flex flex-col items-center gap-2 w-20 sm:w-24'
 							>
 								<img
-									className='w-36 h-36 object-contain'
+									className='h-12 w-12 sm:h-14 sm:w-14 md:h-16 md:w-16 object-contain rounded-2xl transition-transform duration-200 hover:scale-110 focus-visible:scale-110'
 									src={`/api/images/${partner.image}`}
 									alt={partner.name}
+									loading='lazy'
 								/>
-							</div>
+								<span className='text-[11px] sm:text-xs text-center leading-tight text-white/90 line-clamp-2'>
+									{partner.name}
+								</span>
+							</li>
 						))}
-					</div>
+					</ul>
 				</div>
 
 				{/* Footer links and info */}

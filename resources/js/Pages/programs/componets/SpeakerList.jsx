@@ -1,50 +1,73 @@
-import React, {useContext} from 'react';
-import {Avatar} from 'flowbite-react';
+import React, { useContext } from 'react';
 import LangContext from '@/components/langContext/LangContext.jsx';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-export function SpeakerList({session}) {
-    const {lang} = useContext(LangContext);
+// Neutral inline SVG avatar shown when a speaker image is missing or fails to load.
+// Inlined so it never triggers an extra network request and can't itself 404.
+const FALLBACK_AVATAR =
+	'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96"><rect width="96" height="96" rx="48" fill="%23cbd5e1"/><circle cx="48" cy="38" r="18" fill="%23ffffff"/><path d="M16 86c0-18 14-28 32-28s32 10 32 28z" fill="%23ffffff"/></svg>';
 
-    // Ensure speakers is an array before mapping over it
-    const speakers = session?.speakers ?? [];
-    const facilitatorId = session?.facilitator_id;
+export function SpeakerList({ session }) {
+	const { lang } = useContext(LangContext);
+	const isAr = lang === 'ar';
 
-    return (
-        <div
-            className='w-full max-w-sm p-0 bg-transparent border-transparent md:ml-[65] align-items-center justify-center overflow-hidden'>
-            <div className='text-center flex flex-col gap-8 justify-center md:justify-start'>
-                {speakers.length > 0
-                    ? speakers.map((speaker) => (
-                        <Link to={`/speakers/${speaker.id}`} key={speaker.id}>
-                            <div className='flex justify-start items-start content-start'>
-                                <div className='flex-shrink-0'>
-                                    <Avatar
-                                        className='justify-center object-cover'
-                                        size={window.innerWidth < 768 ? 'sm' : 'lg'}
-                                        img={`api/images/${speaker.image}`}
-                                        rounded
-                                        alt={lang === 'en' ? speaker.name_en : speaker.name_ar}
-                                    />
-                                </div>
-                                <div className='mx-3 flex flex-col items-start justify-center space-y-0.5 flex-1'>
-        <span className='text-medium p-0 font-bold break-words'>
-            {lang === 'en' ? speaker.name_en : speaker.name_ar}
-            {speaker.id === facilitatorId && (
-                <span className='mx-2 text-sm text-gray-500'>
-                    {lang === 'en' ? '(Facilitator)' : '(ميسر)'}
-                </span>
-            )}
-        </span>
-                                    <span className='text-medium text-start'>
-            {lang === 'en' ? speaker.job_en : speaker.job_ar}
-        </span>
-                                </div>
-                            </div>
-                        </Link>
-                    ))
-                    : ''}
-            </div>
-        </div>
-    );
+	// Always work with an array, even if the API omits the relation.
+	const speakers = session?.speakers ?? [];
+	const facilitatorId = session?.facilitator_id;
+
+	if (speakers.length === 0) {
+		return null;
+	}
+
+	return (
+		<ul
+			className={`flex w-full max-w-md flex-col gap-4 ${
+				isAr ? 'items-end' : 'items-start'
+			}`}
+		>
+			{speakers.map((speaker) => {
+				const name = isAr ? speaker.name_ar : speaker.name_en;
+				const job = isAr ? speaker.job_ar : speaker.job_en;
+				const isFacilitator = speaker.id === facilitatorId;
+
+				return (
+					<li key={speaker.id}>
+						<Link
+							to={`/speakers/${speaker.id}`}
+							className={`group flex items-center gap-4 rounded-xl px-12 py-2 transition-colors hover:bg-black/5 ${
+								isAr ? 'flex-row-reverse text-right' : 'text-left'
+							}`}
+						>
+							{/* Avatar: a fixed square box + object-cover keeps every portrait
+							    perfectly circular and undistorted, regardless of its original
+							    aspect ratio. Size scales up one step on larger screens via
+							    Tailwind breakpoints (no JS window-resize hacks). */}
+							<img
+								src={`/api/images/${speaker.image}`}
+								alt={name}
+								loading='lazy'
+								onError={(e) => {
+									e.currentTarget.onerror = null;
+									e.currentTarget.src = FALLBACK_AVATAR;
+								}}
+								className='h-14 w-14 flex-shrink-0 rounded-full object-cover ring-2 ring-point-teal/20 transition-transform duration-200 group-hover:scale-105 sm:h-16 sm:w-16'
+							/>
+
+							<div className='flex min-w-0 flex-col'>
+								<span className='flex flex-wrap items-center gap-2 font-bold text-gray-900'>
+									<span className='break-words'>{name}</span>
+									{isFacilitator && (
+										<span className='rounded-full bg-point-teal/10 px-2 py-0.5 text-xs font-medium text-point-teal'>
+											{isAr ? 'ميسر' : 'Facilitator'}
+										</span>
+									)}
+								</span>
+								<span className='break-words text-sm text-gray-500'>{job}</span>
+							</div>
+						</Link>
+					</li>
+				);
+			})}
+		</ul>
+	);
 }

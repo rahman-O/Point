@@ -21,6 +21,18 @@ body.font-ar {
 	font-family: 'Roboto Mono', monospace;
 }
 
+/*
+ * Dynamic content entered by admins through the dashboard (rich-text editor) is
+ * rendered via dangerouslySetInnerHTML and can carry pasted inline font-family
+ * styles. Force every element inside a .rich-content block to inherit the project
+ * font from <body> (which already switches between the EN / AR font), overriding
+ * any inline font the user accidentally pasted.
+ */
+.rich-content,
+.rich-content * {
+	font-family: inherit !important;
+}
+
 .logo_img_en {
 	opacity: 100 !important;
 }

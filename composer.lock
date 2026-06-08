@@ -4,7 +4,7 @@
 		"Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
 		"This file is @generated automatically"
 	],
-	"content-hash": "9d21062caed33b6f571a1148e8c6957e",
+	"content-hash": "0c22c9560687dd17a254d5360aaab322",
 	"packages": [
 		{
 			"name": "anourvalar/eloquent-serialize",
@@ -1486,6 +1486,50 @@
 				}
 			],
 			"time": "2023-10-12T05:21:21+00:00"
+		},
+		{
+			"name": "g4t/swagger",
+			"version": "4.0.2",
+			"source": {
+				"type": "git",
+				"url": "https://github.com/hussein4alaa/laravel-g4t-swagger-auto-generate.git",
+				"reference": "7647a57c58d0365f5c86d14e2c42f807ca2d552c"
+			},
+			"dist": {
+				"type": "zip",
+				"url": "https://api.github.com/repos/hussein4alaa/laravel-g4t-swagger-auto-generate/zipball/7647a57c58d0365f5c86d14e2c42f807ca2d552c",
+				"reference": "7647a57c58d0365f5c86d14e2c42f807ca2d552c",
+				"shasum": ""
+			},
+			"type": "library",
+			"extra": {
+				"laravel": {
+					"providers": [
+						"G4T\\Swagger\\SwaggerServiceProvider"
+					]
+				}
+			},
+			"autoload": {
+				"psr-4": {
+					"G4T\\Swagger\\": "src/"
+				}
+			},
+			"notification-url": "https://packagist.org/downloads/",
+			"license": [
+				"MIT"
+			],
+			"authors": [
+				{
+					"name": "Hussein Alaa",
+					"email": "hussein4alaa@gmail.com"
+				}
+			],
+			"description": "g4t laravel swagger",
+			"support": {
+				"issues": "https://github.com/hussein4alaa/laravel-g4t-swagger-auto-generate/issues",
+				"source": "https://github.com/hussein4alaa/laravel-g4t-swagger-auto-generate/tree/4.0.2"
+			},
+			"time": "2026-03-23T22:51:30+00:00"
 		},
 		{
 			"name": "graham-campbell/result-type",
@@ -10723,12 +10767,12 @@
 	],
 	"aliases": [],
 	"minimum-stability": "stable",
-	"stability-flags": [],
+	"stability-flags": {},
 	"prefer-stable": true,
 	"prefer-lowest": false,
 	"platform": {
 		"php": "^8.2"
 	},
-	"platform-dev": [],
+	"platform-dev": {},
 	"plugin-api-version": "2.6.0"
 }

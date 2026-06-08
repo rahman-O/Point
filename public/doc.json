@@ -1,0 +1,1093 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Api Documentation",
+        "description": "Laravel autogenerate swagger",
+        "termsOfService": "http:\/\/swagger.io\/terms\/",
+        "contact": {
+            "email": "hussein4alaa@gmail.com"
+        },
+        "license": {
+            "name": "Github",
+            "url": "https:\/\/github.com\/hussein4alaa"
+        },
+        "version": "3.0.7"
+    },
+    "servers": [
+        {
+            "url": "http:\/\/127.0.0.1:8000",
+            "description": "localhost"
+        }
+    ],
+    "components": {
+        "tags": [
+            {
+                "name": "Speakers",
+                "description": null
+            },
+            {
+                "name": "Image",
+                "description": null
+            },
+            {
+                "name": "Programs",
+                "description": null
+            },
+            {
+                "name": "News",
+                "description": null
+            },
+            {
+                "name": "Stream",
+                "description": null
+            },
+            {
+                "name": "Conference",
+                "description": null
+            },
+            {
+                "name": "Organizers",
+                "description": null
+            },
+            {
+                "name": "Partners",
+                "description": null
+            }
+        ],
+        "paths": {
+            "\/api\/speakers": {
+                "get": {
+                    "tags": [
+                        "Speakers"
+                    ],
+                    "summary": "speakers",
+                    "description": "",
+                    "operationId": "_api_speakers_GET|HEAD",
+                    "parameters": [],
+                    "responses": {
+                        "200": {
+                            "description": "Successful Operation"
+                        },
+                        "404": {
+                            "description": "Not Found"
+                        }
+                    }
+                }
+            },
+            "\/api\/all\/speakers": {
+                "get": {
+                    "tags": [
+                        "Speakers"
+                    ],
+                    "summary": "all",
+                    "description": "",
+                    "operationId": "_api_all_speakers_GET|HEAD",
+                    "parameters": [],
+                    "responses": {
+                        "200": {
+                            "description": "Successful Operation"
+                        },
+                        "404": {
+                            "description": "Not Found"
+                        }
+                    }
+                }
+            },
+            "\/api\/speakers\/{id}": {
+                "get": {
+                    "tags": [
+                        "Speakers"
+                    ],
+                    "summary": "speakers",
+                    "description": "",
+                    "operationId": "_api_speakers__id__GET|HEAD",
+                    "parameters": [
+                        {
+                            "name": "id",
+                            "in": "path",
+                            "description": "id",
+                            "required": true,
+                            "schema": {
+                                "type": "string"
+                            }
+                        }
+                    ],
+                    "responses": {
+                        "200": {
+                            "description": "Successful Operation"
+                        },
+                        "404": {
+                            "description": "Not Found"
+                        }
+                    }
+                }
+            },
+            "\/api\/speakers-by-year": {
+                "get": {
+                    "tags": [
+                        "Speakers"
+                    ],
+                    "summary": "speakers-by-year",
+                    "description": "",
+                    "operationId": "_api_speakers-by-year_GET|HEAD",
+                    "parameters": [],
+                    "responses": {
+                        "200": {
+                            "description": "Successful Operation"
+                        },
+                        "404": {
+                            "description": "Not Found"
+                        }
+                    }
+                }
+            },
+            "\/api\/top\/speakers": {
+                "get": {
+                    "tags": [
+                        "Speakers"
+                    ],
+                    "summary": "top",
+                    "description": "",
+                    "operationId": "_api_top_speakers_GET|HEAD",
+                    "parameters": [],
+                    "responses": {
+                        "200": {
+                            "description": "Successful Operation"
+                        },
+                        "404": {
+                            "description": "Not Found"
+                        }
+                    }
+                }
+            },
+            "\/api\/images\/{filename}": {
+                "get": {
+                    "tags": [
+                        "Image"
+                    ],
+                    "summary": "images",
+                    "description": "",
+                    "operationId": "_api_images__filename__GET|HEAD",
+                    "parameters": [
+                        {
+                            "name": "filename",
+                            "in": "path",
+                            "description": "filename",
+                            "required": true,
+                            "schema": {
+                                "type": "string",
+                                "format": "binary"
+                            }
+                        }
+                    ],
+                    "responses": {
+                        "200": {
+                            "description": "Successful Operation"
+                        },
+                        "404": {
+                            "description": "Not Found"
+                        }
+                    }
+                }
+            },
+            "\/api\/programs": {
+                "get": {
+                    "tags": [
+                        "Programs"
+                    ],
+                    "summary": "programs",
+                    "description": "",
+                    "operationId": "_api_programs_GET|HEAD",
+                    "parameters": [],
+                    "responses": {
+                        "200": {
+                            "description": "Successful Operation"
+                        },
+                        "404": {
+                            "description": "Not Found"
+                        }
+                    }
+                }
+            },
+            "\/api\/programs\/{id}": {
+                "get": {
+                    "tags": [
+                        "Programs"
+                    ],
+                    "summary": "programs",
+                    "description": "",
+                    "operationId": "_api_programs__id__GET|HEAD",
+                    "parameters": [
+                        {
+                            "name": "id",
+                            "in": "path",
+                            "description": "id",
+                            "required": true,
+                            "schema": {
+                                "type": "string"
+                            }
+                        }
+                    ],
+                    "responses": {
+                        "200": {
+                            "description": "Successful Operation"
+                        },
+                        "404": {
+                            "description": "Not Found"
+                        }
+                    }
+                }
+            },
+            "\/api\/programs\/current\/year": {
+                "get": {
+                    "tags": [
+                        "Programs"
+                    ],
+                    "summary": "programs",
+                    "description": "",
+                    "operationId": "_api_programs_current_year_GET|HEAD",
+                    "parameters": [],
+                    "responses": {
+                        "200": {
+                            "description": "Successful Operation"
+                        },
+                        "404": {
+                            "description": "Not Found"
+                        }
+                    }
+                }
+            },
+            "\/api\/news": {
+                "get": {
+                    "tags": [
+                        "News"
+                    ],
+                    "summary": "news",
+                    "description": "",
+                    "operationId": "_api_news_GET|HEAD",
+                    "parameters": [],
+                    "responses": {
+                        "200": {
+                            "description": "Successful Operation"
+                        },
+                        "404": {
+                            "description": "Not Found"
+                        }
+                    }
+                },
+                "post": {
+                    "tags": [
+                        "News"
+                    ],
+                    "summary": "news",
+                    "description": "",
+                    "operationId": "_api_news_POST",
+                    "parameters": [],
+                    "responses": {
+                        "200": {
+                            "description": "Successful Operation"
+                        },
+                        "422": {
+                            "description": "Validation Issues"
+                        }
+                    },
+                    "requestBody": {
+                        "description": "",
+                        "content": {
+                            "multipart\/form-data": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/NewsStore"
+                                }
+                            },
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/NewsStore"
+                                }
+                            }
+                        },
+                        "required": true
+                    }
+                }
+            },
+            "\/api\/news\/event": {
+                "get": {
+                    "tags": [
+                        "News"
+                    ],
+                    "summary": "news",
+                    "description": "",
+                    "operationId": "_api_news_event_GET|HEAD",
+                    "parameters": [],
+                    "responses": {
+                        "200": {
+                            "description": "Successful Operation"
+                        },
+                        "404": {
+                            "description": "Not Found"
+                        }
+                    }
+                }
+            },
+            "\/api\/all\/news": {
+                "get": {
+                    "tags": [
+                        "News"
+                    ],
+                    "summary": "all",
+                    "description": "",
+                    "operationId": "_api_all_news_GET|HEAD",
+                    "parameters": [],
+                    "responses": {
+                        "200": {
+                            "description": "Successful Operation"
+                        },
+                        "404": {
+                            "description": "Not Found"
+                        }
+                    }
+                }
+            },
+            "\/api\/all-news": {
+                "get": {
+                    "tags": [
+                        "News"
+                    ],
+                    "summary": "all-news",
+                    "description": "",
+                    "operationId": "_api_all-news_GET|HEAD",
+                    "parameters": [],
+                    "responses": {
+                        "200": {
+                            "description": "Successful Operation"
+                        },
+                        "404": {
+                            "description": "Not Found"
+                        }
+                    }
+                }
+            },
+            "\/api\/news\/{id}": {
+                "get": {
+                    "tags": [
+                        "News"
+                    ],
+                    "summary": "news",
+                    "description": "",
+                    "operationId": "_api_news__id__GET|HEAD",
+                    "parameters": [
+                        {
+                            "name": "id",
+                            "in": "path",
+                            "description": "id",
+                            "required": true,
+                            "schema": {
+                                "type": "string"
+                            }
+                        }
+                    ],
+                    "responses": {
+                        "200": {
+                            "description": "Successful Operation"
+                        },
+                        "404": {
+                            "description": "Not Found"
+                        }
+                    }
+                }
+            },
+            "\/api\/stream": {
+                "get": {
+                    "tags": [
+                        "Stream"
+                    ],
+                    "summary": "stream",
+                    "description": "",
+                    "operationId": "_api_stream_GET|HEAD",
+                    "parameters": [],
+                    "responses": {
+                        "200": {
+                            "description": "Successful Operation"
+                        },
+                        "404": {
+                            "description": "Not Found"
+                        }
+                    }
+                }
+            },
+            "\/api\/stream\/{id}": {
+                "get": {
+                    "tags": [
+                        "Stream"
+                    ],
+                    "summary": "stream",
+                    "description": "",
+                    "operationId": "_api_stream__id__GET|HEAD",
+                    "parameters": [
+                        {
+                            "name": "id",
+                            "in": "path",
+                            "description": "id",
+                            "required": true,
+                            "schema": {
+                                "type": "string"
+                            }
+                        }
+                    ],
+                    "responses": {
+                        "200": {
+                            "description": "Successful Operation"
+                        },
+                        "404": {
+                            "description": "Not Found"
+                        }
+                    }
+                }
+            },
+            "\/api\/conferences": {
+                "get": {
+                    "tags": [
+                        "Conference"
+                    ],
+                    "summary": "conferences",
+                    "description": "",
+                    "operationId": "_api_conferences_GET|HEAD",
+                    "parameters": [],
+                    "responses": {
+                        "200": {
+                            "description": "Successful Operation"
+                        },
+                        "404": {
+                            "description": "Not Found"
+                        }
+                    }
+                }
+            },
+            "\/api\/conferences\/last": {
+                "get": {
+                    "tags": [
+                        "Conference"
+                    ],
+                    "summary": "conferences",
+                    "description": "",
+                    "operationId": "_api_conferences_last_GET|HEAD",
+                    "parameters": [],
+                    "responses": {
+                        "200": {
+                            "description": "Successful Operation"
+                        },
+                        "404": {
+                            "description": "Not Found"
+                        }
+                    }
+                }
+            },
+            "\/api\/orgs": {
+                "get": {
+                    "tags": [
+                        "Organizers"
+                    ],
+                    "summary": "orgs",
+                    "description": "",
+                    "operationId": "_api_orgs_GET|HEAD",
+                    "parameters": [],
+                    "responses": {
+                        "200": {
+                            "description": "Successful Operation"
+                        },
+                        "404": {
+                            "description": "Not Found"
+                        }
+                    }
+                }
+            },
+            "\/api\/partners": {
+                "get": {
+                    "tags": [
+                        "Partners"
+                    ],
+                    "summary": "partners",
+                    "description": "",
+                    "operationId": "_api_partners_GET|HEAD",
+                    "parameters": [],
+                    "responses": {
+                        "200": {
+                            "description": "Successful Operation"
+                        },
+                        "404": {
+                            "description": "Not Found"
+                        }
+                    }
+                }
+            }
+        },
+        "schemas": {
+            "NewsStore": {
+                "required": [
+                    "title_en",
+                    "title_ar",
+                    "desc_en",
+                    "desc_ar",
+                    "event_time"
+                ],
+                "type": "object",
+                "properties": {
+                    "title_en": {
+                        "required": "true",
+                        "type": "string",
+                        "maximum": "255"
+                    },
+                    "title_ar": {
+                        "required": "true",
+                        "type": "string",
+                        "maximum": "255"
+                    },
+                    "author_en": {
+                        "nullable": "true",
+                        "type": "string",
+                        "maximum": "255"
+                    },
+                    "author_ar": {
+                        "nullable": "true",
+                        "type": "string",
+                        "maximum": "255"
+                    },
+                    "desc_en": {
+                        "required": "true",
+                        "type": "string"
+                    },
+                    "desc_ar": {
+                        "required": "true",
+                        "type": "string"
+                    },
+                    "image": {
+                        "nullable": "true",
+                        "type": "string",
+                        "format": "binary",
+                        "maximum": "2048",
+                        "description": "jpeg,png,jpg,gif"
+                    },
+                    "event_time": {
+                        "required": "true",
+                        "type": "string",
+                        "format": "date"
+                    }
+                },
+                "xml": {
+                    "name": "newsstore"
+                }
+            }
+        },
+        "securitySchemes": {
+            "authorization": {
+                "type": "apiKey",
+                "name": "authorization",
+                "in": "header"
+            },
+            "apiKey1": {
+                "type": "apiKey",
+                "name": "key1",
+                "in": "query"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Speakers",
+            "description": null
+        },
+        {
+            "name": "Image",
+            "description": null
+        },
+        {
+            "name": "Programs",
+            "description": null
+        },
+        {
+            "name": "News",
+            "description": null
+        },
+        {
+            "name": "Stream",
+            "description": null
+        },
+        {
+            "name": "Conference",
+            "description": null
+        },
+        {
+            "name": "Organizers",
+            "description": null
+        },
+        {
+            "name": "Partners",
+            "description": null
+        }
+    ],
+    "paths": {
+        "\/api\/speakers": {
+            "get": {
+                "tags": [
+                    "Speakers"
+                ],
+                "summary": "speakers",
+                "description": "",
+                "operationId": "_api_speakers_GET|HEAD",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "\/api\/all\/speakers": {
+            "get": {
+                "tags": [
+                    "Speakers"
+                ],
+                "summary": "all",
+                "description": "",
+                "operationId": "_api_all_speakers_GET|HEAD",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "\/api\/speakers\/{id}": {
+            "get": {
+                "tags": [
+                    "Speakers"
+                ],
+                "summary": "speakers",
+                "description": "",
+                "operationId": "_api_speakers__id__GET|HEAD",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "\/api\/speakers-by-year": {
+            "get": {
+                "tags": [
+                    "Speakers"
+                ],
+                "summary": "speakers-by-year",
+                "description": "",
+                "operationId": "_api_speakers-by-year_GET|HEAD",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "\/api\/top\/speakers": {
+            "get": {
+                "tags": [
+                    "Speakers"
+                ],
+                "summary": "top",
+                "description": "",
+                "operationId": "_api_top_speakers_GET|HEAD",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "\/api\/images\/{filename}": {
+            "get": {
+                "tags": [
+                    "Image"
+                ],
+                "summary": "images",
+                "description": "",
+                "operationId": "_api_images__filename__GET|HEAD",
+                "parameters": [
+                    {
+                        "name": "filename",
+                        "in": "path",
+                        "description": "filename",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "binary"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "\/api\/programs": {
+            "get": {
+                "tags": [
+                    "Programs"
+                ],
+                "summary": "programs",
+                "description": "",
+                "operationId": "_api_programs_GET|HEAD",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "\/api\/programs\/{id}": {
+            "get": {
+                "tags": [
+                    "Programs"
+                ],
+                "summary": "programs",
+                "description": "",
+                "operationId": "_api_programs__id__GET|HEAD",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "\/api\/programs\/current\/year": {
+            "get": {
+                "tags": [
+                    "Programs"
+                ],
+                "summary": "programs",
+                "description": "",
+                "operationId": "_api_programs_current_year_GET|HEAD",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "\/api\/news": {
+            "get": {
+                "tags": [
+                    "News"
+                ],
+                "summary": "news",
+                "description": "",
+                "operationId": "_api_news_GET|HEAD",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "News"
+                ],
+                "summary": "news",
+                "description": "",
+                "operationId": "_api_news_POST",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation"
+                    },
+                    "422": {
+                        "description": "Validation Issues"
+                    }
+                },
+                "requestBody": {
+                    "description": "",
+                    "content": {
+                        "multipart\/form-data": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/NewsStore"
+                            }
+                        },
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/NewsStore"
+                            }
+                        }
+                    },
+                    "required": true
+                }
+            }
+        },
+        "\/api\/news\/event": {
+            "get": {
+                "tags": [
+                    "News"
+                ],
+                "summary": "news",
+                "description": "",
+                "operationId": "_api_news_event_GET|HEAD",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "\/api\/all\/news": {
+            "get": {
+                "tags": [
+                    "News"
+                ],
+                "summary": "all",
+                "description": "",
+                "operationId": "_api_all_news_GET|HEAD",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "\/api\/all-news": {
+            "get": {
+                "tags": [
+                    "News"
+                ],
+                "summary": "all-news",
+                "description": "",
+                "operationId": "_api_all-news_GET|HEAD",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "\/api\/news\/{id}": {
+            "get": {
+                "tags": [
+                    "News"
+                ],
+                "summary": "news",
+                "description": "",
+                "operationId": "_api_news__id__GET|HEAD",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "\/api\/stream": {
+            "get": {
+                "tags": [
+                    "Stream"
+                ],
+                "summary": "stream",
+                "description": "",
+                "operationId": "_api_stream_GET|HEAD",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "\/api\/stream\/{id}": {
+            "get": {
+                "tags": [
+                    "Stream"
+                ],
+                "summary": "stream",
+                "description": "",
+                "operationId": "_api_stream__id__GET|HEAD",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "\/api\/conferences": {
+            "get": {
+                "tags": [
+                    "Conference"
+                ],
+                "summary": "conferences",
+                "description": "",
+                "operationId": "_api_conferences_GET|HEAD",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "\/api\/conferences\/last": {
+            "get": {
+                "tags": [
+                    "Conference"
+                ],
+                "summary": "conferences",
+                "description": "",
+                "operationId": "_api_conferences_last_GET|HEAD",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "\/api\/orgs": {
+            "get": {
+                "tags": [
+                    "Organizers"
+                ],
+                "summary": "orgs",
+                "description": "",
+                "operationId": "_api_orgs_GET|HEAD",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "\/api\/partners": {
+            "get": {
+                "tags": [
+                    "Partners"
+                ],
+                "summary": "partners",
+                "description": "",
+                "operationId": "_api_partners_GET|HEAD",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        }
+    }
+}

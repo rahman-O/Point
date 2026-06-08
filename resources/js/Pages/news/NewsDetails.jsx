@@ -40,7 +40,7 @@ export default function NewsDetails() {
 							</div>
 						</div>
 						<div
-							className='text-gray-800 leading-relaxed text-justify'
+							className='rich-content text-gray-800 leading-relaxed text-justify'
 							dangerouslySetInnerHTML={{
 								__html:
 									lang === 'en' ? newsDetails.desc_en : newsDetails.desc_ar,

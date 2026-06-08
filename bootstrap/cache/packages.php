@@ -76,6 +76,13 @@
       0 => 'Filament\\Widgets\\WidgetsServiceProvider',
     ),
   ),
+  'g4t/swagger' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'G4T\\Swagger\\SwaggerServiceProvider',
+    ),
+  ),
   'inertiajs/inertia-laravel' => 
   array (
     'providers' => 

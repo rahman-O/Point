@@ -2,41 +2,46 @@
 
 use App\Http\Controllers\ConferenceController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\PartnersController;
+use App\Http\Controllers\ProgramsController;
+use App\Http\Controllers\SpeakersController;
+use App\Http\Controllers\StreamController;
+use App\Http\Controllers\OrganizersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\SpeakersController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
 
-Route::get('/speakers', [App\Http\Controllers\SpeakersController::class, 'index']);
-Route::get('/all/speakers', [App\Http\Controllers\SpeakersController::class, 'allSpeakers']);
-Route::get('/speakers/{id}', [App\Http\Controllers\SpeakersController::class, 'show']);
-Route::get('/speakers-by-year', [App\Http\Controllers\SpeakersController::class, 'speakersByYear']);
-Route::get('/top/speakers', [App\Http\Controllers\SpeakersController::class, 'getTopSpeakers']);
+Route::get('/speakers', [SpeakersController::class, 'index']);
+Route::get('/all/speakers', [SpeakersController::class, 'allSpeakers']);
+Route::get('/speakers/{id}', [SpeakersController::class, 'show']);
+Route::get('/speakers-by-year', [SpeakersController::class, 'speakersByYear']);
+Route::get('/top/speakers', [SpeakersController::class, 'getTopSpeakers']);
 Route::get('/images/{filename}', [ImageController::class, 'show']);
 
 //programs
-Route::get('/programs', [App\Http\Controllers\ProgramsController::class, 'index']);
-Route::get('/programs/{id}', [App\Http\Controllers\ProgramsController::class, 'show']);
-Route::get('/programs/current/year', [App\Http\Controllers\ProgramsController::class, 'currentYearProgram']);
+Route::get('/programs', [ProgramsController::class, 'index']);
+Route::get('/programs/{id}', [ProgramsController::class, 'show']);
+Route::get('/programs/current/year', [ProgramsController::class, 'currentYearProgram']);
 
 //news
-Route::get('/news', [App\Http\Controllers\NewsController::class, 'index']);
-Route::get('/news/event', [App\Http\Controllers\NewsController::class, 'getByEventTime']);
+Route::get('/news', [NewsController::class, 'index']);
+Route::get('/news/event', [NewsController::class, 'getByEventTime']);
 
-Route::get('/all/news', [App\Http\Controllers\NewsController::class, 'latestNews']);
-Route::get('/all-news', [App\Http\Controllers\NewsController::class, 'newsWithFilter']);
+Route::get('/all/news', [NewsController::class, 'latestNews']);
+Route::get('/all-news', [NewsController::class, 'newsWithFilter']);
 
-
-Route::get('/news/{id}', [App\Http\Controllers\NewsController::class, 'show']);
+Route::post('/news', [NewsController::class, 'store']);
+Route::get('/news/{id}', [NewsController::class, 'show']);
 
 
 //stream
-Route::get('/stream', [App\Http\Controllers\StreamController::class, 'index']);
-Route::get('/stream/{id}', [App\Http\Controllers\StreamController::class, 'show']);
+Route::get('/stream', [StreamController::class, 'index']);
+Route::get('/stream/{id}', [StreamController::class, 'show']);
 
 // Conference routes
 Route::get('/conferences', [ConferenceController::class, 'index']);
@@ -44,7 +49,7 @@ Route::get('/conferences/last', [ConferenceController::class, 'last']);
 
 
 //orgs
-Route::get('/orgs', [App\Http\Controllers\OrganizersController::class, 'index']);
+Route::get('/orgs', [OrganizersController::class, 'index']);
 
 //Partners
-Route::get('/partners', [App\Http\Controllers\PartnersController::class, 'index']);
+Route::get('/partners', [PartnersController::class, 'index']);

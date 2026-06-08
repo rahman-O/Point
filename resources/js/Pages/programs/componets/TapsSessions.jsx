@@ -23,7 +23,7 @@ export function TapsSessions({ activeTab, setActiveTab, program }) {
 	});
 
 	return (
-		<div className='flex flex-row w-full mt-[60] justify-center  flex-wrap item-center text-center'>
+		<div className='flex flex-row w-full mt-12 justify-center  flex-wrap item-center text-center'>
 			{availableDays.length > 0 ? (
 				availableDays.map((day, index) => (
 					<div key={index} className='gap-4 mx-3'>

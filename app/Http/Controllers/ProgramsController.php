@@ -33,12 +33,19 @@ class ProgramsController extends Controller
     public function currentYearProgram()
     {
         $currentYear = Carbon::now()->year;
+
+        // Prefer the current year's program; otherwise fall back to the most recent
+        // program available, so the page still shows the latest agenda even if it is
+        // from a past year.
         $program = Programs::with(['sessionsProgram.speakers'])
             ->where('year', $currentYear)
-            ->first();
+            ->first()
+            ?? Programs::with(['sessionsProgram.speakers'])
+                ->orderByRaw('CAST(year AS UNSIGNED) DESC')
+                ->first();
 
         if (!$program) {
-            return response()->json(['message' => 'No program found for the current year'], 404);
+            return response()->json(['message' => 'No program found'], 404);
         }
 
         return response()->json($program);

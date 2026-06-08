@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 
 use App\Http\Resources\api\News\NewsResource;
+use App\Http\Requests\StoreNewsRequest;
 use App\Models\News;
 use Illuminate\Http\Request;
 
@@ -87,9 +88,24 @@ class NewsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreNewsRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        // Handle image upload if present
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $imagePath = $image->storeAs('news', $imageName, 'public');
+            $validated['image'] = $imagePath;
+        }
+
+        $news = News::create($validated);
+
+        return response()->json([
+            'message' => 'News created successfully',
+            'data' => $news
+        ], 201);
     }
 
 
