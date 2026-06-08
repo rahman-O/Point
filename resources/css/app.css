@@ -22,6 +22,29 @@ body.font-ar {
 }
 
 /*
+ * Apply the project font to the WHOLE site, including third-party components such
+ * as the NextUI header navbar (which otherwise uses its own theme font and ignores
+ * the font set on <body>). The descendant rule forces every element to use the
+ * project font, and the --nextui-font-sans override makes NextUI use it as well,
+ * so the header menu matches the rest of the site.
+ */
+body.font-en,
+body.font-ar {
+	--nextui-font-sans: 'Roboto Mono', monospace;
+}
+
+body.font-en *,
+body.font-ar * {
+	font-family: 'Roboto Mono', monospace;
+}
+
+/* The .arabic-font helper is used across the app for Arabic text; keep it in sync
+   with the project font so it never falls back to a different family. */
+.arabic-font {
+	font-family: 'Roboto Mono', monospace;
+}
+
+/*
  * Dynamic content entered by admins through the dashboard (rich-text editor) is
  * rendered via dangerouslySetInnerHTML and can carry pasted inline font-family
  * styles. Force every element inside a .rich-content block to inherit the project
