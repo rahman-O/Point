@@ -343,9 +343,17 @@ class DemoContentSeeder extends Seeder
 
     /**
      * Create a set of event organizers (shown in the footer as logo icons).
+     *
+     * If you drop real logo files into database/seeders/assets/organizers, those are
+     * used. Otherwise it falls back to generated initials badges so the seeder always
+     * produces something.
      */
     private function seedOrganizers(): void
     {
+        if ($this->seedLogosFromFolder('organizers', Organizers::class, 'org')) {
+            return;
+        }
+
         $organizers = [
             ['POINT Foundation', '#0E7490'],
             ['Tech Community Hub', '#7C3AED'],
@@ -365,9 +373,17 @@ class DemoContentSeeder extends Seeder
 
     /**
      * Create a set of partners / sponsors (shown in the footer as logo icons).
+     *
+     * If you drop real logo files into database/seeders/assets/partners, those are
+     * used. Otherwise it falls back to generated initials badges so the seeder always
+     * produces something.
      */
     private function seedPartners(): void
     {
+        if ($this->seedLogosFromFolder('partners', Partners::class, 'partner')) {
+            return;
+        }
+
         $partners = [
             ['CloudScale Inc.', '#2563EB'],
             ['DataForge Labs', '#0891B2'],
@@ -385,6 +401,67 @@ class DemoContentSeeder extends Seeder
                 ['image' => $this->makeLogoIcon($name, $color, 'partner')]
             );
         }
+    }
+
+    /**
+     * Import real logo files that the user has dropped into
+     * database/seeders/assets/{$folder} (e.g. organizers / partners).
+     *
+     * Each image is copied into storage/app/public (so it resolves through the
+     * /api/images/{filename} route) and one record is created per file. The display
+     * name comes from the file name, so name your files like "POINT Foundation.png".
+     *
+     * Supported types: png, jpg, jpeg, svg, webp, gif.
+     *
+     * @param  string  $folder  Sub-folder under database/seeders/assets.
+     * @param  class-string  $model  Eloquent model to populate (Organizers / Partners).
+     * @param  string  $prefix  Prefix for the stored filename to avoid collisions.
+     * @return bool  True if at least one logo file was imported; false if the folder is
+     *               empty or missing (so the caller can fall back to generated icons).
+     */
+    private function seedLogosFromFolder(string $folder, string $model, string $prefix): bool
+    {
+        $sourceDir = database_path('seeders/assets/' . $folder);
+
+        if (! is_dir($sourceDir)) {
+            return false;
+        }
+
+        $files = glob($sourceDir . '/*.{png,jpg,jpeg,svg,webp,gif,PNG,JPG,JPEG,SVG,WEBP,GIF}', GLOB_BRACE);
+        $files = array_values(array_filter((array) $files, 'is_file'));
+
+        if (empty($files)) {
+            return false;
+        }
+
+        $keepNames = [];
+
+        foreach ($files as $path) {
+            $base = pathinfo($path, PATHINFO_FILENAME);
+            $ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+
+            // Display name: turn "point_foundation" / "point-foundation" into
+            // "point foundation" (keep the user's casing otherwise).
+            $name = trim(preg_replace('/[_-]+/', ' ', $base));
+            $keepNames[] = $name;
+
+            // Stable stored filename so re-running the seeder overwrites the same file
+            // instead of creating duplicates.
+            $stored = $prefix . '-' . Str::slug($base) . '.' . $ext;
+
+            Storage::disk('public')->put($stored, file_get_contents($path));
+
+            $model::updateOrCreate(
+                ['name' => $name],
+                ['image' => $stored]
+            );
+        }
+
+        // Remove any previously seeded records (e.g. the generated placeholder logos
+        // or files you have since deleted) so only the logos in this folder remain.
+        $model::whereNotIn('name', $keepNames)->delete();
+
+        return true;
     }
 
     /**
@@ -466,12 +543,12 @@ class DemoContentSeeder extends Seeder
 
         // A repeatable agenda template used for every day of the program.
         $slots = [
-            ['09:00', '09:45', 'Opening Keynote', 'الكلمة الافتتاحية', 'The State of Technology', 'حالة التقنية'],
-            ['10:00', '10:45', 'Building for Scale', 'البناء للتوسع', 'Cloud-Native Architecture', 'الهندسة السحابية'],
-            ['11:00', '11:45', 'AI in Practice', 'الذكاء الاصطناعي عمليًا', 'Applied Machine Learning', 'تعلم الآلة التطبيقي'],
-            ['13:00', '13:45', 'Designing Delight', 'تصميم البهجة', 'Human-Centered UX', 'تجربة المستخدم المتمحورة حول الإنسان'],
-            ['14:00', '14:45', 'Securing Systems', 'تأمين الأنظمة', 'Modern Cybersecurity', 'الأمن السيبراني الحديث'],
-            ['15:00', '15:45', 'Panel & Closing', 'الجلسة الحوارية والختام', 'Future of the Industry', 'مستقبل الصناعة'],
+            ['09:00', '09:45', 'Opening Keynote', 'الكلمة الذكاء الاصطناعي  الافتتاحية', 'The State of Technology', 'حالة التقنية'],
+            ['10:00', '10:45', 'Building Building for Scale Building for Scale Building for Scale Building for Scale Building for Scale. Building for Scale Building for Scale for Scale', ' البناء للتوسع البناء للتوسع البناء للتوسع البناء للتوسع البناء للتوسع البناء للتوسع البناء للتوسع البناء للتوسع البناء للتوسع البناء للتوسع البناء للتوسع البناء للتوسع البناء للتوسع البناء للتوسع البناء الذكاء الاصطناعي للتوسع', 'Cloud-Native Architecture', 'الهندسة السحابية'],
+            ['11:00', '11:45', 'AI in Practice', 'الذكاء الذكاء الاصطناعي الذكاء الاصطناعي الذكاء الاصطناعي الذكاء الاصطناعي الذكاء الاصطناعي الذكاء الاصطناعي الاصطناعي عمليًا', 'Applied Machine Learning', 'تعلم الآلة التطبيقي'],
+            ['13:00', '13:45', 'Designing Delight', 'تصميم الذكاء الاصطناعي الذكاء الاصطناعي  الذكاء الاصطناعي الذكاء الاصطناعي الذكاء الاصطناعي الذكاء الاصطناعي الذكاء الاصطناعي البهجة', 'Human-Centered UX', 'تجربة المستخدم المتمحورة حول الإنسان'],
+            ['14:00', '14:45', 'Securing Systems', 'تأمين  الذكاء الاصطناعي الذكاء الاصطناعي الذكاء الاصطناعي الذكاء الاصطناعي الذكاء الاصطناعي الذكاء الاصطناعي الذكاء الاصطناعي الذكاء الاصطناعي الأنظمة', 'Modern Cybersecurity', 'الأمن السيبراني الحديث'],
+            ['15:00', '15:45', 'Panel & Closing', 'الجلسة الحوارية الذكاء الاصطناعي الذكاء الاصطناعي الذكاء الاصطناعي الذكاء الاصطناعي الذكاء الاصطناعي الذكاء الاصطناعي الذكاء الاصطناعي الذكاء الاصطناعي والختام', 'Future of the Industry', 'مستقبل الصناعة'],
         ];
 
         $speakerCount = count($speakerIds);

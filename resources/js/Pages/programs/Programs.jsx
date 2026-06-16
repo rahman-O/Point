@@ -30,20 +30,14 @@ export default function Programs() {
 			key={session.id}
 			className='border-b border-gray-100 py-4 last:border-b-0'
 		>
-			<div
-				className={`flex items-center gap-4 overflow-hidden ${
-					lang === 'ar'
-						? 'flex-row-reverse justify-end text-right'
-						: 'justify-start text-left'
-				}`}
-			>
-				<span className='shrink-0 text-base font-medium text-point-teal md:text-lg'>
+			<div className={`flex items-center gap-4 overflow-hidden w-full `}>
+				<span className=' shrink-0 text-base font-medium text-point-teal md:text-lg'>
 					{session.start_time.slice(0, 5)} - {session.end_time.slice(0, 5)}
 				</span>
 
 				<span
-					className={`text-sm font-bold md:text-lg ${
-						lang === 'ar' ? 'arabic-font' : ''
+					className={`max-w-sm text-sm font-bold md:text-lg justify- ${
+						lang === 'ar' ? 'arabic-font text-right ' : 'text-left'
 					}`}
 				>
 					{lang === 'en'

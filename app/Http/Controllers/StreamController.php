@@ -13,7 +13,7 @@ class StreamController extends Controller
      */
     public function index()
     {
-        return Stream::paginate(10);
+        return Stream::orderByDesc('created_at')->paginate(10);
     }
 
     /**

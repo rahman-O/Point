@@ -20,11 +20,9 @@ export function SpeakerList({ session }) {
 	}
 
 	return (
-		<ul
-			className={`flex w-full max-w-md flex-col gap-4 ${
-				isAr ? 'items-end' : 'items-start'
-			}`}
-		>
+		// In Arabic the document is dir="rtl", so `items-start` aligns rows to the
+		// RIGHT automatically. The same class keeps English rows on the left.
+		<ul className='flex w-full max-w-md flex-col gap-4 items-start'>
 			{speakers.map((speaker) => {
 				const name = isAr ? speaker.name_ar : speaker.name_en;
 				const job = isAr ? speaker.job_ar : speaker.job_en;
@@ -35,7 +33,7 @@ export function SpeakerList({ session }) {
 						<Link
 							to={`/speakers/${speaker.id}`}
 							className={`group flex items-center gap-4 rounded-xl px-12 py-2 transition-colors hover:bg-black/5 ${
-								isAr ? 'flex-row-reverse text-right' : 'text-left'
+								isAr ? 'text-right' : 'text-left'
 							}`}
 						>
 							{/* Avatar: a fixed square box + object-cover keeps every portrait

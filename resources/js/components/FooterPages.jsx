@@ -38,14 +38,11 @@ export default function FooterPages() {
 								className='flex flex-col items-center gap-2 w-20 sm:w-24'
 							>
 								<img
-									className='h-12 w-12 sm:h-14 sm:w-14 md:h-16 md:w-16 object-contain rounded-2xl transition-transform duration-200 hover:scale-110 focus-visible:scale-110'
+									className='h-16 w-16 sm:h-16 sm:w-16 md:h-20 md:w-20 object-contain rounded-2xl transition-transform duration-200 hover:scale-110 focus-visible:scale-110'
 									src={`/api/images/${org.image}`}
 									alt={org.name}
 									loading='lazy'
 								/>
-								<span className='text-[11px] sm:text-xs text-center leading-tight text-white/90 line-clamp-2'>
-									{org.name}
-								</span>
 							</li>
 						))}
 					</ul>
@@ -63,14 +60,11 @@ export default function FooterPages() {
 								className='flex flex-col items-center gap-2 w-20 sm:w-24'
 							>
 								<img
-									className='h-12 w-12 sm:h-14 sm:w-14 md:h-16 md:w-16 object-contain rounded-2xl transition-transform duration-200 hover:scale-110 focus-visible:scale-110'
+									className='h-16 w-16 sm:h-16 sm:w-16 md:h-20 md:w-20 object-contain rounded-2xl transition-transform duration-200 hover:scale-110 focus-visible:scale-110'
 									src={`/api/images/${partner.image}`}
 									alt={partner.name}
 									loading='lazy'
 								/>
-								<span className='text-[11px] sm:text-xs text-center leading-tight text-white/90 line-clamp-2'>
-									{partner.name}
-								</span>
 							</li>
 						))}
 					</ul>
