@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import SpeackerSlider from '@/Pages/homePage/SpeackerSlider.jsx';
 import videoPlayes from '../../../css/images/POINT12-24-25.mp4';
-import homeImage from '../../../css/images/point_home_page.jpeg';
+import homeImage from '../../../css/images/point7_home_page.png';
 import LangContext from '@/components/langContext/LangContext.jsx';
 import NewsSlider from '@/Pages/homePage/NewsSlider.jsx';
 
@@ -30,9 +30,9 @@ export default function HomePage() {
 				</div>
 			)} */}
 
-			<div className='-mt-3'>
+			<div className=''>
 				<NewsSlider />
-				<h1 className='text-3xl font-bold px-2 text-center uppercase pt-4'>
+				<h1 className='text-2xl px-2 text-center uppercase pt-4'>
 					{' '}
 					{lang === 'en' ? 'Speaker' : 'المتحدثين'}
 				</h1>

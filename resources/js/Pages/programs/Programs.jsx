@@ -28,22 +28,22 @@ export default function Programs() {
 	const sessionsProgram = currentSessions.map((session) => (
 		<div
 			key={session.id}
-			className='border-b border-gray-100 py-4 last:border-b-0'
+			className='border-b border-gray-100 py-5 last:border-b-0'
 		>
-			<div className={`flex items-center gap-4 overflow-hidden w-full `}>
-				<span className=' shrink-0 text-base font-medium text-point-teal md:text-lg'>
+			<div className='flex items-start gap-4 w-full'>
+				<span className='shrink-0 whitespace-nowrap rounded-md bg-point-purple/10 px-3 py-1 text-sm font-semibold text-point-purple md:text-base'>
 					{session.start_time.slice(0, 5)} - {session.end_time.slice(0, 5)}
 				</span>
 
-				<span
-					className={`max-w-sm text-sm font-bold md:text-lg justify- ${
-						lang === 'ar' ? 'arabic-font text-right ' : 'text-left'
+				<h3
+					className={`flex-1 min-w-0 break-words text-base font-bold leading-snug md:text-lg ${
+						lang === 'ar' ? 'arabic-font text-right' : 'text-left'
 					}`}
 				>
 					{lang === 'en'
 						? session.title_en?.toUpperCase()
 						: session.title_ar?.toUpperCase()}
-				</span>
+				</h3>
 			</div>
 
 			<div
@@ -75,7 +75,7 @@ export default function Programs() {
 
 			{program ? (
 				<div
-					className={`w-full md:mx-24 text-center ${lang === 'ar' ? ' arabic-font' : ''}`}
+					className={`w-full px-4 md:px-24 text-center ${lang === 'ar' ? ' arabic-font' : ''}`}
 				>
 					{sessionsProgram}
 				</div>

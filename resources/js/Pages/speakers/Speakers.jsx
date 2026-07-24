@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { CardSpeaker } from '@/components/CardSpeaker.jsx';
 import Pagination from '@/components/Pagination.jsx';
+import YearFilter from '@/components/YearFilter.jsx';
 import LangContext from '@/components/langContext/LangContext.jsx';
 
 export default function Speakers() {
@@ -29,14 +30,44 @@ export default function Speakers() {
 		}
 	};
 
+	// Loads the year list, then selects the most recent year by default
+	// (used when the page is opened without a ?year= in the URL).
+	const loadDefaultYear = async (page) => {
+		const response = await axios.get(`/api/speakers`, { params: { page } });
+		if (!response) return;
+
+		const yrs = response.data.years || [];
+		setYears(yrs);
+
+		if (yrs.length) {
+			const latestYear = yrs[0]; // API returns years ordered newest first
+			setSelectedYear(latestYear);
+
+			const url = new URL(window.location);
+			url.searchParams.set('year', latestYear);
+			window.history.replaceState({}, '', url);
+
+			fetchData(page, latestYear);
+		} else {
+			setSpeakers(response.data.speakers.data);
+			setTotalPages(response.data.speakers.last_page);
+		}
+	};
+
 	useEffect(() => {
 		const url = new URL(window.location);
-		const page = url.searchParams.get('page') || 1;
-		const year = url.searchParams.get('year') || null;
+		const page = Number(url.searchParams.get('page') || 1);
+		const yearParam = url.searchParams.get('year');
 
-		setCurrentPage(Number(page));
-		setSelectedYear(year);
-		fetchData(Number(page), year);
+		setCurrentPage(page);
+
+		if (yearParam) {
+			setSelectedYear(yearParam);
+			fetchData(page, yearParam);
+		} else {
+			// No year in the URL: default to the most recent year.
+			loadDefaultYear(page);
+		}
 	}, []);
 
 	const handlePageChange = (page) => {
@@ -51,7 +82,7 @@ export default function Speakers() {
 	};
 
 	const handleYearChange = (year) => {
-		const newYear = selectedYear === year ? null : year;
+		const newYear = String(selectedYear) === String(year) ? null : year;
 		setSelectedYear(newYear);
 		setCurrentPage(1);
 
@@ -68,22 +99,12 @@ export default function Speakers() {
 
 	return (
 		<div className='py-6'>
-			<div className='flex justify-center flex-wrap mb-4 gap-2'>
-				{years.map((year) => (
-					<button
-						key={year}
-						onClick={() => handleYearChange(year)}
-						className={`px-4 py-2 border rounded transition-colors ${
-							selectedYear === year
-								? 'bg-point-teal text-white border-point-teal'
-								: 'bg-gray-200 hover:bg-gray-300'
-						}`}
-					>
-						{year}
-					</button>
-				))}
-			</div>
-			<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 px-4'>
+			<YearFilter
+				years={years}
+				selectedYear={selectedYear}
+				onSelect={handleYearChange}
+			/>
+			<div className='grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-3 px-4'>
 				{speakers.map((speaker) => (
 					<CardSpeaker
 						key={speaker.id}

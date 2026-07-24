@@ -24,21 +24,21 @@ export default function FooterPages() {
 	}, []);
 
 	return (
-		<section className='bg-point-teal py-12 px-4'>
+		<section className='bg-black py-12 px-4'>
 			<div className='text-white flex flex-col items-center gap-12 max-w-screen-xl mx-auto'>
 				{/* Organizers */}
 				<div className='flex flex-col items-center gap-6 w-full'>
-					<h2 className='font-bold text-base sm:text-lg tracking-widest text-center uppercase'>
+					<h1 className='font-bold text-lg sm:text-xl tracking-widest text-center uppercase'>
 						{lang === 'en' ? 'Organizers' : 'المنظمين'}
-					</h2>
+					</h1>
 					<ul className='flex flex-wrap justify-center gap-x-6 gap-y-8 sm:gap-x-10'>
 						{orgs.map((org) => (
 							<li
 								key={org.id}
-								className='flex flex-col items-center gap-2 w-20 sm:w-24'
+								className='flex flex-col items-center gap-2 w-24 sm:w-24'
 							>
 								<img
-									className='h-16 w-16 sm:h-16 sm:w-16 md:h-20 md:w-20 object-contain rounded-2xl transition-transform duration-200 hover:scale-110 focus-visible:scale-110'
+									className='h-20 w-20 sm:h-24 sm:w-24 md:h-24 md:w-24 object-contain rounded-2xl transition-transform duration-200 hover:scale-110 focus-visible:scale-110'
 									src={`/api/images/${org.image}`}
 									alt={org.name}
 									loading='lazy'
@@ -50,17 +50,17 @@ export default function FooterPages() {
 
 				{/* Partners */}
 				<div className='flex flex-col items-center gap-6 w-full'>
-					<h2 className='font-bold text-base sm:text-lg tracking-widest text-center uppercase'>
+					<h1 className='font-bold text-lg sm:text-xl tracking-widest text-center uppercase'>
 						{lang === 'en' ? 'Partners' : 'الشركاء'}
-					</h2>
+					</h1>
 					<ul className='flex flex-wrap justify-center gap-x-6 gap-y-8 sm:gap-x-10'>
 						{partners.map((partner) => (
 							<li
 								key={partner.id}
-								className='flex flex-col items-center gap-2 w-20 sm:w-24'
+								className='flex flex-col items-center gap-2 w-24 sm:w-24'
 							>
 								<img
-									className='h-16 w-16 sm:h-16 sm:w-16 md:h-20 md:w-20 object-contain rounded-2xl transition-transform duration-200 hover:scale-110 focus-visible:scale-110'
+									className='h-20 w-20 sm:h-24 sm:w-24 md:h-24 md:w-24 object-contain rounded-2xl transition-transform duration-200 hover:scale-110 focus-visible:scale-110'
 									src={`/api/images/${partner.image}`}
 									alt={partner.name}
 									loading='lazy'
@@ -75,21 +75,21 @@ export default function FooterPages() {
 					<div className='space-x-2'>
 						<a
 							href='/'
-							className='hover:underline hover:underline-offset-8 text-white hover:text-point-rose transition-colors'
+							className='hover:underline hover:underline-offset-8 text-white hover:text-point-orange transition-colors'
 						>
 							{lang === 'en' ? '© Point Conference' : '© مؤتمر بوينت'}
 						</a>
 						|
 						<a
 							href='/speakers'
-							className='hover:underline hover:underline-offset-8 text-white hover:text-point-rose transition-colors'
+							className='hover:underline hover:underline-offset-8 text-white hover:text-point-orange transition-colors'
 						>
 							{lang === 'en' ? 'Speakers' : 'المتحدثين'}
 						</a>
 						|
 						<a
 							href='/partners'
-							className='hover:underline hover:underline-offset-8 text-white hover:text-point-rose transition-colors'
+							className='hover:underline hover:underline-offset-8 text-white hover:text-point-orange transition-colors'
 						>
 							{lang === 'en' ? 'Partners' : 'الشركاء'}
 						</a>
@@ -108,10 +108,11 @@ export default function FooterPages() {
 							</>
 						)}
 					</div>
+					<div>tawasoul.office@gmail.com</div>
 
 					<a
 						href='/'
-						className='hover:underline hover:underline-offset-8 text-white hover:text-point-rose transition-colors'
+						className='hover:underline hover:underline-offset-8 text-white hover:text-point-orange transition-colors'
 					>
 						point-iraq.org
 					</a>

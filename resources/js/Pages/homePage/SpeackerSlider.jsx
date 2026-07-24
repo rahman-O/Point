@@ -36,7 +36,7 @@ export default function SpeackerSlider() {
 						<div key={speaker.id} className='cursor-pointer'>
 							<div className='overflow-visible p-0'>
 								<img
-									className='w-full h-48 object-cover rounded-md'
+									className='w-full h-48 object-cover'
 									src={`/api/images/${speaker.image}`}
 									alt='Speaker Image'
 								/>

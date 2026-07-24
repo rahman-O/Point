@@ -8,12 +8,12 @@ export const CardNews = ({ id, title, desc_en, event_time, image }) => {
 				<div className='overflow-visible p-0'>
 					<img
 						width='100%'
-						className='w-full object-cover h-[180px] rounded-md'
+						className='w-full object-cover h-[180px]'
 						src={`/api/images/${image}`}
 					/>
 				</div>
 				<div className=' grid mt-2'>
-					<b className='text-gray-500 bold text-xs'>{event_time}</b>
+					<b className='text-point-crimson bold text-xs'>{event_time}</b>
 					<p className='text-base'>{title} </p>
 				</div>
 			</div>

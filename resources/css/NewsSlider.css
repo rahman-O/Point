@@ -1,32 +1,184 @@
-.slick-dots {
-	position: absolute;
-	bottom: 0;
+/* ==========================================================================
+   Home page featured news slider — styled to match point.zastone.ba
+   Single large image per slide, big translucent side arrows, crimson date,
+   purple title and geometric (crimson bar + orange square) accents.
+   ========================================================================== */
+
+.news-slider {
+	position: relative;
 	width: 100%;
-	text-align: center;
-	list-style: none;
-	padding: 0;
+	margin: 0 auto 1.5rem;
+	padding: 0 8px;
+}
+
+/* Let the slide grow to fit the image + caption instead of the old fixed height */
+.news-slider .slick-list {
+	height: auto !important;
+}
+
+/* Slick defaults each slide to height:100% which stretched the track and left a
+   large empty gap under the cards; force natural height so the pagination sits
+   right below the cards. */
+.news-slider .slick-slide,
+.news-slider .slick-slide > div {
+	height: auto !important;
+}
+
+/* Each of the 4 visible cards */
+.news-slide {
+	padding: 0 6px;
+}
+
+.news-slide-image-wrap {
+	display: block;
+	width: 100%;
+	height: clamp(150px, 15vw, 210px);
+	overflow: hidden;
+}
+
+.news-slide-image {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+	transition: transform 0.3s ease;
+}
+
+.news-slide-image-wrap:hover .news-slide-image {
+	transform: scale(1.04);
+}
+
+.news-slide-content {
+	position: relative;
+	padding: 0.65rem 0.15rem 0;
+}
+
+.news-slide-date {
+	color: #d81c5c;
+	font-weight: 700;
+	font-size: 0.8rem;
+	letter-spacing: 0.01em;
+	margin-bottom: 0.3rem;
+}
+
+.news-slide-title {
+	color: #7c2c8b;
+	font-weight: 700;
+	font-size: clamp(0.95rem, 1.15vw, 1.15rem);
+	line-height: 1.25;
 	margin: 0;
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	/* Always reserve 3 lines so every card is the same height and the pagination
+	   below the slider does not jump vertically as slides change. */
+	min-height: calc(1.25em * 3);
+	transition: color 0.2s ease;
 }
 
-.slick-dots li {
-	display: inline-block;
-	margin: 0 5px;
+.news-slide-title:hover {
+	color: #5f2069;
 }
 
-.slick-dots li button:before {
-	font-size: 15px;
-	color: #dddddd;
-	opacity: 0.5;
+/* -------------------------------------------------------------------------- */
+/* Pagination — crimson bar with an orange square that acts as the active dot, */
+/* sliding along the bar in the same direction as the slides move.             */
+/* -------------------------------------------------------------------------- */
+.news-pagination {
+	display: flex;
+	justify-content: center;
+	margin-top: 1.5rem;
 }
 
-.slick-dots li.slick-active button:before {
-	color: lawngreen;
-	opacity: 1;
+.news-pagination-track {
+	position: relative;
+	width: min(60%, 440px);
+	height: 26px;
+	background: #d81c5c;
+	cursor: pointer;
 }
 
-.slick-list {
-	height: 340px !important;
+.news-pagination-square {
+	position: absolute;
+	margin-top: 25px;
+	top: 50%;
+	width: 26px;
+	height: 26px;
+	background: #f9a036;
+	transform: translateY(-50%);
+	transition:
+		left 0.5s ease,
+		right 0.5s ease;
 }
+
+/* White "cutout" in the crimson bar directly above the moving square so the
+   segment of the track in front of the square looks empty/white. It is a child
+   of the square, so it slides along with it. */
+.news-pagination-square::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: -25px;
+	width: 100%;
+	height: 26px;
+	background: #ffffff;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Navigation arrows — big translucent white squares with a dark chevron,      */
+/* vertically centered on the image row.                                       */
+/* -------------------------------------------------------------------------- */
+.news-slider .slick-prev,
+.news-slider .slick-next {
+	position: absolute;
+	top: clamp(75px, 7.5vw, 105px);
+	transform: translateY(-50%);
+	z-index: 20;
+	display: flex !important;
+	align-items: center;
+	justify-content: center;
+	width: 42px;
+	height: 42px;
+	padding: 0;
+	background: rgba(255, 255, 255, 0.75);
+	border: none;
+	border-radius: 2px;
+	color: #333333;
+	transition: background 0.2s ease;
+}
+
+.news-slider .slick-prev:hover,
+.news-slider .slick-next:hover,
+.news-slider .slick-prev:focus,
+.news-slider .slick-next:focus {
+	background: rgba(255, 255, 255, 0.95);
+	color: #7c2c8b;
+}
+
+.news-slider .slick-prev {
+	left: 0 !important;
+	right: auto !important;
+}
+
+.news-slider .slick-next {
+	right: 0 !important;
+	left: auto !important;
+}
+
+/* Hide slick's default glyph arrows; we render our own icons */
+.news-slider .slick-prev:before,
+.news-slider .slick-next:before {
+	display: none;
+	content: '';
+}
+
+.news-slider .news-arrow svg {
+	width: 24px;
+	height: 24px;
+	stroke: currentColor;
+}
+
 .text-rtl {
 	text-align: right;
 	direction: rtl;
