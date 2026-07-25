@@ -23,7 +23,7 @@ class SpeakersController extends Controller
         $query->where('year', $year);
     }
 
-    $speakers = $query->orderBy('created_at', 'desc')->paginate(10);
+    $speakers = $query->orderBy('created_at', 'desc')->paginate(25);
 
     return response()->json([
         'speakers' => $speakers,
