@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import LangContext from '@/components/langContext/LangContext.jsx';
 
+//  its a test commit
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
 	const { lang } = useContext(LangContext);
 
