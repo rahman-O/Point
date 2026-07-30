@@ -1,18 +1,20 @@
 import React, { useContext } from 'react';
 import SpeackerSlider from '@/Pages/homePage/SpeackerSlider.jsx';
 import videoPlayes from '../../../css/images/POINT12-24-25.mp4';
-import homeImage from '../../../css/images/point7_home_page.png';
+import homeImageAr from '../../../css/images/point7_home_page_ar.png';
+import homeImageEn from '../../../css/images/point7_home_page_en.jpeg';
 import LangContext from '@/components/langContext/LangContext.jsx';
 import NewsSlider from '@/Pages/homePage/NewsSlider.jsx';
 
 export default function HomePage() {
 	const { lang, toggleLang } = useContext(LangContext);
+	const homeBackgroundImage = lang === 'en' ? homeImageEn : homeImageAr;
 
 	return (
 		<div className='MainHomePage'>
 			<div
 				className='home-video'
-				style={{ backgroundImage: `url(${homeImage})` }}
+				style={{ backgroundImage: `url(${homeBackgroundImage})` }}
 			>
 				{/* <video className='banner' muted autoPlay loop src={videoPlayes}></video> */}
 			</div>
