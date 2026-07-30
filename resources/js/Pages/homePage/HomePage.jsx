@@ -5,7 +5,7 @@ import homeImageAr from '../../../css/images/point7_home_page_ar.png';
 import homeImageEn from '../../../css/images/point7_home_page_en.jpeg';
 import LangContext from '@/components/langContext/LangContext.jsx';
 import NewsSlider from '@/Pages/homePage/NewsSlider.jsx';
-
+// test push
 export default function HomePage() {
 	const { lang, toggleLang } = useContext(LangContext);
 	const homeBackgroundImage = lang === 'en' ? homeImageEn : homeImageAr;
