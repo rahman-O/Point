@@ -13,7 +13,7 @@ class ProgramsController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {$programs = Programs::with(['sessionsProgram.speakers'])->get();
+    {$programs = Programs::with(['sessionsProgram.speakers', 'sessionsProgram.facilitator'])->get();
 
         return response()->json($programs);
     }
@@ -37,10 +37,10 @@ class ProgramsController extends Controller
         // Prefer the current year's program; otherwise fall back to the most recent
         // program available, so the page still shows the latest agenda even if it is
         // from a past year.
-        $program = Programs::with(['sessionsProgram.speakers'])
+        $program = Programs::with(['sessionsProgram.speakers', 'sessionsProgram.facilitator'])
             ->where('year', $currentYear)
             ->first()
-            ?? Programs::with(['sessionsProgram.speakers'])
+            ?? Programs::with(['sessionsProgram.speakers', 'sessionsProgram.facilitator'])
                 ->orderByRaw('CAST(year AS UNSIGNED) DESC')
                 ->first();
 

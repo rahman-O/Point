@@ -13,20 +13,37 @@ export function SpeakerList({ session }) {
 
 	// Always work with an array, even if the API omits the relation.
 	const speakers = session?.speakers ?? [];
-	const facilitatorId = session?.facilitator_id;
+
+	// The facilitator is one of the session's speakers, flagged with a tag rather than
+	// listed separately. `facilitator_id` is a plain id on the raw model payload but a
+	// nested speaker object on the API-resource payload, so accept both shapes.
+	const rawFacilitatorId = session?.facilitator_id;
+	const facilitatorId = Number(
+		rawFacilitatorId !== null && typeof rawFacilitatorId === 'object'
+			? rawFacilitatorId.id
+			: rawFacilitatorId,
+	);
 
 	if (speakers.length === 0) {
 		return null;
 	}
 
+	// The facilitator leads the session, so they head the list. Array.sort is stable,
+	// so every other speaker keeps the order set in the admin panel.
+	const orderedSpeakers = [...speakers].sort(
+		(a, b) =>
+			(Number(a.id) === facilitatorId ? 0 : 1) -
+			(Number(b.id) === facilitatorId ? 0 : 1),
+	);
+
 	return (
 		// In Arabic the document is dir="rtl", so `items-start` aligns rows to the
 		// RIGHT automatically. The same class keeps English rows on the left.
 		<ul className='flex w-full max-w-md flex-col gap-4 items-start'>
-			{speakers.map((speaker) => {
+			{orderedSpeakers.map((speaker) => {
 				const name = isAr ? speaker.name_ar : speaker.name_en;
 				const job = isAr ? speaker.job_ar : speaker.job_en;
-				const isFacilitator = speaker.id === facilitatorId;
+				const isFacilitator = Number(speaker.id) === facilitatorId;
 
 				return (
 					<li key={speaker.id}>

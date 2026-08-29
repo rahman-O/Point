@@ -25,38 +25,115 @@ export default function Programs() {
 		? program.sessions_program.filter((session) => session.day === activeTab)
 		: [];
 
-	const sessionsProgram = currentSessions.map((session) => (
-		<div
-			key={session.id}
-			className='border-b border-gray-100 py-5 last:border-b-0'
-		>
-			<div className='flex items-start gap-4 w-full'>
-				<span className='shrink-0 whitespace-nowrap rounded-md bg-point-purple/10 px-3 py-1 text-sm font-semibold text-point-purple md:text-base'>
-					{session.start_time.slice(0, 5)} - {session.end_time.slice(0, 5)}
-				</span>
+	// Sessions sharing a start and end time run in parallel and are shown together
+	// under one time badge. First-seen order is kept so the agenda still follows the
+	// sequence set in the admin panel.
+	const timeSlots = [];
+	const slotPositions = new Map();
 
-				<h3
-					className={`flex-1 min-w-0 break-words text-base font-bold leading-snug md:text-lg ${
-						lang === 'ar' ? 'arabic-font text-right' : 'text-left'
-					}`}
+	currentSessions.forEach((session) => {
+		const key = `${session.start_time}-${session.end_time}`;
+
+		if (!slotPositions.has(key)) {
+			slotPositions.set(key, timeSlots.length);
+			timeSlots.push({
+				key,
+				start: session.start_time,
+				end: session.end_time,
+				sessions: [],
+			});
+		}
+
+		timeSlots[slotPositions.get(key)].sessions.push(session);
+	});
+
+	const titleOf = (session) =>
+		lang === 'en'
+			? session.title_en?.toUpperCase()
+			: session.title_ar?.toUpperCase();
+
+	const timeBadge = (slot) => (
+		<span className='shrink-0 whitespace-nowrap rounded-md bg-point-purple/10 px-3 py-1 text-sm font-semibold text-point-purple md:text-base'>
+			{slot.start?.slice(0, 5)} - {slot.end?.slice(0, 5)}
+		</span>
+	);
+
+	const sessionsProgram = timeSlots.map((slot) => {
+		if (slot.sessions.length === 1) {
+			const session = slot.sessions[0];
+
+			return (
+				<div
+					key={slot.key}
+					className='border-b border-gray-100 py-5 last:border-b-0'
 				>
-					{lang === 'en'
-						? session.title_en?.toUpperCase()
-						: session.title_ar?.toUpperCase()}
-				</h3>
-			</div>
+					<div className='flex items-start gap-4 w-full'>
+						{timeBadge(slot)}
 
+						<h3
+							className={`flex-1 min-w-0 break-words text-base font-bold leading-snug md:text-lg ${
+								lang === 'ar' ? 'arabic-font text-right' : 'text-left'
+							}`}
+						>
+							{titleOf(session)}
+						</h3>
+					</div>
+
+					<div
+						className={`mt-3 flex ${
+							lang === 'ar'
+								? 'justify-start pr-4 md:pr-32 arabic-font'
+								: 'justify-start pl-4 md:pl-32'
+						}`}
+					>
+						<SpeakerList session={session} />
+					</div>
+				</div>
+			);
+		}
+
+		return (
 			<div
-				className={`mt-3 flex ${
-					lang === 'ar'
-						? 'justify-start pr-4 md:pr-32 arabic-font'
-						: 'justify-start pl-4 md:pl-32'
-				}`}
+				key={slot.key}
+				className='border-b border-gray-100 py-5 last:border-b-0'
 			>
-				<SpeakerList session={session} />
+				<div className='flex flex-wrap items-center gap-3'>
+					{timeBadge(slot)}
+
+					<span className='shrink-0 rounded-md bg-point-teal/10 px-3 py-1 text-xs font-semibold text-point-teal'>
+						{lang === 'ar'
+							? `جلسات متقاطعة (${slot.sessions.length})`
+							: `Parallel Sessions (${slot.sessions.length})`}
+					</span>
+				</div>
+
+				<div className='mt-4 grid gap-4 md:grid-cols-2'>
+					{slot.sessions.map((session) => (
+						<div
+							key={session.id}
+							className='h-full rounded-xl border border-gray-100 bg-white p-4 shadow-sm transition-shadow hover:shadow-md'
+						>
+							<h3
+								className={`break-words text-base font-bold leading-snug md:text-lg ${
+									lang === 'ar' ? 'arabic-font text-right' : 'text-left'
+								}`}
+							>
+								{titleOf(session)}
+							</h3>
+
+							<div
+								className={`mt-3 flex ${
+									lang === 'ar' ? 'justify-start arabic-font' : 'justify-start'
+								}`}
+							>
+								<SpeakerList session={session} />
+							</div>
+						</div>
+					))}
+				</div>
 			</div>
-		</div>
-	));
+		);
+	});
 
 	return (
 		<div className='mb-24'>

@@ -80,6 +80,13 @@ class SessionsProgramRelationManager extends RelationManager
                         ->relationship('speakers', 'name_en')
                         ->multiple()
                         ->searchable()
+                        ->live()
+                        ->afterStateUpdated(function ($state, Forms\Set $set, Forms\Get $get) {
+                            // Drop the facilitator if that speaker was removed from the session.
+                            if (! in_array($get('facilitator_id'), (array) $state)) {
+                                $set('facilitator_id', null);
+                            }
+                        })
                         ->getSearchResultsUsing(function (string $search) {
                             $year = $this->year ?? now()->year;
 
@@ -95,6 +102,15 @@ class SessionsProgramRelationManager extends RelationManager
                         ->getOptionLabelUsing(function ($value) {
                             return Speakers::find($value)?->name_en ?? '';
                         }),
+                    Select::make('facilitator_id')
+                        ->label('Facilitator / ميسر')
+                        ->helperText('Choose which of the session speakers above is the facilitator. They keep their place in the speaker list and simply get a "Facilitator" tag on the public agenda.')
+                        ->placeholder('No facilitator')
+                        ->options(fn (Forms\Get $get) => Speakers::whereIn('id', array_filter((array) $get('speakers')))
+                            ->pluck('name_en', 'id')
+                            ->toArray())
+                        ->searchable()
+                        ->nullable(),
             ]);
     }
 
@@ -117,7 +133,16 @@ class SessionsProgramRelationManager extends RelationManager
                     ->date('H:i'),
                 Tables\Columns\TextColumn::make('end_time')
                     ->date('H:i'),
+                Tables\Columns\TextColumn::make('title_en')
+                    ->label('Title')
+                    ->wrap()
+                    ->limit(60)
+                    ->searchable()
+                    ->placeholder('—'),
                     Tables\Columns\TextColumn::make('speakers.name_en')->searchable(),
+                Tables\Columns\TextColumn::make('facilitator.name_en')
+                    ->label('Facilitator / ميسر')
+                    ->placeholder('—'),
 
             ])
             ->filters([

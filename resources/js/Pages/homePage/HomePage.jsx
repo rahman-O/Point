@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import SpeackerSlider from '@/Pages/homePage/SpeackerSlider.jsx';
 import videoPlayes from '../../../css/images/POINT12-24-25.mp4';
 import homeImageAr from '../../../css/images/point7_home_page_ar.png';
-import homeImageEn from '../../../css/images/point7_home_page_en.jpeg';
+import homeImageEn from '../../../css/images/point7_home_page_en.png';
 import LangContext from '@/components/langContext/LangContext.jsx';
 import NewsSlider from '@/Pages/homePage/NewsSlider.jsx';
 // test push
