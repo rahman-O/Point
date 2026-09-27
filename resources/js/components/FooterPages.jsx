@@ -28,17 +28,17 @@ export default function FooterPages() {
 			<div className='text-white flex flex-col items-center gap-12 max-w-screen-xl mx-auto'>
 				{/* Organizers */}
 				<div className='flex flex-col items-center gap-6 w-full'>
-					<h1 className='font-bold text-lg sm:text-xl tracking-widest text-center uppercase'>
+					<h1 className='font-bold text-xl sm:text-2xl tracking-widest text-center uppercase'>
 						{lang === 'en' ? 'Organizers' : 'المنظمين'}
 					</h1>
-					<ul className='flex flex-wrap justify-center gap-x-6 gap-y-8 sm:gap-x-10'>
+					<ul className='flex flex-wrap justify-center gap-x-8 gap-y-10 sm:gap-x-10 md:gap-x-10 lg:gap-x-12'>
 						{orgs.map((org) => (
 							<li
 								key={org.id}
-								className='flex flex-col items-center gap-2 w-24 sm:w-24'
+								className='flex flex-col items-center gap-2 w-28 sm:w-32 md:w-32 lg:w-36'
 							>
 								<img
-									className='h-20 w-20 sm:h-24 sm:w-24 md:h-24 md:w-24 object-contain rounded-2xl transition-transform duration-200 hover:scale-110 focus-visible:scale-110'
+									className='h-20 w-28 sm:h-24 sm:w-32 md:h-24 md:w-32 lg:h-28 lg:w-36 object-contain rounded-2xl transition-transform duration-200 hover:scale-110 focus-visible:scale-110'
 									src={`/api/images/${org.image}`}
 									alt={org.name}
 									loading='lazy'
@@ -50,17 +50,17 @@ export default function FooterPages() {
 
 				{/* Partners */}
 				<div className='flex flex-col items-center gap-6 w-full'>
-					<h1 className='font-bold text-lg sm:text-xl tracking-widest text-center uppercase'>
+					<h1 className='font-bold text-xl sm:text-2xl tracking-widest text-center uppercase'>
 						{lang === 'en' ? 'Partners' : 'الشركاء'}
 					</h1>
-					<ul className='flex flex-wrap justify-center gap-x-6 gap-y-8 sm:gap-x-10'>
+					<ul className='flex flex-wrap justify-center gap-x-8 gap-y-10 sm:gap-x-10 md:gap-x-10 lg:gap-x-12'>
 						{partners.map((partner) => (
 							<li
 								key={partner.id}
-								className='flex flex-col items-center gap-2 w-24 sm:w-24'
+								className='flex flex-col items-center gap-2 w-28 sm:w-32 md:w-32 lg:w-36'
 							>
 								<img
-									className='h-20 w-20 sm:h-24 sm:w-24 md:h-24 md:w-24 object-contain rounded-2xl transition-transform duration-200 hover:scale-110 focus-visible:scale-110'
+									className='h-20 w-28 sm:h-24 sm:w-32 md:h-24 md:w-32 lg:h-28 lg:w-36 object-contain rounded-2xl transition-transform duration-200 hover:scale-110 focus-visible:scale-110'
 									src={`/api/images/${partner.image}`}
 									alt={partner.name}
 									loading='lazy'
