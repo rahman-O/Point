@@ -1,0 +1,112 @@
+name: Deploy to production
+
+on:
+  push:
+    branches: [new-design]
+  workflow_dispatch:
+    inputs:
+      run_migrations:
+        description: 'Run "php artisan migrate --force" on production'
+        type: boolean
+        default: false
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  SSH_HOST: 185.206.160.30
+  SSH_PORT: '65002'
+  SSH_USER: u953223795
+  # Pinned host key of the Hostinger server (ssh-keyscan -p 65002 -t ed25519 185.206.160.30).
+  SSH_KNOWN_HOST: '[185.206.160.30]:65002 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIASs4XMAspKELY50Elwx8Y6XRJz8mFf40xSUlBxFRYHI'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer:v2
+          coverage: none
+
+      - name: Install PHP dependencies (production set)
+        run: |
+          cp .env.example .env
+          composer install --no-dev --prefer-dist --no-interaction --no-progress
+          php artisan key:generate
+
+      - name: Lint PHP
+        run: find app bootstrap config database routes -name '*.php' -print0 | xargs -0 -n1 -P4 php -l > /dev/null
+
+      - name: Check the app boots and routes are cacheable
+        run: php artisan route:cache && php artisan route:clear
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Build frontend assets
+        run: |
+          npm ci
+          npm run build
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: public/build
+          retention-days: 7
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: build
+
+      - name: Configure SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          [ -n "$SSH_PRIVATE_KEY" ] || { echo "::error::Repository secret SSH_PRIVATE_KEY is not set"; exit 1; }
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "$SSH_KNOWN_HOST" > ~/.ssh/known_hosts
+          printf 'Host prod\n  HostName %s\n  Port %s\n  User %s\n  IdentityFile ~/.ssh/deploy_key\n  IdentitiesOnly yes\n  StrictHostKeyChecking yes\n' \
+            "$SSH_HOST" "$SSH_PORT" "$SSH_USER" > ~/.ssh/config
+
+      - name: Upload build
+        run: |
+          tar czf build.tar.gz -C build .
+          ssh prod 'mkdir -p ~/.deploy/point-iraq.org'
+          scp build.tar.gz "prod:.deploy/point-iraq.org/build-${GITHUB_SHA}.tar.gz"
+
+      - name: Deploy
+        env:
+          RUN_MIGRATIONS: ${{ github.event_name == 'workflow_dispatch' && inputs.run_migrations }}
+        run: ssh prod "bash -s -- '${GITHUB_SHA}' '${RUN_MIGRATIONS}'" < scripts/deploy-remote.sh
+
+      - name: Health check
+        run: |
+          for url in https://point-iraq.org/ https://point-iraq.org/admin/login; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 "$url")
+            echo "$url -> $code"
+            [ "$code" = "200" ] || exit 1
+          done
+
+      - name: Remove SSH key
+        if: always()
+        run: rm -f ~/.ssh/deploy_key
