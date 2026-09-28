@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { TapsSessions } from './componets/TapsSessions';
 import axios from 'axios';
 import LangContext from '@/components/langContext/LangContext.jsx';
@@ -8,6 +9,15 @@ export default function Programs() {
 	const [program, setProgram] = useState(null);
 	const { lang } = useContext(LangContext);
 	const [activeTab, setActiveTab] = useState('day1');
+	const [searchParams] = useSearchParams();
+	const dayParam = searchParams.get('day');
+
+	// Search results deep-link to a specific day, e.g. /programs?day=day2.
+	useEffect(() => {
+		if (/^day[1-5]$/.test(dayParam ?? '')) {
+			setActiveTab(dayParam);
+		}
+	}, [dayParam]);
 
 	useEffect(() => {
 		axios

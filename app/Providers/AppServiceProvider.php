@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Observers\SearchIndexObserver;
+use App\Search\SearchIndexer;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        foreach (SearchIndexer::MODELS as $model) {
+            $model::observe(SearchIndexObserver::class);
+        }
     }
 }

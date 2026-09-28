@@ -5,6 +5,7 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PartnersController;
 use App\Http\Controllers\ProgramsController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SpeakersController;
 use App\Http\Controllers\StreamController;
 use App\Http\Controllers\OrganizersController;
@@ -53,3 +54,6 @@ Route::get('/orgs', [OrganizersController::class, 'index']);
 
 //Partners
 Route::get('/partners', [PartnersController::class, 'index']);
+
+// Site-wide search
+Route::get('/search', SearchController::class)->middleware('throttle:120,1');

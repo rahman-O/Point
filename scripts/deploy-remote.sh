@@ -53,6 +53,7 @@ fi
 
 "$PHP" artisan optimize:clear
 "$PHP" artisan optimize
+"$PHP" artisan search:reindex
 
 IMAGES_AFTER=$(count_images)
 if [ "$IMAGES_AFTER" -lt "$IMAGES_BEFORE" ]; then

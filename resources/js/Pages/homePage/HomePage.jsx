@@ -5,6 +5,7 @@ import homeImageAr from '../../../css/images/point_iraq_home_page_ar.jpeg';
 import homeImageEn from '../../../css/images/point_iraq_home_page_en.jpeg';
 import LangContext from '@/components/langContext/LangContext.jsx';
 import NewsSlider from '@/Pages/homePage/NewsSlider.jsx';
+import HomeSearchBar from '@/components/search/HomeSearchBar.jsx';
 // test push
 export default function HomePage() {
 	const { lang, toggleLang } = useContext(LangContext);
@@ -18,6 +19,7 @@ export default function HomePage() {
 			>
 				{/* <video className='banner' muted autoPlay loop src={videoPlayes}></video> */}
 			</div>
+			<HomeSearchBar />
 			{/* {lang === 'en' ? (
 				<div
 					className='home-video'

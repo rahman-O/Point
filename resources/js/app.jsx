@@ -18,6 +18,7 @@ import { Layout } from '@/layout/Layout.jsx';
 import HomePage from '@/Pages/homePage/HomePage.jsx';
 import NotFoundPage from '@/Pages/NotFoundPage';
 import Conferences from '@/Pages/conferences/Conferences.jsx';
+import SearchPage from '@/Pages/search/SearchPage.jsx';
 
 // Import Contexts and Loader
 import LangProvider from '@/components/langContext/LangProvider.jsx';
@@ -66,6 +67,7 @@ const routes = [
 			{ path: 'stream', element: <Stream /> },
 			{ path: 'conference', element: <Conferences /> },
 			{ path: 'voting', element: <Voting /> },
+			{ path: 'search', element: <SearchPage /> },
 			{ path: '*', element: <NotFoundPage /> },
 		],
 	},

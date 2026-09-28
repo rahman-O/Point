@@ -16,6 +16,7 @@ import Logo from '../../../public/images/logo_point_black_on_white.jpeg';
 import LangContext from '@/components/langContext/LangContext.jsx';
 import { color } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
+import SearchTrigger from '@/components/search/SearchTrigger.jsx';
 
 export default function NavBarPages() {
 	const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -64,9 +65,12 @@ export default function NavBarPages() {
 						</a>
 					)}
 				</div>
-				<NavbarMenuToggle
-					aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-				/>
+				<div className='flex items-center gap-1'>
+					<SearchTrigger variant='mobile' />
+					<NavbarMenuToggle
+						aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+					/>
+				</div>
 			</NavbarContent>
 			{/* Navbar Content for Larger Screens */}
 			<NavbarContent
@@ -111,6 +115,7 @@ export default function NavBarPages() {
 			{/* Social Icons and Language Switch Button */}
 
 			<NavbarContent className='hidden lg:flex gap-4 text-green' justify='end'>
+				<SearchTrigger />
 				<div className='flex gap-3'>
 					<a
 						href='https://www.instagram.com/point_iq?igsh=MTJ5N242ZTlyb3ppag=='
