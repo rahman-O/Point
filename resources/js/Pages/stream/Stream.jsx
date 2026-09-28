@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import Pagination from '@/Components/Pagination.jsx';
+import Pagination from '@/components/Pagination.jsx';
 import LangContext from '@/components/langContext/LangContext.jsx';
 
 export default function Stream() {

@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import NavBarPages from '@/components/NavBarPages.jsx';
-import FooterPages from '@/Components/FooterPages.jsx';
+import FooterPages from '@/components/FooterPages.jsx';
 import ScrollToTop from '@/components/ScrollToTop.jsx';
 
 export const Layout = ({}) => {

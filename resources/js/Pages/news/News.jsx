@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import { CardNews } from '@/Components/CardNews.jsx';
+import { CardNews } from '@/components/CardNews.jsx';
 import Pagination from '@/components/Pagination.jsx';
 import YearFilter from '@/components/YearFilter.jsx';
 import LangContext from '@/components/langContext/LangContext.jsx';
