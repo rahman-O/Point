@@ -1,12 +1,27 @@
-import { FiAward, FiCalendar, FiFileText, FiPlayCircle, FiUser } from 'react-icons/fi';
+import {
+	FiAward,
+	FiCalendar,
+	FiFileText,
+	FiPlayCircle,
+	FiUser,
+} from 'react-icons/fi';
 
-export const SEARCH_TYPES = ['speaker', 'session', 'news', 'stream', 'conference'];
+export const SEARCH_TYPES = [
+	'speaker',
+	'session',
+	'news',
+	'stream',
+	'conference',
+];
 
 export const MIN_QUERY_LENGTH = 2;
 
 export const TYPE_STYLES = {
 	speaker: { icon: FiUser, badge: 'bg-point-purple/10 text-point-purple' },
-	session: { icon: FiCalendar, badge: 'bg-point-crimson/10 text-point-crimson' },
+	session: {
+		icon: FiCalendar,
+		badge: 'bg-point-crimson/10 text-point-crimson',
+	},
 	news: { icon: FiFileText, badge: 'bg-point-orange/15 text-[#a85f0a]' },
 	stream: { icon: FiPlayCircle, badge: 'bg-red-50 text-red-600' },
 	conference: { icon: FiAward, badge: 'bg-point-teal/10 text-point-teal' },
@@ -18,12 +33,25 @@ const strings = {
 		searchLabel: 'Search',
 		searchShort: 'Search',
 		all: 'All',
-		types: { speaker: 'Speakers', session: 'Sessions', news: 'News', stream: 'Videos', conference: 'Conference' },
-		typeSingular: { speaker: 'Speaker', session: 'Session', news: 'News', stream: 'Video', conference: 'Conference' },
+		types: {
+			speaker: 'Speakers',
+			session: 'Sessions',
+			news: 'News',
+			stream: 'Videos',
+			conference: 'Conference',
+		},
+		typeSingular: {
+			speaker: 'Speaker',
+			session: 'Session',
+			news: 'News',
+			stream: 'Video',
+			conference: 'Conference',
+		},
 		searching: 'Searching…',
 		noResultsTitle: (q) => `No results for “${q}”`,
 		noResultsHint: 'Check the spelling, try fewer words, or search in Arabic.',
-		relaxed: 'No result contains all of your words — showing the closest matches.',
+		relaxed:
+			'No result contains all of your words — showing the closest matches.',
 		error: 'Something went wrong while searching.',
 		retry: 'Try again',
 		recent: 'Recent searches',
@@ -43,20 +71,39 @@ const strings = {
 		day: (d) => `Day ${d}`,
 		minChars: 'Type at least 2 characters to search.',
 		pageTitle: 'Search',
-		pageIntro: 'Search speakers, agenda sessions, news and videos in Arabic or English.',
+		pageIntro:
+			'Search speakers, agenda sessions, news and videos in Arabic or English.',
 		opensInNewTab: 'Opens on YouTube',
-		suggestionsList: ['Freedom of expression', 'Democracy', 'Journalism', 'Point Iraq'],
+		suggestionsList: [
+			'Freedom of expression',
+			'Democracy',
+			'Journalism',
+			'Point Iraq',
+		],
 	},
 	ar: {
 		placeholder: 'ابحث عن المتحدثين، الجلسات، الأخبار، الفيديوهات…',
 		searchLabel: 'بحث',
 		searchShort: 'بحث',
 		all: 'الكل',
-		types: { speaker: 'المتحدثون', session: 'الجلسات', news: 'الأخبار', stream: 'الفيديوهات', conference: 'المؤتمر' },
-		typeSingular: { speaker: 'متحدث', session: 'جلسة', news: 'خبر', stream: 'فيديو', conference: 'المؤتمر' },
+		types: {
+			speaker: 'المتحدثون',
+			session: 'الجلسات',
+			news: 'الأخبار',
+			stream: 'الفيديوهات',
+			conference: 'المؤتمر',
+		},
+		typeSingular: {
+			speaker: 'متحدث',
+			session: 'جلسة',
+			news: 'خبر',
+			stream: 'فيديو',
+			conference: 'المؤتمر',
+		},
 		searching: 'جارٍ البحث…',
 		noResultsTitle: (q) => `لا توجد نتائج لـ «${q}»`,
-		noResultsHint: 'تحقّق من الإملاء، أو جرّب كلمات أقل، أو ابحث باللغة الإنجليزية.',
+		noResultsHint:
+			'تحقّق من الإملاء، أو جرّب كلمات أقل، أو ابحث باللغة الإنجليزية.',
 		relaxed: 'لا توجد نتيجة تحتوي على كل الكلمات — نعرض أقرب النتائج.',
 		error: 'حدث خطأ أثناء البحث.',
 		retry: 'إعادة المحاولة',
@@ -77,7 +124,8 @@ const strings = {
 		day: (d) => `اليوم ${d}`,
 		minChars: 'اكتب حرفين على الأقل للبحث.',
 		pageTitle: 'البحث',
-		pageIntro: 'ابحث في المتحدثين وجلسات جدول الأعمال والأخبار والفيديوهات باللغتين العربية والإنجليزية.',
+		pageIntro:
+			'ابحث في المتحدثين وجلسات جدول الأعمال والأخبار والفيديوهات باللغتين العربية والإنجليزية.',
 		opensInNewTab: 'يفتح على يوتيوب',
 		suggestionsList: ['حرية التعبير', 'الديمقراطية', 'الصحافة', 'مؤتمر بوينت'],
 	},
@@ -93,15 +141,19 @@ export const QUICK_LINKS = [
 ];
 
 export const isMacPlatform = () =>
-	typeof navigator !== 'undefined' && /Mac|iPhone|iPad|iPod/i.test(navigator.platform || navigator.userAgent);
+	typeof navigator !== 'undefined' &&
+	/Mac|iPhone|iPad|iPod/i.test(navigator.platform || navigator.userAgent);
 
 export const formatDate = (date, lang) => {
 	try {
-		return new Intl.DateTimeFormat(lang === 'en' ? 'en-GB' : 'ar-IQ-u-nu-latn', {
-			year: 'numeric',
-			month: 'short',
-			day: 'numeric',
-		}).format(new Date(`${date}T00:00:00`));
+		return new Intl.DateTimeFormat(
+			lang === 'en' ? 'en-GB' : 'ar-IQ-u-nu-latn',
+			{
+				year: 'numeric',
+				month: 'short',
+				day: 'numeric',
+			},
+		).format(new Date(`${date}T00:00:00`));
 	} catch {
 		return date;
 	}

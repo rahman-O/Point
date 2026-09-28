@@ -8,12 +8,15 @@ export default function Highlight({ segments, className = '' }) {
 		<span className={className}>
 			{segments.map((segment, i) =>
 				segment.match ? (
-					<mark key={i} className='rounded-sm bg-point-orange/25 px-0.5 font-semibold text-inherit'>
+					<mark
+						key={i}
+						className='rounded-sm bg-point-orange/25 px-0.5 font-semibold text-inherit'
+					>
 						{segment.text}
 					</mark>
 				) : (
 					<React.Fragment key={i}>{segment.text}</React.Fragment>
-				)
+				),
 			)}
 		</span>
 	);

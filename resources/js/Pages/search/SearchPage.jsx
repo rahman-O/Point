@@ -5,19 +5,35 @@ import LangContext from '@/components/langContext/LangContext.jsx';
 import { useRecentSearches, useSearch } from '@/components/search/useSearch.js';
 import SearchResultsList from '@/components/search/SearchResultsList.jsx';
 import SearchTypeFilter from '@/components/search/SearchTypeFilter.jsx';
-import { ClearButton, EmptyState, ErrorState, IdleState, ResultsSkeleton } from '@/components/search/SearchStates.jsx';
-import { SEARCH_TYPES, searchStrings } from '@/components/search/searchConfig.js';
+import {
+	ClearButton,
+	EmptyState,
+	ErrorState,
+	IdleState,
+	ResultsSkeleton,
+} from '@/components/search/SearchStates.jsx';
+import {
+	SEARCH_TYPES,
+	searchStrings,
+} from '@/components/search/searchConfig.js';
 
 export default function SearchPage() {
 	const { lang } = useContext(LangContext);
 	const t = searchStrings(lang);
 	const [params, setParams] = useSearchParams();
 	const urlQuery = params.get('q') ?? '';
-	const urlType = SEARCH_TYPES.includes(params.get('type')) ? params.get('type') : null;
+	const urlType = SEARCH_TYPES.includes(params.get('type'))
+		? params.get('type')
+		: null;
 	const [query, setQuery] = useState(urlQuery);
 	const inputRef = useRef(null);
 	const { recent, add: addRecent, clear: clearRecent } = useRecentSearches();
-	const search = useSearch(query, { type: urlType, lang, limit: 20, delay: 300 });
+	const search = useSearch(query, {
+		type: urlType,
+		lang,
+		limit: 20,
+		delay: 300,
+	});
 	const results = search.data?.results ?? [];
 
 	// Follow back/forward navigation between searches.
@@ -38,7 +54,9 @@ export default function SearchPage() {
 
 	useEffect(() => {
 		const trimmed = query.trim();
-		document.title = trimmed ? `${t.resultsFor(trimmed)} | Point Iraq` : `${t.pageTitle} | Point Iraq`;
+		document.title = trimmed
+			? `${t.resultsFor(trimmed)} | Point Iraq`
+			: `${t.pageTitle} | Point Iraq`;
 	}, [query, lang]);
 
 	const setType = (type) => {
@@ -79,9 +97,17 @@ export default function SearchPage() {
 					{t.resultsCount(search.data?.total ?? 0)}
 				</p>
 				{search.data?.relaxed && (
-					<p className='mx-3 mb-2 rounded-lg bg-point-orange/10 px-3 py-2 text-sm text-[#8a4d06]'>{t.relaxed}</p>
+					<p className='mx-3 mb-2 rounded-lg bg-point-orange/10 px-3 py-2 text-sm text-[#8a4d06]'>
+						{t.relaxed}
+					</p>
 				)}
-				<SearchResultsList results={results} lang={lang} grouped={false} idPrefix='search-page' onSelect={() => addRecent(query)} />
+				<SearchResultsList
+					results={results}
+					lang={lang}
+					grouped={false}
+					idPrefix='search-page'
+					onSelect={() => addRecent(query)}
+				/>
 				{search.data?.has_more && (
 					<div className='mt-6 flex justify-center'>
 						<button
@@ -99,8 +125,12 @@ export default function SearchPage() {
 	}
 
 	return (
-		<div className={`mx-auto w-full max-w-3xl px-4 pb-8 pt-8 sm:pt-12 ${lang === 'ar' ? 'font-ar' : 'font-en'}`}>
-			<h1 className='text-2xl font-bold text-gray-900 sm:text-3xl'>{t.pageTitle}</h1>
+		<div
+			className={`mx-auto w-full max-w-3xl px-4 pb-8 pt-8 sm:pt-12 ${lang === 'ar' ? 'font-ar' : 'font-en'}`}
+		>
+			<h1 className='text-2xl font-bold text-gray-900 sm:text-3xl'>
+				{t.pageTitle}
+			</h1>
 			<p className='mt-1 text-sm text-gray-500 sm:text-base'>{t.pageIntro}</p>
 
 			<form
@@ -115,7 +145,10 @@ export default function SearchPage() {
 					{t.searchLabel}
 				</label>
 				<div className='flex items-center gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-3 shadow-sm transition-shadow focus-within:border-point-purple/50 focus-within:shadow-[0_8px_30px_-12px_rgba(124,44,139,0.35)]'>
-					<FiSearch aria-hidden='true' className={`shrink-0 text-xl ${search.status === 'loading' ? 'animate-pulse text-point-purple' : 'text-gray-400'}`} />
+					<FiSearch
+						aria-hidden='true'
+						className={`shrink-0 text-xl ${search.status === 'loading' ? 'animate-pulse text-point-purple' : 'text-gray-400'}`}
+					/>
 					<input
 						ref={inputRef}
 						id='search-page-input'
@@ -136,7 +169,14 @@ export default function SearchPage() {
 			</form>
 
 			{!search.tooShort && counts && (
-				<SearchTypeFilter lang={lang} counts={counts} total={total} value={urlType} onChange={setType} className='mt-4' />
+				<SearchTypeFilter
+					lang={lang}
+					counts={counts}
+					total={total}
+					value={urlType}
+					onChange={setType}
+					className='mt-4'
+				/>
 			)}
 
 			<div className='mt-4'>{body}</div>

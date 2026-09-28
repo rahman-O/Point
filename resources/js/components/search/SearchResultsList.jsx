@@ -18,19 +18,37 @@ export function orderResults(results, grouped) {
 	});
 
 	let index = 0;
-	return [...groups.values()].flat().map((result) => ({ result, index: index++ }));
+	return [...groups.values()]
+		.flat()
+		.map((result) => ({ result, index: index++ }));
 }
 
-export default function SearchResultsList({ results, lang, grouped, activeIndex = -1, idPrefix, onSelect, onHover, compact }) {
+export default function SearchResultsList({
+	results,
+	lang,
+	grouped,
+	activeIndex = -1,
+	idPrefix,
+	onSelect,
+	onHover,
+	compact,
+}) {
 	const t = searchStrings(lang);
 	const ordered = orderResults(results, grouped);
 	let lastType = null;
 
 	return (
-		<div role='listbox' id={`${idPrefix}-listbox`} aria-label={t.searchLabel} className='flex flex-col gap-0.5'>
+		<div
+			role='listbox'
+			id={`${idPrefix}-listbox`}
+			aria-label={t.searchLabel}
+			className='flex flex-col gap-0.5'
+		>
 			{ordered.map(({ result, index }) => {
 				const header =
-					grouped && result.type !== lastType && SEARCH_TYPES.includes(result.type) ? (
+					grouped &&
+					result.type !== lastType &&
+					SEARCH_TYPES.includes(result.type) ? (
 						<div
 							role='presentation'
 							className='px-3 pb-1 pt-3 text-xs font-bold uppercase tracking-wider text-gray-400 first:pt-1'

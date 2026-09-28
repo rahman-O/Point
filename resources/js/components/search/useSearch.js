@@ -2,23 +2,39 @@ import { useCallback, useEffect, useState } from 'react';
 import { MIN_QUERY_LENGTH } from './searchConfig.js';
 
 // Plain fetch on purpose: the global axios interceptors show a full-page loader on every request.
-export async function fetchSearch({ q, type, lang, page = 1, limit = 8 }, signal) {
-	const params = new URLSearchParams({ q, lang, page: String(page), limit: String(limit) });
+export async function fetchSearch(
+	{ q, type, lang, page = 1, limit = 8 },
+	signal,
+) {
+	const params = new URLSearchParams({
+		q,
+		lang,
+		page: String(page),
+		limit: String(limit),
+	});
 	if (type) params.set('type', type);
 
 	const response = await fetch(`/api/search?${params}`, {
 		headers: { Accept: 'application/json' },
 		signal,
 	});
-	if (!response.ok) throw new Error(`Search failed with status ${response.status}`);
+	if (!response.ok)
+		throw new Error(`Search failed with status ${response.status}`);
 
 	return response.json();
 }
 
-export function useSearch(query, { type = null, lang = 'ar', limit = 8, delay = 250 } = {}) {
+export function useSearch(
+	query,
+	{ type = null, lang = 'ar', limit = 8, delay = 250 } = {},
+) {
 	const trimmed = query.trim();
 	const tooShort = trimmed.length < MIN_QUERY_LENGTH;
-	const [state, setState] = useState({ status: 'idle', data: null, loadingMore: false });
+	const [state, setState] = useState({
+		status: 'idle',
+		data: null,
+		loadingMore: false,
+	});
 	const [attempt, setAttempt] = useState(0);
 
 	useEffect(() => {
@@ -32,9 +48,12 @@ export function useSearch(query, { type = null, lang = 'ar', limit = 8, delay = 
 		const controller = new AbortController();
 		const timer = setTimeout(() => {
 			fetchSearch({ q: trimmed, type, lang, limit }, controller.signal)
-				.then((data) => setState({ status: 'success', data, loadingMore: false }))
+				.then((data) =>
+					setState({ status: 'success', data, loadingMore: false }),
+				)
 				.catch((error) => {
-					if (error.name !== 'AbortError') setState({ status: 'error', data: null, loadingMore: false });
+					if (error.name !== 'AbortError')
+						setState({ status: 'error', data: null, loadingMore: false });
 				});
 		}, delay);
 
@@ -57,9 +76,12 @@ export function useSearch(query, { type = null, lang = 'ar', limit = 8, delay = 
 						: {
 								status: 'success',
 								loadingMore: false,
-								data: { ...next, results: [...prev.data.results, ...next.results] },
-							}
-				)
+								data: {
+									...next,
+									results: [...prev.data.results, ...next.results],
+								},
+							},
+				),
 			)
 			.catch(() => setState((prev) => ({ ...prev, loadingMore: false })));
 	}, [state.data, state.loadingMore, trimmed, type, lang, limit]);
@@ -75,7 +97,9 @@ export function useRecentSearches(max = 5) {
 	const [recent, setRecent] = useState(() => {
 		try {
 			const stored = JSON.parse(localStorage.getItem(RECENT_KEY) ?? '[]');
-			return Array.isArray(stored) ? stored.filter((q) => typeof q === 'string').slice(0, max) : [];
+			return Array.isArray(stored)
+				? stored.filter((q) => typeof q === 'string').slice(0, max)
+				: [];
 		} catch {
 			return [];
 		}
@@ -94,9 +118,16 @@ export function useRecentSearches(max = 5) {
 		(query) => {
 			const q = query.trim();
 			if (q.length < MIN_QUERY_LENGTH) return;
-			setRecent((prev) => persist([q, ...prev.filter((x) => x.toLowerCase() !== q.toLowerCase())].slice(0, max)));
+			setRecent((prev) =>
+				persist(
+					[q, ...prev.filter((x) => x.toLowerCase() !== q.toLowerCase())].slice(
+						0,
+						max,
+					),
+				),
+			);
 		},
-		[max]
+		[max],
 	);
 
 	const clear = useCallback(() => setRecent(persist([])), []);

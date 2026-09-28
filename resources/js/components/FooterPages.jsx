@@ -77,7 +77,9 @@ export default function FooterPages() {
 							href='/'
 							className='hover:underline hover:underline-offset-8 text-white hover:text-point-orange transition-colors'
 						>
-							{lang === 'en' ? '© Point Iraq Conference' : '© مؤتمر بوينت العراق'}
+							{lang === 'en'
+								? '© Point Iraq Conference'
+								: '© مؤتمر بوينت العراق'}
 						</a>
 						|
 						<a

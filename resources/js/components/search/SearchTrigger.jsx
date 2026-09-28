@@ -36,7 +36,10 @@ export default function SearchTrigger({ variant = 'desktop' }) {
 		>
 			<FiSearch aria-hidden='true' className='shrink-0 text-lg' />
 			<span className='hidden xl:inline'>{t.searchShort}</span>
-			<kbd className='ms-auto hidden rounded border border-gray-200 bg-white px-1.5 font-sans text-[0.7rem] font-semibold text-gray-400 xl:inline' dir='ltr'>
+			<kbd
+				className='ms-auto hidden rounded border border-gray-200 bg-white px-1.5 font-sans text-[0.7rem] font-semibold text-gray-400 xl:inline'
+				dir='ltr'
+			>
 				{shortcut}
 			</kbd>
 		</button>

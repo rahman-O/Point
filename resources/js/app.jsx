@@ -38,7 +38,7 @@ function setupAxiosInterceptors(showLoader, hideLoader) {
 		(error) => {
 			hideLoader();
 			return Promise.reject(error);
-		}
+		},
 	);
 
 	axios.interceptors.response.use(
@@ -49,7 +49,7 @@ function setupAxiosInterceptors(showLoader, hideLoader) {
 		(error) => {
 			hideLoader();
 			return Promise.reject(error);
-		}
+		},
 	);
 }
 
@@ -94,5 +94,5 @@ createRoot(document.getElementById('root')).render(
 		<LoaderProvider>
 			<App />
 		</LoaderProvider>
-	</LangProvider>
+	</LangProvider>,
 );

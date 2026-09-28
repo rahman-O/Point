@@ -2,12 +2,27 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { FiArrowDown, FiArrowRight, FiArrowUp, FiCornerDownLeft, FiSearch } from 'react-icons/fi';
+import {
+	FiArrowDown,
+	FiArrowRight,
+	FiArrowUp,
+	FiCornerDownLeft,
+	FiSearch,
+} from 'react-icons/fi';
 import LangContext from '@/components/langContext/LangContext.jsx';
 import { useRecentSearches, useSearch } from './useSearch.js';
-import SearchResultsList, { orderResults, resultOptionId } from './SearchResultsList.jsx';
+import SearchResultsList, {
+	orderResults,
+	resultOptionId,
+} from './SearchResultsList.jsx';
 import SearchTypeFilter from './SearchTypeFilter.jsx';
-import { ClearButton, EmptyState, ErrorState, IdleState, ResultsSkeleton } from './SearchStates.jsx';
+import {
+	ClearButton,
+	EmptyState,
+	ErrorState,
+	IdleState,
+	ResultsSkeleton,
+} from './SearchStates.jsx';
 import { searchStrings } from './searchConfig.js';
 
 const ID = 'site-search';
@@ -20,7 +35,12 @@ function Kbd({ children }) {
 	);
 }
 
-export default function SearchDialog({ isOpen, initialQuery, initialType, onClose }) {
+export default function SearchDialog({
+	isOpen,
+	initialQuery,
+	initialType,
+	onClose,
+}) {
 	const { lang } = useContext(LangContext);
 	const t = searchStrings(lang);
 	const navigate = useNavigate();
@@ -55,7 +75,9 @@ export default function SearchDialog({ isOpen, initialQuery, initialType, onClos
 
 	useEffect(() => {
 		if (activeIndex < 0) return;
-		document.getElementById(resultOptionId(ID, activeIndex))?.scrollIntoView({ block: 'nearest' });
+		document
+			.getElementById(resultOptionId(ID, activeIndex))
+			?.scrollIntoView({ block: 'nearest' });
 	}, [activeIndex]);
 
 	const openResult = (result) => {
@@ -81,7 +103,9 @@ export default function SearchDialog({ isOpen, initialQuery, initialType, onClos
 	};
 
 	const trapFocus = (event) => {
-		const focusable = panelRef.current?.querySelectorAll('button, [href], input, [tabindex]:not([tabindex="-1"])');
+		const focusable = panelRef.current?.querySelectorAll(
+			'button, [href], input, [tabindex]:not([tabindex="-1"])',
+		);
 		if (!focusable?.length) return;
 		const first = focusable[0];
 		const last = focusable[focusable.length - 1];
@@ -140,12 +164,16 @@ export default function SearchDialog({ isOpen, initialQuery, initialType, onClos
 	} else if (isFirstLoad) {
 		body = <ResultsSkeleton />;
 	} else if (!showResults && search.status === 'success') {
-		body = <EmptyState lang={lang} query={query.trim()} onPick={pickSuggestion} />;
+		body = (
+			<EmptyState lang={lang} query={query.trim()} onPick={pickSuggestion} />
+		);
 	} else {
 		body = (
 			<div className='px-2 pb-2'>
 				{search.data?.relaxed && (
-					<p className='mx-2 mb-1 mt-2 rounded-lg bg-point-orange/10 px-3 py-2 text-xs text-[#8a4d06]'>{t.relaxed}</p>
+					<p className='mx-2 mb-1 mt-2 rounded-lg bg-point-orange/10 px-3 py-2 text-xs text-[#8a4d06]'>
+						{t.relaxed}
+					</p>
 				)}
 				<SearchResultsList
 					results={results}
@@ -166,7 +194,10 @@ export default function SearchDialog({ isOpen, initialQuery, initialType, onClos
 	return createPortal(
 		<AnimatePresence>
 			{isOpen && (
-				<div className='fixed inset-0 z-[100] flex items-start justify-center sm:px-4 sm:pt-[8vh]' onKeyDown={onKeyDown}>
+				<div
+					className='fixed inset-0 z-[100] flex items-start justify-center sm:px-4 sm:pt-[8vh]'
+					onKeyDown={onKeyDown}
+				>
 					<motion.div
 						className='absolute inset-0 bg-gray-900/50 backdrop-blur-[2px]'
 						initial={{ opacity: 0 }}
@@ -190,12 +221,19 @@ export default function SearchDialog({ isOpen, initialQuery, initialType, onClos
 						exit={{ opacity: 0, y: -8, scale: 0.98 }}
 						transition={{ duration: 0.16, ease: 'easeOut' }}
 					>
-						<label id={`${ID}-label`} htmlFor={`${ID}-input`} className='sr-only'>
+						<label
+							id={`${ID}-label`}
+							htmlFor={`${ID}-input`}
+							className='sr-only'
+						>
 							{t.searchLabel}
 						</label>
 
 						<div className='flex items-center gap-3 border-b border-gray-100 px-4 py-3 sm:px-5 sm:py-4'>
-							<FiSearch aria-hidden='true' className={`shrink-0 text-xl ${isRefreshing ? 'animate-pulse text-point-purple' : 'text-gray-400'}`} />
+							<FiSearch
+								aria-hidden='true'
+								className={`shrink-0 text-xl ${isRefreshing ? 'animate-pulse text-point-purple' : 'text-gray-400'}`}
+							/>
 							<input
 								ref={inputRef}
 								id={`${ID}-input`}
@@ -205,7 +243,9 @@ export default function SearchDialog({ isOpen, initialQuery, initialType, onClos
 								role='combobox'
 								aria-expanded={showResults}
 								aria-controls={`${ID}-listbox`}
-								aria-activedescendant={activeIndex >= 0 ? resultOptionId(ID, activeIndex) : undefined}
+								aria-activedescendant={
+									activeIndex >= 0 ? resultOptionId(ID, activeIndex) : undefined
+								}
 								aria-autocomplete='list'
 								autoComplete='off'
 								autoCorrect='off'
@@ -217,7 +257,9 @@ export default function SearchDialog({ isOpen, initialQuery, initialType, onClos
 								placeholder={t.placeholder}
 								className='min-w-0 flex-1 border-0 bg-transparent p-0 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-0 sm:text-lg [&::-webkit-search-cancel-button]:hidden'
 							/>
-							{query && <ClearButton lang={lang} onClick={() => pickSuggestion('')} />}
+							{query && (
+								<ClearButton lang={lang} onClick={() => pickSuggestion('')} />
+							)}
 							<button
 								type='button'
 								onClick={onClose}
@@ -235,14 +277,22 @@ export default function SearchDialog({ isOpen, initialQuery, initialType, onClos
 								<SearchTypeFilter
 									lang={lang}
 									counts={search.data.counts}
-									total={Object.values(search.data.counts).reduce((a, b) => a + b, 0)}
+									total={Object.values(search.data.counts).reduce(
+										(a, b) => a + b,
+										0,
+									)}
 									value={type}
 									onChange={setType}
 								/>
 							</div>
 						)}
 
-						<div ref={listRef} className='min-h-0 flex-1 overflow-y-auto overscroll-contain' aria-live='polite' aria-busy={search.status === 'loading'}>
+						<div
+							ref={listRef}
+							className='min-h-0 flex-1 overflow-y-auto overscroll-contain'
+							aria-live='polite'
+							aria-busy={search.status === 'loading'}
+						>
 							{body}
 						</div>
 
@@ -277,13 +327,15 @@ export default function SearchDialog({ isOpen, initialQuery, initialType, onClos
 									<FiArrowRight aria-hidden='true' className='rtl:rotate-180' />
 								</Link>
 							) : (
-								showResults && <span className='ms-auto'>{t.resultsCount(total)}</span>
+								showResults && (
+									<span className='ms-auto'>{t.resultsCount(total)}</span>
+								)
 							)}
 						</div>
 					</motion.div>
 				</div>
 			)}
 		</AnimatePresence>,
-		document.body
+		document.body,
 	);
 }
