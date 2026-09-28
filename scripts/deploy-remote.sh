@@ -30,7 +30,10 @@ trap '"$PHP" artisan up || true' EXIT
 # Ignored files (storage/app/public, .env, vendor) are untouched by reset --hard.
 git reset --hard "$SHA"
 
-"$PHP" "$COMPOSER" install --no-dev --prefer-dist --optimize-autoloader --no-interaction --no-progress
+# Hostinger disables proc_open, so composer can't run its artisan hooks; run them directly.
+"$PHP" "$COMPOSER" install --no-dev --prefer-dist --optimize-autoloader --no-interaction --no-progress --no-scripts
+"$PHP" artisan package:discover --ansi
+"$PHP" artisan filament:upgrade
 
 rm -rf public/build.new
 mkdir -p public/build.new
