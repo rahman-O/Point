@@ -77,7 +77,7 @@ export default function FooterPages() {
 							href='/'
 							className='hover:underline hover:underline-offset-8 text-white hover:text-point-orange transition-colors'
 						>
-							{lang === 'en' ? '© Point Conference' : '© مؤتمر بوينت'}
+							{lang === 'en' ? '© Point Iraq Conference' : '© مؤتمر بوينت العراق'}
 						</a>
 						|
 						<a
@@ -85,13 +85,6 @@ export default function FooterPages() {
 							className='hover:underline hover:underline-offset-8 text-white hover:text-point-orange transition-colors'
 						>
 							{lang === 'en' ? 'Speakers' : 'المتحدثين'}
-						</a>
-						|
-						<a
-							href='/partners'
-							className='hover:underline hover:underline-offset-8 text-white hover:text-point-orange transition-colors'
-						>
-							{lang === 'en' ? 'Partners' : 'الشركاء'}
 						</a>
 					</div>
 
