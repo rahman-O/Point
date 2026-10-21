@@ -1,7 +1,8 @@
 <?php
 
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\SpaController;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/{any}', 'app')->where('any', '.*');
+Route::get('/{any}', SpaController::class)->where('any', '.*');
 
