@@ -104,7 +104,7 @@ class SessionsProgramRelationManager extends RelationManager
                         }),
                     Select::make('facilitator_id')
                         ->label('Facilitator / ميسر')
-                        ->helperText('Choose which of the session speakers above is the facilitator. They keep their place in the speaker list and simply get a "Facilitator" tag on the public agenda.')
+                        ->helperText('Choose which of the session speakers above is the facilitator (add them to Speakers first). On the public agenda they are listed first with a "ميسر الجلسة / Facilitator" badge.')
                         ->placeholder('No facilitator')
                         ->options(fn (Forms\Get $get) => Speakers::whereIn('id', array_filter((array) $get('speakers')))
                             ->pluck('name_en', 'id')

@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import LangContext from '@/components/langContext/LangContext.jsx';
 import { Link } from 'react-router-dom';
+import { FiMic } from 'react-icons/fi';
 
 // Neutral inline SVG avatar shown when a speaker image is missing or fails to load.
 // Inlined so it never triggers an extra network request and can't itself 404.
@@ -65,15 +66,20 @@ export function SpeakerList({ session }) {
 									e.currentTarget.onerror = null;
 									e.currentTarget.src = FALLBACK_AVATAR;
 								}}
-								className='h-14 w-14 flex-shrink-0 rounded-full object-cover ring-2 ring-point-teal/20 transition-transform duration-200 group-hover:scale-105 sm:h-16 sm:w-16'
+								className={`h-14 w-14 flex-shrink-0 rounded-full object-cover transition-transform duration-200 group-hover:scale-105 sm:h-16 sm:w-16 ${
+									isFacilitator
+										? 'ring-[3px] ring-point-purple ring-offset-2'
+										: 'ring-2 ring-point-teal/20'
+								}`}
 							/>
 
 							<div className='flex min-w-0 flex-col'>
 								<span className='flex flex-wrap items-center gap-2 font-bold text-gray-900'>
 									<span className='break-words'>{name}</span>
 									{isFacilitator && (
-										<span className='rounded-full bg-point-teal/10 px-2 py-0.5 text-xs font-medium text-point-teal'>
-											{isAr ? 'ميسر' : 'Facilitator'}
+										<span className='inline-flex items-center gap-1 rounded-full bg-point-purple px-2.5 py-0.5 text-xs font-semibold text-white'>
+											<FiMic aria-hidden='true' />
+											{isAr ? 'ميسر الجلسة' : 'Facilitator'}
 										</span>
 									)}
 								</span>
