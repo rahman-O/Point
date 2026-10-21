@@ -3,6 +3,7 @@
 use App\Http\Controllers\ConferenceController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\OgImageController;
 use App\Http\Controllers\PartnersController;
 use App\Http\Controllers\ProgramsController;
 use App\Http\Controllers\SearchController;
@@ -23,6 +24,7 @@ Route::get('/speakers/{id}', [SpeakersController::class, 'show']);
 Route::get('/speakers-by-year', [SpeakersController::class, 'speakersByYear']);
 Route::get('/top/speakers', [SpeakersController::class, 'getTopSpeakers']);
 Route::get('/images/{filename}', [ImageController::class, 'show']);
+Route::get('/og-image/{filename}', OgImageController::class);
 
 //programs
 Route::get('/programs', [ProgramsController::class, 'index']);

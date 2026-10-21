@@ -88,17 +88,25 @@ class SpaController extends Controller
     private function withImage(array $meta, ?string $image, string $base): array
     {
         $file = $image ? storage_path('app/public/' . $image) : null;
+        $size = $file && is_file($file) ? @getimagesize($file) : false;
 
-        if (! $file || ! is_file($file) || filesize($file) > self::MAX_IMAGE_BYTES) {
+        if (! $size) {
             return $meta;
         }
 
-        $size = @getimagesize($file);
+        if (filesize($file) <= self::MAX_IMAGE_BYTES) {
+            return array_merge($meta, [
+                'image' => $base . '/api/images/' . rawurlencode($image),
+                'image_width' => $size[0],
+                'image_height' => $size[1],
+            ]);
+        }
 
+        // The resized copy may be EXIF-rotated, so its final dimensions aren't advertised.
         return array_merge($meta, [
-            'image' => $base . '/api/images/' . rawurlencode($image),
-            'image_width' => $size[0] ?? null,
-            'image_height' => $size[1] ?? null,
+            'image' => $base . '/api/og-image/' . rawurlencode($image),
+            'image_width' => null,
+            'image_height' => null,
         ]);
     }
 }
