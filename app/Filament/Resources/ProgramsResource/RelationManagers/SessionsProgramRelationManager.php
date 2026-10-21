@@ -138,8 +138,8 @@ class SessionsProgramRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('title_en')
                     ->label('Title')
                     ->description(fn ($record) => $record->title_ar)
+                    ->grow()
                     ->wrap()
-                    ->limit(60)
                     ->searchable(query: function (Builder $query, string $search): Builder {
                         // The site search index stores normalized Arabic/English text (hamza, taa marbuta, diacritics…).
                         $normalized = TextNormalizer::normalize($search);
@@ -159,9 +159,13 @@ class SessionsProgramRelationManager extends RelationManager
                     ->placeholder('—'),
                     Tables\Columns\TextColumn::make('speakers.name_en')
                         ->label('Speakers')
+                        ->width('14rem')
+                        ->wrap()
                         ->searchable(['name_en', 'name_ar']),
                 Tables\Columns\TextColumn::make('facilitator.name_en')
                     ->label('Facilitator / ميسر')
+                    ->width('10rem')
+                    ->wrap()
                     ->searchable(['name_en', 'name_ar'])
                     ->placeholder('—'),
 
