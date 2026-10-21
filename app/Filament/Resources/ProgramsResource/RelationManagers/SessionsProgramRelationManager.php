@@ -4,7 +4,9 @@ namespace App\Filament\Resources\ProgramsResource\RelationManagers;
 
 use App\Filament\Resources\SessionsProgramResource\RelationManagers\SpeakerSessionsRelationManager;
 use App\Models\Programs;
+use App\Models\SearchEntry;
 use App\Models\Speakers;
+use App\Search\TextNormalizer;
 use Closure;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
@@ -96,18 +98,18 @@ class SessionsProgramRelationManager extends RelationManager
                                           ->orWhere('name_ar', 'like', "%{$search}%");
                                 })
                                 ->limit(20)
-                                ->pluck('name_en', 'id')
+                                ->get(['id', 'name_en', 'name_ar'])
+                                ->mapWithKeys(fn (Speakers $speaker) => [$speaker->id => self::bilingualName($speaker)])
                                 ->toArray();
                         })
-                        ->getOptionLabelUsing(function ($value) {
-                            return Speakers::find($value)?->name_en ?? '';
-                        }),
+                        ->getOptionLabelFromRecordUsing(fn (Speakers $speaker) => self::bilingualName($speaker)),
                     Select::make('facilitator_id')
                         ->label('Facilitator / ميسر')
                         ->helperText('Choose which of the session speakers above is the facilitator (add them to Speakers first). On the public agenda they are listed first with a "ميسر الجلسة / Facilitator" badge.')
                         ->placeholder('No facilitator')
                         ->options(fn (Forms\Get $get) => Speakers::whereIn('id', array_filter((array) $get('speakers')))
-                            ->pluck('name_en', 'id')
+                            ->get(['id', 'name_en', 'name_ar'])
+                            ->mapWithKeys(fn (Speakers $speaker) => [$speaker->id => self::bilingualName($speaker)])
                             ->toArray())
                         ->searchable()
                         ->nullable(),
@@ -135,13 +137,32 @@ class SessionsProgramRelationManager extends RelationManager
                     ->date('H:i'),
                 Tables\Columns\TextColumn::make('title_en')
                     ->label('Title')
+                    ->description(fn ($record) => $record->title_ar)
                     ->wrap()
                     ->limit(60)
-                    ->searchable()
+                    ->searchable(query: function (Builder $query, string $search): Builder {
+                        // The site search index stores normalized Arabic/English text (hamza, taa marbuta, diacritics…).
+                        $normalized = TextNormalizer::normalize($search);
+
+                        return $query->where(function (Builder $query) use ($search, $normalized) {
+                            $query->where('title_en', 'like', "%{$search}%")
+                                ->orWhere('title_ar', 'like', "%{$search}%");
+
+                            if ($normalized !== '') {
+                                $query->orWhereIn('id', SearchEntry::query()
+                                    ->where('entry_type', 'session')
+                                    ->where('search_all', 'like', "%{$normalized}%")
+                                    ->select('entry_id'));
+                            }
+                        });
+                    })
                     ->placeholder('—'),
-                    Tables\Columns\TextColumn::make('speakers.name_en')->searchable(),
+                    Tables\Columns\TextColumn::make('speakers.name_en')
+                        ->label('Speakers')
+                        ->searchable(['name_en', 'name_ar']),
                 Tables\Columns\TextColumn::make('facilitator.name_en')
                     ->label('Facilitator / ميسر')
+                    ->searchable(['name_en', 'name_ar'])
                     ->placeholder('—'),
 
             ])
@@ -162,6 +183,14 @@ class SessionsProgramRelationManager extends RelationManager
             ]);
     }
 
+
+    private static function bilingualName(Speakers $speaker): string
+    {
+        return collect([trim((string) $speaker->name_en), trim((string) $speaker->name_ar)])
+            ->filter()
+            ->unique()
+            ->implode(' — ');
+    }
 
     function getOption():array
     {
