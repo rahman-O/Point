@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Speakers;
+use App\Models\SpeakerYear;
 use Illuminate\Http\Request;
 
 class SpeakersController extends Controller
@@ -12,15 +13,15 @@ class SpeakersController extends Controller
      */
     public function index(Request $request)
 {
-    $year = $request->input('year');
+    $year = is_scalar($request->input('year')) ? (string) $request->input('year') : null;
 
-    // Get all unique years from the speakers table
-    $years = Speakers::select('year')->distinct()->orderBy('year', 'desc')->pluck('year');
+    // Get all unique years from the speakers' year list
+    $years = SpeakerYear::query()->select('year')->distinct()->orderBy('year', 'desc')->pluck('year');
 
     $query = Speakers::query();
 
     if ($year) {
-        $query->where('year', $year);
+        $query->inYear($year);
     }
 
     $speakers = $query->orderBy('created_at', 'desc')->paginate(25);
@@ -73,14 +74,14 @@ public function getTopSpeakers()
     }
 public function speakersByYear(Request $request)
 {
-    $year = $request->input('year');
+    $year = is_scalar($request->input('year')) ? (string) $request->input('year') : null;
     $search = $request->input('search');
 
     if (!$year) {
         return response()->json(['message' => 'Year is required'], 400);
     }
 
-    $query = Speakers::where('year', $year);
+    $query = Speakers::inYear($year);
 
     if ($search) {
         $query->where(function ($q) use ($search) {

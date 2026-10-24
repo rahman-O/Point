@@ -14,7 +14,8 @@ class EditSpeakers extends EditRecord
     {
         return [
             Actions\ViewAction::make(),
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()
+                ->before(fn (Actions\DeleteAction $action, $record) => SpeakersResource::preventDeletingLinkedSpeaker($action, $record)),
         ];
     }
 }

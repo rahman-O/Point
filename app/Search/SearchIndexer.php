@@ -117,7 +117,11 @@ class SearchIndexer
     {
         $query = (self::MODELS[$type])::query();
 
-        return $type === 'session' ? $query->with(['speakers', 'facilitator']) : $query;
+        return match ($type) {
+            'session' => $query->with(['speakers', 'facilitator']),
+            'speaker' => $query->with('years'),
+            default => $query,
+        };
     }
 
     private function store(string $type, Model $model): void
@@ -147,6 +151,8 @@ class SearchIndexer
 
     private function buildSpeaker(Speakers $speaker): array
     {
+        $years = $speaker->yearList();
+
         return [
             'title_en' => $this->text($speaker->name_en, 500),
             'title_ar' => $this->text($speaker->name_ar, 500),
@@ -156,8 +162,9 @@ class SearchIndexer
             'content_ar' => $this->text($speaker->desc_ar),
             'image' => $speaker->image ?: null,
             'url' => '/speakers/' . $speaker->getKey(),
-            'year' => $this->text($speaker->year, 10) ?: null,
+            'year' => $years[0] ?? null,
             'published_on' => null,
+            'meta' => implode(' ', $years),
             'extra' => null,
         ];
     }

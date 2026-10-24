@@ -92,7 +92,7 @@ class SessionsProgramRelationManager extends RelationManager
                         ->getSearchResultsUsing(function (string $search) {
                             $year = $this->year ?? now()->year;
 
-                            return Speakers::where('year', $year)
+                            return Speakers::inYear($year)
                                 ->where(function($query) use ($search) {
                                     $query->where('name_en', 'like', "%{$search}%")
                                           ->orWhere('name_ar', 'like', "%{$search}%");
