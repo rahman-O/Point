@@ -31,16 +31,22 @@ class SpeakersController extends Controller
         'years' => $years,
     ]);
 }
-public function getTopSpeakers()
+    /**
+     * Speakers for the home page: only the newest conference year, newest first, at most
+     * 18 (three rows of six on desktop).
+     */
+    public function getTopSpeakers()
     {
-         $speakers = Speakers::orderBy('created_at', 'desc')
-        ->limit(30)
-        ->get();
+        $year = SpeakerYear::query()->max('year');
 
+        $speakers = $year
+            ? Speakers::inYear($year)->orderBy('created_at', 'desc')->limit(18)->get()
+            : collect();
 
-    return response()->json([
-        'speakers' => $speakers,
-    ]);
+        return response()->json([
+            'year' => $year,
+            'speakers' => $speakers,
+        ]);
     }
 // public function getTopSpeakers()
 // {
