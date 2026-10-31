@@ -1,74 +1,60 @@
 import React, { useContext, useEffect, useState } from 'react';
 import LangContext from '@/components/langContext/LangContext.jsx';
 
+function LogoSection({ title, items }) {
+	return (
+		<div className='flex flex-col items-center gap-6 w-full'>
+			<h1 className='font-bold text-xl sm:text-2xl tracking-widest text-center uppercase'>
+				{title}
+			</h1>
+			<ul className='flex flex-wrap justify-center gap-x-8 gap-y-10 sm:gap-x-10 md:gap-x-10 lg:gap-x-12'>
+				{items.map((item) => (
+					<li
+						key={item.id}
+						className='flex flex-col items-center gap-2 w-28 sm:w-32 md:w-32 lg:w-36'
+					>
+						<img
+							className='h-20 w-28 sm:h-24 sm:w-32 md:h-24 md:w-32 lg:h-28 lg:w-36 object-contain rounded-2xl transition-transform duration-200 hover:scale-110 focus-visible:scale-110'
+							src={`/api/images/${item.image}`}
+							alt={item.name}
+							loading='lazy'
+						/>
+					</li>
+				))}
+			</ul>
+		</div>
+	);
+}
+
 export default function FooterPages() {
 	const { lang } = useContext(LangContext);
-	const [orgs, setOrgs] = useState([]);
-	const [partners, setPartners] = useState([]);
-
-	const fetchOrgsData = async () => {
-		const res = await fetch('/api/orgs');
-		const data = await res.json();
-		setOrgs(data);
-	};
-
-	const fetchPartnersData = async () => {
-		const res = await fetch('/api/partners');
-		const data = await res.json();
-		setPartners(data);
-	};
+	// { organizers: { visible, items }, partners: { visible, items } } — admins can hide
+	// either section from its list page in the dashboard.
+	const [sections, setSections] = useState(null);
 
 	useEffect(() => {
-		fetchOrgsData();
-		fetchPartnersData();
+		fetch('/api/footer')
+			.then((res) => res.json())
+			.then(setSections)
+			.catch(() => {});
 	}, []);
 
 	return (
 		<section className='bg-black py-12 px-4'>
 			<div className='text-white flex flex-col items-center gap-12 max-w-screen-xl mx-auto'>
-				{/* Organizers */}
-				<div className='flex flex-col items-center gap-6 w-full'>
-					<h1 className='font-bold text-xl sm:text-2xl tracking-widest text-center uppercase'>
-						{lang === 'en' ? 'Organizers' : 'المنظمين'}
-					</h1>
-					<ul className='flex flex-wrap justify-center gap-x-8 gap-y-10 sm:gap-x-10 md:gap-x-10 lg:gap-x-12'>
-						{orgs.map((org) => (
-							<li
-								key={org.id}
-								className='flex flex-col items-center gap-2 w-28 sm:w-32 md:w-32 lg:w-36'
-							>
-								<img
-									className='h-20 w-28 sm:h-24 sm:w-32 md:h-24 md:w-32 lg:h-28 lg:w-36 object-contain rounded-2xl transition-transform duration-200 hover:scale-110 focus-visible:scale-110'
-									src={`/api/images/${org.image}`}
-									alt={org.name}
-									loading='lazy'
-								/>
-							</li>
-						))}
-					</ul>
-				</div>
+				{sections?.organizers?.visible && (
+					<LogoSection
+						title={lang === 'en' ? 'Organizers' : 'المنظمين'}
+						items={sections.organizers.items}
+					/>
+				)}
 
-				{/* Partners */}
-				<div className='flex flex-col items-center gap-6 w-full'>
-					<h1 className='font-bold text-xl sm:text-2xl tracking-widest text-center uppercase'>
-						{lang === 'en' ? 'Partners' : 'الشركاء'}
-					</h1>
-					<ul className='flex flex-wrap justify-center gap-x-8 gap-y-10 sm:gap-x-10 md:gap-x-10 lg:gap-x-12'>
-						{partners.map((partner) => (
-							<li
-								key={partner.id}
-								className='flex flex-col items-center gap-2 w-28 sm:w-32 md:w-32 lg:w-36'
-							>
-								<img
-									className='h-20 w-28 sm:h-24 sm:w-32 md:h-24 md:w-32 lg:h-28 lg:w-36 object-contain rounded-2xl transition-transform duration-200 hover:scale-110 focus-visible:scale-110'
-									src={`/api/images/${partner.image}`}
-									alt={partner.name}
-									loading='lazy'
-								/>
-							</li>
-						))}
-					</ul>
-				</div>
+				{sections?.partners?.visible && (
+					<LogoSection
+						title={lang === 'en' ? 'Partners' : 'الشركاء'}
+						items={sections.partners.items}
+					/>
+				)}
 
 				{/* Footer links and info */}
 				<div className='flex flex-col items-center gap-4 text-center text-sm sm:text-base w-full'>
