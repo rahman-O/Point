@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ConferenceController;
 use App\Http\Controllers\FooterController;
+use App\Http\Controllers\FooterLogoController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\OgImageController;
@@ -60,6 +61,7 @@ Route::get('/partners', [PartnersController::class, 'index']);
 
 // Footer logo sections (organizers & partners), each can be hidden from the admin panel
 Route::get('/footer', FooterController::class);
+Route::get('/footer-logos/{image}', FooterLogoController::class);
 
 // Site-wide search
 Route::get('/search', SearchController::class)->middleware('throttle:120,1');

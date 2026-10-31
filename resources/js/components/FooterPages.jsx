@@ -1,24 +1,65 @@
 import React, { useContext, useEffect, useState } from 'react';
 import LangContext from '@/components/langContext/LangContext.jsx';
 
+// Equal-area sizing: every logo gets about the same visual weight, so wide logos become wider
+// and shorter and square ones more compact (within height and width limits).
+const LOGO_AREA = 6800;
+const LOGO_MIN_HEIGHT = 30;
+const LOGO_MAX_HEIGHT = 84;
+const LOGO_MAX_WIDTH = 200;
+
+function logoSize({ width, height }) {
+	const ratio = width / height;
+	let h = Math.min(
+		LOGO_MAX_HEIGHT,
+		Math.max(LOGO_MIN_HEIGHT, Math.sqrt(LOGO_AREA / ratio)),
+	);
+	let w = h * ratio;
+	if (w > LOGO_MAX_WIDTH) {
+		w = LOGO_MAX_WIDTH;
+		h = w / ratio;
+	}
+	return { width: Math.round(w), height: Math.round(h) };
+}
+
+function Logo({ item }) {
+	// The server makes a white copy of each logo; the original is shown if it couldn't.
+	if (!item.logo) {
+		return (
+			<img
+				className='h-12 w-24 sm:h-14 sm:w-28 object-contain'
+				src={`/api/images/${item.image}`}
+				alt={item.name}
+				loading='lazy'
+			/>
+		);
+	}
+
+	const { width, height } = logoSize(item.logo);
+
+	return (
+		<img
+			className='h-[calc(var(--logo-h)*0.75)] w-[calc(var(--logo-w)*0.75)] sm:h-[var(--logo-h)] sm:w-[var(--logo-w)] object-contain opacity-90 transition duration-200 hover:opacity-100 hover:scale-105'
+			style={{ '--logo-w': `${width}px`, '--logo-h': `${height}px` }}
+			src={item.logo.src}
+			width={width}
+			height={height}
+			alt={item.name}
+			loading='lazy'
+		/>
+	);
+}
+
 function LogoSection({ title, items }) {
 	return (
-		<div className='flex flex-col items-center gap-6 w-full'>
+		<div className='flex flex-col items-center gap-8 w-full'>
 			<h1 className='font-bold text-xl sm:text-2xl tracking-widest text-center uppercase'>
 				{title}
 			</h1>
-			<ul className='flex flex-wrap justify-center gap-x-8 gap-y-10 sm:gap-x-10 md:gap-x-10 lg:gap-x-12'>
+			<ul className='flex flex-wrap items-center justify-center max-w-5xl gap-x-10 gap-y-8 sm:gap-x-14 sm:gap-y-10'>
 				{items.map((item) => (
-					<li
-						key={item.id}
-						className='flex flex-col items-center gap-2 w-28 sm:w-32 md:w-32 lg:w-36'
-					>
-						<img
-							className='h-20 w-28 sm:h-24 sm:w-32 md:h-24 md:w-32 lg:h-28 lg:w-36 object-contain rounded-2xl transition-transform duration-200 hover:scale-110 focus-visible:scale-110'
-							src={`/api/images/${item.image}`}
-							alt={item.name}
-							loading='lazy'
-						/>
+					<li key={item.id} className='flex items-center justify-center'>
+						<Logo item={item} />
 					</li>
 				))}
 			</ul>
