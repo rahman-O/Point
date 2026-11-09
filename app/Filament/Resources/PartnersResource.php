@@ -42,7 +42,18 @@ class PartnersResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            // Drag rows to arrange the footer; the toggle shows every partner while reordering.
+            ->reorderable('sort_order')
+            ->reorderRecordsTriggerAction(fn (Tables\Actions\Action $action, bool $isReordering) => $action
+                ->button()
+                ->label($isReordering
+                    ? 'Done / تم'
+                    : 'Reorder footer / ترتيب الحاشية'))
+            ->defaultSort('sort_order')
             ->columns([
+                Tables\Columns\TextColumn::make('sort_order')
+                    ->label('Order / الترتيب')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('image'),
