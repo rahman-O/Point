@@ -73,3 +73,29 @@ it('lets admins pick the agenda section when adding an item', function () {
 
     expect(SessionsProgram::sole()->category)->toBe(SessionCategory::Forums);
 });
+
+it('lets admins number parallel items so a chosen one shows first', function () {
+    $this->actingAs(User::factory()->create());
+    $program = Programs::create(['year' => (string) now()->year, 'day1' => 1]);
+    $first = agendaItem($program, 'Podcast workshop', ['start_time' => '14:00', 'end_time' => '17:00']);
+    $second = agendaItem($program, 'Algorithms workshop', ['start_time' => '14:00', 'end_time' => '17:00']);
+
+    Livewire::test(SessionsProgramRelationManager::class, [
+        'ownerRecord' => $program,
+        'pageClass' => EditPrograms::class,
+    ])
+        ->mountTableAction('edit', $second)
+        ->assertTableActionDataSet(['priority' => 0])
+        ->setTableActionData(['priority' => 1])
+        ->callMountedTableAction()
+        ->assertHasNoTableActionErrors()
+        ->mountTableAction('edit', $first)
+        ->setTableActionData(['priority' => -1])
+        ->callMountedTableAction()
+        ->assertHasTableActionErrors(['priority']);
+
+    $this->getJson('/api/programs/current/year')
+        ->assertOk()
+        ->assertJsonPath('sessions_program.0.priority', 0)
+        ->assertJsonPath('sessions_program.1.priority', 1);
+});

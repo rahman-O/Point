@@ -61,6 +61,15 @@ class SessionsProgramRelationManager extends RelationManager
                     ->default(SessionCategory::DEFAULT->value)
                     ->required()
                     ->native(false),
+                Forms\Components\TextInput::make('priority')
+                    ->label('Order among parallel items / الترتيب بين البنود المتزامنة')
+                    ->helperText('Only matters when several items share the same time: 1 shows first, then 2, 3… Items left at 0 come after the numbered ones, in their usual order / يُستخدم فقط عندما تتزامن عدة بنود في نفس الوقت: 1 يظهر أولاً ثم 2 ثم 3… البنود المتروكة على 0 تأتي بعد المرقّمة بترتيبها المعتاد')
+                    ->numeric()
+                    ->integer()
+                    ->minValue(0)
+                    ->maxValue(999)
+                    ->default(0)
+                    ->required(),
 
                 Forms\Components\TimePicker::make('start_time')
                     //remove seconds from the time picker
@@ -153,6 +162,12 @@ class SessionsProgramRelationManager extends RelationManager
                     ->date('H:i'),
                 Tables\Columns\TextColumn::make('end_time')
                     ->date('H:i'),
+                Tables\Columns\TextColumn::make('priority')
+                    ->label('Order / الترتيب')
+                    ->tooltip('Order among items sharing the same time (1 first); 0 = default')
+                    ->sortable()
+                    ->alignCenter()
+                    ->formatStateUsing(fn (int $state) => $state === 0 ? '—' : (string) $state),
                 Tables\Columns\TextColumn::make('title_en')
                     ->label('Title')
                     ->description(fn ($record) => $record->title_ar)

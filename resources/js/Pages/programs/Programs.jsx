@@ -58,6 +58,19 @@ export default function Programs() {
 			timeSlots[slotPositions.get(key)].sessions.push(session);
 		});
 
+		// Inside a slot, admins can number items (1 shows first); unnumbered ones (0)
+		// follow in their usual order.
+		timeSlots.forEach((slot) => {
+			slot.sessions = slot.sessions
+				.map((session, index) => ({ session, index }))
+				.sort(
+					(a, b) =>
+						(a.session.priority || Infinity) - (b.session.priority || Infinity) ||
+						a.index - b.index,
+				)
+				.map(({ session }) => session);
+		});
+
 		return timeSlots;
 	};
 

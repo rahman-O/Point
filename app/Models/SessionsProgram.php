@@ -11,11 +11,11 @@ class SessionsProgram extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['programs_id','day', 'category', 'year', 'start_time', 'end_time', 'subject_en', 'subject_ar', 'presentation_en', 'presentation_ar','facilitator_id','title_en','title_ar'];
+    protected $fillable = ['programs_id','day', 'category', 'priority', 'year', 'start_time', 'end_time', 'subject_en', 'subject_ar', 'presentation_en', 'presentation_ar','facilitator_id','title_en','title_ar'];
 
-    protected $casts = ['category' => SessionCategory::class];
+    protected $casts = ['category' => SessionCategory::class, 'priority' => 'integer'];
 
-    protected $attributes = ['category' => 'sessions'];
+    protected $attributes = ['category' => 'sessions', 'priority' => 0];
 
 //speaker
 
