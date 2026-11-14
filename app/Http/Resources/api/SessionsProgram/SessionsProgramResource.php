@@ -34,6 +34,8 @@ class SessionsProgramResource extends JsonResource
                 'ar' => $this->pres_ar,
             ],
             'facilitator_id' => new SpecifiedSpeakersResource($this->facilitator),
+            'rapporteur_id' => new SpecifiedSpeakersResource($this->rapporteur),
+            'trainer_id' => new SpecifiedSpeakersResource($this->trainer),
             'speakers' => $this->speakers,
             'title'=> [
                 'en' => $this->title_en,

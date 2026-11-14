@@ -1,12 +1,47 @@
 import React, { useContext } from 'react';
 import LangContext from '@/components/langContext/LangContext.jsx';
 import { Link } from 'react-router-dom';
-import { FiMic } from 'react-icons/fi';
+import { FiMic, FiEdit3, FiAward } from 'react-icons/fi';
 
 // Neutral inline SVG avatar shown when a speaker image is missing or fails to load.
 // Inlined so it never triggers an extra network request and can't itself 404.
 const FALLBACK_AVATAR =
 	'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96"><rect width="96" height="96" rx="48" fill="%23cbd5e1"/><circle cx="48" cy="38" r="18" fill="%23ffffff"/><path d="M16 86c0-18 14-28 32-28s32 10 32 28z" fill="%23ffffff"/></svg>';
+
+// Optional roles a session's speakers can hold, in the order they head the list. Each has
+// its own colour so they are told apart at a glance. Full class names are spelled out so
+// Tailwind keeps them in the build.
+const ROLES = [
+	{
+		key: 'facilitator_id',
+		en: 'Facilitator',
+		ar: 'ميسر الجلسة',
+		Icon: FiMic,
+		ring: 'ring-[3px] ring-point-purple ring-offset-2',
+		badge: 'bg-point-purple text-white',
+	},
+	{
+		key: 'trainer_id',
+		en: 'Trainer',
+		ar: 'مدرب',
+		Icon: FiAward,
+		ring: 'ring-[3px] ring-point-orange ring-offset-2',
+		badge: 'bg-point-orange text-white',
+	},
+	{
+		key: 'rapporteur_id',
+		en: 'Rapporteur',
+		ar: 'مقرر الجلسة',
+		Icon: FiEdit3,
+		ring: 'ring-[3px] ring-point-teal ring-offset-2',
+		badge: 'bg-point-teal text-white',
+	},
+];
+
+// Role ids are plain ids on the raw model payload but nested speaker objects on the
+// API-resource payload, so accept both shapes.
+const idOf = (value) =>
+	Number(value !== null && typeof value === 'object' ? value.id : value);
 
 export function SpeakerList({ session }) {
 	const { lang } = useContext(LangContext);
@@ -15,27 +50,21 @@ export function SpeakerList({ session }) {
 	// Always work with an array, even if the API omits the relation.
 	const speakers = session?.speakers ?? [];
 
-	// The facilitator is one of the session's speakers, flagged with a tag rather than
-	// listed separately. `facilitator_id` is a plain id on the raw model payload but a
-	// nested speaker object on the API-resource payload, so accept both shapes.
-	const rawFacilitatorId = session?.facilitator_id;
-	const facilitatorId = Number(
-		rawFacilitatorId !== null && typeof rawFacilitatorId === 'object'
-			? rawFacilitatorId.id
-			: rawFacilitatorId,
-	);
-
 	if (speakers.length === 0) {
 		return null;
 	}
 
-	// The facilitator leads the session, so they head the list. Array.sort is stable,
-	// so every other speaker keeps the order set in the admin panel.
-	const orderedSpeakers = [...speakers].sort(
-		(a, b) =>
-			(Number(a.id) === facilitatorId ? 0 : 1) -
-			(Number(b.id) === facilitatorId ? 0 : 1),
-	);
+	// Which roles each speaker holds (a speaker may hold more than one).
+	const rolesOf = (speaker) =>
+		ROLES.filter((role) => idOf(session?.[role.key]) === Number(speaker.id));
+
+	// Role holders head the list in ROLES order (facilitator, trainer, rapporteur).
+	// Array.sort is stable, so every other speaker keeps the order set in the admin panel.
+	const rank = (speaker) => {
+		const index = ROLES.findIndex((role) => idOf(session?.[role.key]) === Number(speaker.id));
+		return index === -1 ? ROLES.length : index;
+	};
+	const orderedSpeakers = [...speakers].sort((a, b) => rank(a) - rank(b));
 
 	return (
 		// In Arabic the document is dir="rtl", so `items-start` aligns rows to the
@@ -44,7 +73,8 @@ export function SpeakerList({ session }) {
 			{orderedSpeakers.map((speaker) => {
 				const name = isAr ? speaker.name_ar : speaker.name_en;
 				const job = isAr ? speaker.job_ar : speaker.job_en;
-				const isFacilitator = Number(speaker.id) === facilitatorId;
+				const roles = rolesOf(speaker);
+				const primaryRole = roles[0];
 
 				return (
 					<li key={speaker.id}>
@@ -67,21 +97,22 @@ export function SpeakerList({ session }) {
 									e.currentTarget.src = FALLBACK_AVATAR;
 								}}
 								className={`h-14 w-14 flex-shrink-0 rounded-full object-cover object-top transition-transform duration-200 group-hover:scale-105 sm:h-16 sm:w-16 ${
-									isFacilitator
-										? 'ring-[3px] ring-point-purple ring-offset-2'
-										: 'ring-2 ring-point-teal/20'
+									primaryRole ? primaryRole.ring : 'ring-2 ring-point-teal/20'
 								}`}
 							/>
 
 							<div className='flex min-w-0 flex-col'>
 								<span className='flex flex-wrap items-center gap-2 font-bold text-gray-900'>
 									<span className='break-words'>{name}</span>
-									{isFacilitator && (
-										<span className='inline-flex items-center gap-1 rounded-full bg-point-purple px-2.5 py-0.5 text-xs font-semibold text-white'>
-											<FiMic aria-hidden='true' />
-											{isAr ? 'ميسر الجلسة' : 'Facilitator'}
+									{roles.map((role) => (
+										<span
+											key={role.key}
+											className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold ${role.badge}`}
+										>
+											<role.Icon aria-hidden='true' />
+											{isAr ? role.ar : role.en}
 										</span>
-									)}
+									))}
 								</span>
 								<span className='break-words text-sm text-gray-500'>{job}</span>
 							</div>

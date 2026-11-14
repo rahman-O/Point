@@ -119,3 +119,46 @@ it('filters agenda items by day and type together in the admin table', function 
         ->assertCanSeeTableRecords([$d1Workshop])
         ->assertCanNotSeeTableRecords([$d1Session, $d2Workshop]);
 });
+
+function agendaSpeaker(string $name): \App\Models\Speakers
+{
+    return \App\Models\Speakers::create([
+        'name_en' => $name, 'name_ar' => $name, 'job_en' => 'J', 'job_ar' => 'ج',
+        'country_en' => 'Iraq', 'country_ar' => 'العراق', 'year' => '2026',
+        'desc_en' => 'b', 'desc_ar' => 'ب', 'image' => 'x.png',
+    ]);
+}
+
+it('lets admins assign a rapporteur and a trainer among the item’s speakers', function () {
+    $this->actingAs(User::factory()->create());
+    $program = Programs::create(['year' => (string) now()->year, 'day1' => 1]);
+    $item = agendaItem($program, 'Workshop');
+    [$a, $b, $c] = [agendaSpeaker('A'), agendaSpeaker('B'), agendaSpeaker('C')];
+    $item->speakers()->sync([$a->id, $b->id, $c->id]);
+
+    $manager = Livewire::test(SessionsProgramRelationManager::class, [
+        'ownerRecord' => $program,
+        'pageClass' => EditPrograms::class,
+    ]);
+
+    $manager->mountTableAction('edit', $item)
+        ->setTableActionData(['facilitator_id' => $a->id, 'rapporteur_id' => $b->id, 'trainer_id' => $c->id])
+        ->callMountedTableAction()
+        ->assertHasNoTableActionErrors();
+
+    expect($item->fresh())->rapporteur_id->toBe($b->id)->trainer_id->toBe($c->id)->facilitator_id->toBe($a->id);
+
+    $this->getJson('/api/programs/current/year')
+        ->assertJsonPath('sessions_program.0.rapporteur_id', $b->id)
+        ->assertJsonPath('sessions_program.0.trainer_id', $c->id)
+        ->assertJsonPath('sessions_program.0.rapporteur.name_en', 'B')
+        ->assertJsonPath('sessions_program.0.trainer.name_en', 'C');
+
+    // A speaker holding a role cannot be deleted while the item references them.
+    $item->speakers()->sync([$a->id]);
+    expect($b->isUsedInAgenda())->toBeTrue()
+        ->and($c->isUsedInAgenda())->toBeTrue();
+
+    $item->update(['rapporteur_id' => null, 'trainer_id' => null]);
+    expect($b->isUsedInAgenda())->toBeFalse();
+});

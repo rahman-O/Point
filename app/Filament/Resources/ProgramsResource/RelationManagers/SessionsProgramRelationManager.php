@@ -6,6 +6,7 @@ use App\Enums\SessionCategory;
 use App\Filament\Resources\SessionsProgramResource\RelationManagers\SpeakerSessionsRelationManager;
 use App\Models\Programs;
 use App\Models\SearchEntry;
+use App\Models\SessionsProgram;
 use App\Models\Speakers;
 use App\Search\TextNormalizer;
 use Closure;
@@ -101,9 +102,11 @@ class SessionsProgramRelationManager extends RelationManager
                         ->searchable()
                         ->live()
                         ->afterStateUpdated(function ($state, Forms\Set $set, Forms\Get $get) {
-                            // Drop the facilitator if that speaker was removed from the session.
-                            if (! in_array($get('facilitator_id'), (array) $state)) {
-                                $set('facilitator_id', null);
+                            // Drop a role if that speaker was removed from the session.
+                            foreach (SessionsProgram::ROLE_COLUMNS as $role) {
+                                if (! in_array($get($role), (array) $state)) {
+                                    $set($role, null);
+                                }
                             }
                         })
                         ->getSearchResultsUsing(function (string $search) {
@@ -120,17 +123,26 @@ class SessionsProgramRelationManager extends RelationManager
                                 ->toArray();
                         })
                         ->getOptionLabelFromRecordUsing(fn (Speakers $speaker) => self::bilingualName($speaker)),
-                    Select::make('facilitator_id')
-                        ->label('Facilitator / ميسر')
-                        ->helperText('Choose which of the session speakers above is the facilitator (add them to Speakers first). On the public agenda they are listed first with a "ميسر الجلسة / Facilitator" badge.')
-                        ->placeholder('No facilitator')
-                        ->options(fn (Forms\Get $get) => Speakers::whereIn('id', array_filter((array) $get('speakers')))
-                            ->get(['id', 'name_en', 'name_ar'])
-                            ->mapWithKeys(fn (Speakers $speaker) => [$speaker->id => self::bilingualName($speaker)])
-                            ->toArray())
-                        ->searchable()
-                        ->nullable(),
+                    // Optional roles, each picked from the speakers chosen above. On the public
+                    // agenda role holders are listed first, each with its own coloured badge.
+                    $this->roleSelect('facilitator_id', 'Facilitator / ميسر', 'ميسر الجلسة / Facilitator'),
+                    $this->roleSelect('rapporteur_id', 'Rapporteur / مقرر', 'مقرر الجلسة / Rapporteur'),
+                    $this->roleSelect('trainer_id', 'Trainer / مدرب', 'مدرب / Trainer'),
             ]);
+    }
+
+    private function roleSelect(string $column, string $label, string $badge): Select
+    {
+        return Select::make($column)
+            ->label($label)
+            ->helperText("Choose which of the session speakers above holds this role (add them to Speakers first). On the public agenda they are listed first with a \"{$badge}\" badge.")
+            ->placeholder('None / لا يوجد')
+            ->options(fn (Forms\Get $get) => Speakers::whereIn('id', array_filter((array) $get('speakers')))
+                ->get(['id', 'name_en', 'name_ar'])
+                ->mapWithKeys(fn (Speakers $speaker) => [$speaker->id => self::bilingualName($speaker)])
+                ->toArray())
+            ->searchable()
+            ->nullable();
     }
 
     public function table(Table $table): Table
@@ -201,6 +213,20 @@ class SessionsProgramRelationManager extends RelationManager
                     ->wrap()
                     ->searchable(['name_en', 'name_ar'])
                     ->placeholder('—'),
+                Tables\Columns\TextColumn::make('rapporteur.name_en')
+                    ->label('Rapporteur / مقرر')
+                    ->width('10rem')
+                    ->wrap()
+                    ->searchable(['name_en', 'name_ar'])
+                    ->placeholder('—')
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('trainer.name_en')
+                    ->label('Trainer / مدرب')
+                    ->width('10rem')
+                    ->wrap()
+                    ->searchable(['name_en', 'name_ar'])
+                    ->placeholder('—')
+                    ->toggleable(),
 
             ])
             ->filters([

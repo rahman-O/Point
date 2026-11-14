@@ -100,8 +100,17 @@ class Speakers extends Model
 
     public function isUsedInAgenda(): bool
     {
-        return $this->sessions()->exists()
-            || SessionsProgram::where('facilitator_id', $this->getKey())->exists();
+        if ($this->sessions()->exists()) {
+            return true;
+        }
+
+        return SessionsProgram::query()
+            ->where(function (Builder $q) {
+                foreach (SessionsProgram::ROLE_COLUMNS as $column) {
+                    $q->orWhere($column, $this->getKey());
+                }
+            })
+            ->exists();
     }
 
     /**

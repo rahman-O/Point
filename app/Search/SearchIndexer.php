@@ -41,7 +41,7 @@ class SearchIndexer
             return;
         }
 
-        self::$pending[$type . ':' . $model->getKey()] = $model;
+        self::$pending[$type.':'.$model->getKey()] = $model;
 
         if (! self::$flushRegistered) {
             self::$flushRegistered = true;
@@ -79,8 +79,12 @@ class SearchIndexer
         // Session entries embed speaker names, so keep them in step with speaker edits.
         if ($type === 'speaker') {
             $sessions = $this->query('session')
-                ->where('facilitator_id', $model->getKey())
-                ->orWhereHas('speakers', fn ($q) => $q->whereKey($model->getKey()))
+                ->where(function ($q) use ($model) {
+                    foreach (SessionsProgram::ROLE_COLUMNS as $column) {
+                        $q->orWhere($column, $model->getKey());
+                    }
+                    $q->orWhereHas('speakers', fn ($s) => $s->whereKey($model->getKey()));
+                })
                 ->get();
 
             foreach ($sessions as $session) {
@@ -118,7 +122,7 @@ class SearchIndexer
         $query = (self::MODELS[$type])::query();
 
         return match ($type) {
-            'session' => $query->with(['speakers', 'facilitator']),
+            'session' => $query->with(['speakers', 'facilitator', 'rapporteur', 'trainer']),
             'speaker' => $query->with('years'),
             default => $query,
         };
@@ -126,9 +130,9 @@ class SearchIndexer
 
     private function store(string $type, Model $model): void
     {
-        $entry = $this->{'build' . ucfirst($type)}($model);
+        $entry = $this->{'build'.ucfirst($type)}($model);
 
-        $searchTitle = TextNormalizer::normalize($entry['title_en']) . ' | ' . TextNormalizer::normalize($entry['title_ar']);
+        $searchTitle = TextNormalizer::normalize($entry['title_en']).' | '.TextNormalizer::normalize($entry['title_ar']);
         $searchMeta = TextNormalizer::normalize(implode(' ', array_filter([
             $entry['subtitle_en'], $entry['subtitle_ar'], $entry['meta'] ?? null, $entry['year'],
         ])));
@@ -161,7 +165,7 @@ class SearchIndexer
             'content_en' => $this->text($speaker->desc_en),
             'content_ar' => $this->text($speaker->desc_ar),
             'image' => $speaker->image ?: null,
-            'url' => '/speakers/' . $speaker->getKey(),
+            'url' => '/speakers/'.$speaker->getKey(),
             'year' => $years[0] ?? null,
             'published_on' => null,
             'meta' => implode(' ', $years),
@@ -181,7 +185,7 @@ class SearchIndexer
             'content_en' => $this->text($news->desc_en),
             'content_ar' => $this->text($news->desc_ar),
             'image' => $news->image ?: null,
-            'url' => '/news/' . $news->getKey(),
+            'url' => '/news/'.$news->getKey(),
             'year' => $date ? (string) $date->year : null,
             'published_on' => $date,
             'extra' => null,
@@ -190,7 +194,9 @@ class SearchIndexer
 
     private function buildSession(SessionsProgram $session): array
     {
-        $people = collect($session->speakers->all())->when($session->facilitator, fn ($c) => $c->push($session->facilitator));
+        $people = collect($session->speakers->all())
+            ->concat(array_filter([$session->facilitator, $session->rapporteur, $session->trainer]))
+            ->unique('id');
         $namesEn = $this->join($people->pluck('name_en')->all(), ', ');
         $namesAr = $this->join($people->pluck('name_ar')->all(), '، ');
         $day = preg_match('/^day([1-9])$/', (string) $session->day, $m) ? (int) $m[1] : null;
@@ -203,7 +209,7 @@ class SearchIndexer
             'content_en' => $this->join([$session->subject_en, $session->presentation_en], ' ') ?: null,
             'content_ar' => $this->join([$session->subject_ar, $session->presentation_ar], ' ') ?: null,
             'image' => null,
-            'url' => '/programs' . ($day ? '?day=day' . $day : ''),
+            'url' => '/programs'.($day ? '?day=day'.$day : ''),
             'year' => $this->text($session->year, 10) ?: null,
             'published_on' => null,
             'meta' => $day ? "day {$day} اليوم {$day}" : null,
@@ -228,7 +234,7 @@ class SearchIndexer
             'content_en' => null,
             'content_ar' => null,
             'image' => $stream->youtube_video_id
-                ? 'https://img.youtube.com/vi/' . rawurlencode($stream->youtube_video_id) . '/mqdefault.jpg'
+                ? 'https://img.youtube.com/vi/'.rawurlencode($stream->youtube_video_id).'/mqdefault.jpg'
                 : null,
             'url' => $isHttpUrl ? mb_substr($stream->url, 0, 1000) : '/stream',
             'year' => $date ? (string) $date->year : null,
