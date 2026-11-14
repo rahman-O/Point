@@ -32,7 +32,7 @@ export default function SpeakersDetails() {
 				{/* Image Section */}
 				<div className='w-full md:w-1/3 flex justify-center items-center'>
 					<img
-						className='w-full h-48 md:h-64 lg:h-80 object-cover rounded-md'
+						className='w-full max-w-xs md:max-w-none aspect-[4/5] object-cover object-top rounded-md'
 						src={`/api/images/${speakersDetails.image}`}
 						alt={speakersDetails.name_en || speakersDetails.name_ar}
 					/>

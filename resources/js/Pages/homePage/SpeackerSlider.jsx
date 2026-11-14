@@ -30,13 +30,13 @@ export default function SpeackerSlider() {
 
 	return (
 		<div>
-			<div className='h-fit overflow-hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 px-2 my-8'>
+			<div className='h-fit overflow-hidden grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 px-2 my-8'>
 				{speakers.map((speaker) => (
 					<Link to={`/speakers/${speaker.id}`}>
 						<div key={speaker.id} className='cursor-pointer'>
 							<div className='overflow-visible p-0'>
 								<img
-									className='w-full h-48 object-cover'
+									className='w-full aspect-[4/5] object-cover object-top'
 									src={`/api/images/${speaker.image}`}
 									alt='Speaker Image'
 								/>

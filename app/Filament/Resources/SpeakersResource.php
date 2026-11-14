@@ -78,22 +78,26 @@ class SpeakersResource extends Resource
                 TinyEditor::make('desc_ar')
                     ->required()
                     ->columnSpanFull(),
+                // Every speaker photo is stored as an 800×1000 (4:5) portrait, so the site never has
+                // to crop at display time. Any photo can be uploaded: it is cropped to 4:5 around its
+                // centre automatically, and the editor lets admins move/zoom that crop before saving.
                 FileUpload::make('image')
+                    ->label('Photo / الصورة')
+                    ->helperText('Any photo works; it is cropped to a 4:5 portrait automatically. Click the pencil to choose which part is kept. At least 400×500 px / أي صورة تصلح وتُقصّ تلقائياً إلى 4:5؛ اضغط القلم لاختيار الجزء المحفوظ. الحد الأدنى 400×500 بكسل')
                     ->image()
                     ->required()
                     ->imageEditor()
-                    ->imageEditorAspectRatios([
-                        null,
-                        '16:9',
-                        '4:3',
-                        '3:2',
-                        '1:1',
-                    ])
-                    ->imageEditorMode(2)
-                    ->imageEditorEmptyFillColor('#000000')
+                    ->imageEditorAspectRatios(['4:5'])
+                    ->imageCropAspectRatio('4:5')
                     ->imageResizeMode('cover')
-                    ->imageResizeTargetWidth('600')
-                    ->imageResizeTargetHeight('400'),
+                    ->imageResizeUpscale(false)
+                    ->imageResizeTargetWidth('800')
+                    ->imageResizeTargetHeight('1000')
+                    ->rules(['dimensions:min_width=400,min_height=500'])
+                    ->validationMessages([
+                        'dimensions' => 'The photo is too small: it must be at least 400×500 px / الصورة صغيرة جداً: الحد الأدنى 400×500 بكسل',
+                    ])
+                    ->columnSpanFull(),
             ]);
     }
 

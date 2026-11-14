@@ -29,8 +29,11 @@ class OwnCors
         }
 
         $response = $next($request);
-        foreach ($headers as $key => $value)
-            $response->header($key, $value);
+        // headers->set() works for every response type, including Symfony streamed responses.
+        foreach ($headers as $key => $value) {
+            $response->headers->set($key, $value);
+        }
+
         return $response;
     }
 }

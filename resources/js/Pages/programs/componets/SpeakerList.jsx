@@ -66,7 +66,7 @@ export function SpeakerList({ session }) {
 									e.currentTarget.onerror = null;
 									e.currentTarget.src = FALLBACK_AVATAR;
 								}}
-								className={`h-14 w-14 flex-shrink-0 rounded-full object-cover transition-transform duration-200 group-hover:scale-105 sm:h-16 sm:w-16 ${
+								className={`h-14 w-14 flex-shrink-0 rounded-full object-cover object-top transition-transform duration-200 group-hover:scale-105 sm:h-16 sm:w-16 ${
 									isFacilitator
 										? 'ring-[3px] ring-point-purple ring-offset-2'
 										: 'ring-2 ring-point-teal/20'

@@ -9,10 +9,14 @@ export const CardSpeaker = ({ id, name, job, image, desc }) => {
 		<Link to={`/speakers/${id}`}>
 			<div className='p-1'>
 				<div className='overflow-visible p-0'>
+					{/* Same 4:5 frame on every screen size. Photos uploaded through the dashboard are
+					    already 4:5; older portraits are kept top-aligned so faces stay in view. */}
 					<img
 						width='100%'
-						className='w-full h-[220px] object-cover'
+						className='w-full aspect-[4/5] object-cover object-top'
 						src={`/api/images/${image}`}
+						alt={name}
+						loading='lazy'
 					/>
 				</div>
 				<div className='text-xl grid mt-4 '>
