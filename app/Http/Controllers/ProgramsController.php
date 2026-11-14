@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\SessionCategory;
 use App\Http\Resources\api\Programs\ProgramsResource;
 use App\Http\Resources\api\Programs\specifiedProgramResource;
 use App\Models\Programs;
@@ -48,7 +49,11 @@ class ProgramsController extends Controller
             return response()->json(['message' => 'No program found'], 404);
         }
 
-        return response()->json($program);
+        // The agenda page shows one section per category, in this order.
+        return response()->json([
+            ...$program->toArray(),
+            'categories' => SessionCategory::forApi(),
+        ]);
     }
 
     /**

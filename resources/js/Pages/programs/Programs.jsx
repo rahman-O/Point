@@ -38,24 +38,28 @@ export default function Programs() {
 	// Sessions sharing a start and end time run in parallel and are shown together
 	// under one time badge. First-seen order is kept so the agenda still follows the
 	// sequence set in the admin panel.
-	const timeSlots = [];
-	const slotPositions = new Map();
+	const groupIntoTimeSlots = (sessions) => {
+		const timeSlots = [];
+		const slotPositions = new Map();
 
-	currentSessions.forEach((session) => {
-		const key = `${session.start_time}-${session.end_time}`;
+		sessions.forEach((session) => {
+			const key = `${session.start_time}-${session.end_time}`;
 
-		if (!slotPositions.has(key)) {
-			slotPositions.set(key, timeSlots.length);
-			timeSlots.push({
-				key,
-				start: session.start_time,
-				end: session.end_time,
-				sessions: [],
-			});
-		}
+			if (!slotPositions.has(key)) {
+				slotPositions.set(key, timeSlots.length);
+				timeSlots.push({
+					key,
+					start: session.start_time,
+					end: session.end_time,
+					sessions: [],
+				});
+			}
 
-		timeSlots[slotPositions.get(key)].sessions.push(session);
-	});
+			timeSlots[slotPositions.get(key)].sessions.push(session);
+		});
+
+		return timeSlots;
+	};
 
 	const titleOf = (session) =>
 		lang === 'en'
@@ -68,7 +72,7 @@ export default function Programs() {
 		</span>
 	);
 
-	const sessionsProgram = timeSlots.map((slot) => {
+	const renderTimeSlot = (slot) => {
 		if (slot.sessions.length === 1) {
 			const session = slot.sessions[0];
 
@@ -143,6 +147,42 @@ export default function Programs() {
 				</div>
 			</div>
 		);
+	};
+
+	// One section per category, always in the order the API lists them. Items are
+	// matched by `category`; a section with nothing on the selected day says so.
+	const categories = program?.categories ?? [];
+	const agendaSections = categories.map((category) => {
+		const slots = groupIntoTimeSlots(
+			currentSessions.filter((session) => session.category === category.key),
+		);
+
+		return (
+			<section key={category.key} className='pt-10 first:pt-6'>
+				<div className='flex items-center gap-4'>
+					<h2
+						className={`shrink-0 text-lg font-bold uppercase tracking-wide text-point-purple md:text-xl ${
+							lang === 'ar' ? 'arabic-font' : ''
+						}`}
+					>
+						{lang === 'ar' ? category.label_ar : category.label_en}
+					</h2>
+					<div className='h-px flex-1 bg-gray-200' />
+				</div>
+
+				{slots.length > 0 ? (
+					slots.map(renderTimeSlot)
+				) : (
+					<p
+						className={`mt-5 rounded-lg border border-dashed border-gray-200 bg-gray-50 px-4 py-5 text-sm text-gray-500 ${
+							lang === 'ar' ? 'arabic-font' : ''
+						}`}
+					>
+						{lang === 'ar' ? category.empty_ar : category.empty_en}
+					</p>
+				)}
+			</section>
+		);
 	});
 
 	return (
@@ -164,7 +204,7 @@ export default function Programs() {
 				<div
 					className={`w-full px-4 md:px-24 text-center ${lang === 'ar' ? ' arabic-font' : ''}`}
 				>
-					{sessionsProgram}
+					{agendaSections}
 				</div>
 			) : (
 				<p className='px-4'>

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\ProgramsResource\RelationManagers;
 
+use App\Enums\SessionCategory;
 use App\Filament\Resources\SessionsProgramResource\RelationManagers\SpeakerSessionsRelationManager;
 use App\Models\Programs;
 use App\Models\SearchEntry;
@@ -53,6 +54,13 @@ class SessionsProgramRelationManager extends RelationManager
                     //get the day select options from porgams table where day1, day2, day3, day4, day5 == true
                     ->options($this->getOption())
                     ->required(),
+                Forms\Components\Select::make('category')
+                    ->label('Type / النوع')
+                    ->helperText('Decides which section of the public agenda this item appears in / يحدد القسم الذي يظهر فيه هذا البند في جدول الأعمال')
+                    ->options(SessionCategory::options())
+                    ->default(SessionCategory::DEFAULT->value)
+                    ->required()
+                    ->native(false),
 
                 Forms\Components\TimePicker::make('start_time')
                     //remove seconds from the time picker
@@ -131,6 +139,16 @@ class SessionsProgramRelationManager extends RelationManager
                         'day5' => 'Day 5',
                     }),
                 //format value day1 to Day
+                Tables\Columns\TextColumn::make('category')
+                    ->label('Type / النوع')
+                    ->badge()
+                    ->formatStateUsing(fn (SessionCategory $state) => $state->label())
+                    ->color(fn (SessionCategory $state) => match ($state) {
+                        SessionCategory::Sessions => 'primary',
+                        SessionCategory::Workshops => 'success',
+                        SessionCategory::Meetings => 'warning',
+                        SessionCategory::Forums => 'info',
+                    }),
                 Tables\Columns\TextColumn::make('start_time')
                     ->date('H:i'),
                 Tables\Columns\TextColumn::make('end_time')
@@ -171,7 +189,9 @@ class SessionsProgramRelationManager extends RelationManager
 
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('category')
+                    ->label('Type / النوع')
+                    ->options(SessionCategory::options()),
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make(),
