@@ -52,3 +52,21 @@ it('shows no speakers on the home page when there are none', function () {
         ->assertJsonPath('year', null)
         ->assertJsonPath('speakers', []);
 });
+
+it('puts numbered speakers first in both public lists, then the rest newest first', function () {
+    speakerIn(['2026'], 'Oldest', '2026-10-01 10:00:00');
+    speakerIn(['2026'], 'Second pick', '2026-10-02 10:00:00')->update(['priority' => 2]);
+    speakerIn(['2026'], 'Middle', '2026-10-03 10:00:00');
+    speakerIn(['2026'], 'First pick', '2026-10-04 10:00:00')->update(['priority' => 1]);
+    speakerIn(['2026'], 'Newest', '2026-10-05 10:00:00');
+
+    $expected = ['First pick', 'Second pick', 'Newest', 'Middle', 'Oldest'];
+
+    $this->getJson('/api/top/speakers')
+        ->assertOk()
+        ->assertJsonPath('speakers.*.name_en', $expected);
+
+    $this->getJson('/api/speakers?year=2026')
+        ->assertOk()
+        ->assertJsonPath('speakers.data.*.name_en', $expected);
+});

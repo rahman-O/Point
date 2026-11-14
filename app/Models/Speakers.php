@@ -23,7 +23,12 @@ class Speakers extends Model
         'desc_en',
         'desc_ar',
         'image',
+        'priority',
     ];
+
+    protected $casts = ['priority' => 'integer'];
+
+    protected $attributes = ['priority' => 0];
 
     protected static function booted(): void
     {
@@ -48,6 +53,19 @@ class Speakers extends Model
     public function scopeInYear(Builder $query, string|int $year): Builder
     {
         return $query->whereHas('years', fn (Builder $years) => $years->where('year', (string) $year));
+    }
+
+    /**
+     * Order of the public speaker lists: speakers given a position (1, 2, 3…) come first in
+     * that order, then everyone else newest first.
+     */
+    public function scopeDisplayOrder(Builder $query): Builder
+    {
+        return $query
+            ->orderByRaw('CASE WHEN priority > 0 THEN 0 ELSE 1 END')
+            ->orderBy('priority')
+            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'desc');
     }
 
     /**

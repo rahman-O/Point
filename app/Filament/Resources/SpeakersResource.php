@@ -71,6 +71,15 @@ class SpeakersResource extends Resource
                     // The legacy single `year` column always holds the newest selected year.
                     ->afterStateUpdated(fn (Forms\Set $set, ?array $state) => $set('year', collect($state)->map(fn ($year) => (string) $year)->sort()->last()))
                     ->saveRelationshipsUsing(fn (Speakers $record, ?array $state) => $record->syncYears($state ?? [])),
+                Forms\Components\TextInput::make('priority')
+                    ->label('Position in speaker lists / الترتيب في قوائم المتحدثين')
+                    ->helperText('1 shows first on the home page and the speakers page, then 2, 3… Speakers left at 0 come after the numbered ones, newest first / 1 يظهر أولاً في الصفحة الرئيسية وصفحة المتحدثين ثم 2 ثم 3… المتحدثون المتروكون على 0 يأتون بعد المرقّمين، الأحدث أولاً')
+                    ->numeric()
+                    ->integer()
+                    ->minValue(0)
+                    ->maxValue(999)
+                    ->default(0)
+                    ->required(),
                 TinyEditor::make('desc_en')
                     ->required()
                     ->columnSpanFull(),
@@ -120,6 +129,12 @@ class SpeakersResource extends Resource
                 Tables\Columns\TextColumn::make('years.year')
                     ->label('Years')
                     ->badge(),
+                Tables\Columns\TextColumn::make('priority')
+                    ->label('Order / الترتيب')
+                    ->tooltip('Position in the public speaker lists (1 first); 0 = default order')
+                    ->sortable()
+                    ->alignCenter()
+                    ->formatStateUsing(fn (int $state) => $state === 0 ? '—' : (string) $state),
                 Tables\Columns\ImageColumn::make('image'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
