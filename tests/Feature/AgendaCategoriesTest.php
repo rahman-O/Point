@@ -99,3 +99,23 @@ it('lets admins number parallel items so a chosen one shows first', function () 
         ->assertJsonPath('sessions_program.0.priority', 0)
         ->assertJsonPath('sessions_program.1.priority', 1);
 });
+
+it('filters agenda items by day and type together in the admin table', function () {
+    $this->actingAs(User::factory()->create());
+    $program = Programs::create(['year' => '2026', 'day1' => 1, 'day2' => 1]);
+    $d1Session = agendaItem($program, 'Opening day 1');
+    $d1Workshop = agendaItem($program, 'Workshop day 1', ['category' => SessionCategory::Workshops]);
+    $d2Workshop = agendaItem($program, 'Workshop day 2', ['day' => 'day2', 'category' => SessionCategory::Workshops]);
+
+    Livewire::test(SessionsProgramRelationManager::class, [
+        'ownerRecord' => $program,
+        'pageClass' => EditPrograms::class,
+    ])
+        ->assertCanSeeTableRecords([$d1Session, $d1Workshop, $d2Workshop])
+        ->filterTable('day', 'day1')
+        ->assertCanSeeTableRecords([$d1Session, $d1Workshop])
+        ->assertCanNotSeeTableRecords([$d2Workshop])
+        ->filterTable('category', 'workshops')
+        ->assertCanSeeTableRecords([$d1Workshop])
+        ->assertCanNotSeeTableRecords([$d1Session, $d2Workshop]);
+});

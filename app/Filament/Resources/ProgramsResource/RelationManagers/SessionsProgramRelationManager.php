@@ -204,6 +204,10 @@ class SessionsProgramRelationManager extends RelationManager
 
             ])
             ->filters([
+                Tables\Filters\SelectFilter::make('day')
+                    ->label('Day / اليوم')
+                    // Only the days switched on for this program, like the form's day select.
+                    ->options(fn () => $this->getOption()),
                 Tables\Filters\SelectFilter::make('category')
                     ->label('Type / النوع')
                     ->options(SessionCategory::options()),
@@ -233,8 +237,8 @@ class SessionsProgramRelationManager extends RelationManager
 
     function getOption():array
     {
-        // Retrieve all programs
-        $programs = Programs::all()->where('id', $this->id);
+        // The table filter can run before form() sets $this->id, so read the owner directly.
+        $programs = Programs::all()->where('id', $this->id ?? $this->getOwnerRecord()->getKey());
 
 // Initialize an empty array to store the select options
         $options = [];
