@@ -162,3 +162,25 @@ it('lets admins assign a rapporteur and a trainer among the item’s speakers', 
     $item->update(['rapporteur_id' => null, 'trainer_id' => null]);
     expect($b->isUsedInAgenda())->toBeFalse();
 });
+
+it('lists agenda items chronologically, so an item moved earlier climbs up', function () {
+    $program = Programs::create(['year' => (string) now()->year, 'day1' => 1]);
+    agendaItem($program, 'Opening', ['start_time' => '09:00', 'end_time' => '09:30']);
+    $session = agendaItem($program, 'Session one', ['start_time' => '10:00', 'end_time' => '11:00']);
+    $music = agendaItem($program, 'Music', ['start_time' => '11:00', 'end_time' => '11:30']);
+
+    $this->getJson('/api/programs/current/year')
+        ->assertJsonPath('sessions_program.*.title_en', ['Opening', 'Session one', 'Music']);
+
+    // Rescheduled earlier: it moves above the session even though it was added later.
+    $music->update(['start_time' => '09:30', 'end_time' => '10:00']);
+
+    $this->getJson('/api/programs/current/year')
+        ->assertJsonPath('sessions_program.*.title_en', ['Opening', 'Music', 'Session one']);
+
+    // The admin table can still be sorted by hand (here: newest first).
+    $this->actingAs(User::factory()->create());
+    Livewire::test(SessionsProgramRelationManager::class, ['ownerRecord' => $program, 'pageClass' => EditPrograms::class])
+        ->sortTable('priority', 'desc')
+        ->assertCanSeeTableRecords([$music, $session], inOrder: true);
+});

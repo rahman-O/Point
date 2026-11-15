@@ -15,6 +15,10 @@ class Programs extends Model
     //get days from program
     public function sessionsProgram(): HasMany
     {
-        return $this->hasMany(SessionsProgram::class);
+        // Agenda items in chronological order; the admin table sorts on its own.
+        return $this->hasMany(SessionsProgram::class)
+            ->orderBy('start_time')
+            ->orderBy('end_time')
+            ->orderBy('id');
     }
 }
