@@ -55,9 +55,14 @@ function Logo({ item }) {
 function LogoSection({ title, items }) {
 	return (
 		<div className='flex flex-col items-center gap-10 w-full'>
-			<h1 className='font-bold text-2xl sm:text-3xl tracking-widest text-center uppercase'>
-				{title}
-			</h1>
+			{/* A short brand-coloured rule under the title gives the single word an anchor over
+			    the logo grid without inflating the type. */}
+			<div className='flex flex-col items-center gap-3'>
+				<h1 className='font-bold text-2xl sm:text-4xl tracking-widest text-center uppercase'>
+					{title}
+				</h1>
+				<span aria-hidden='true' className='block h-1 w-12 rounded-full bg-point-orange' />
+			</div>
 			{/* Fixed-size cells in a centred grid: columns line up and the last row centres itself.
 			    The number of cells per row follows the viewport, so any number of partners fits;
 			    phones get smaller cells so at least two sit side by side. */}
@@ -93,7 +98,7 @@ export default function FooterPages() {
 	}, []);
 
 	return (
-		<section className='bg-black py-12 px-4'>
+		<section className='bg-black pt-16 pb-12 px-4 sm:pt-20'>
 			<div className='text-white flex flex-col items-center gap-12 max-w-screen-xl mx-auto'>
 				{sections?.organizers?.visible && (
 					<LogoSection
