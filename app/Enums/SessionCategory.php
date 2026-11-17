@@ -26,7 +26,7 @@ enum SessionCategory: string
             self::Sessions => 'Sessions',
             self::Workshops => 'Workshops & Trainings',
             self::Meetings => 'National & Regional Meetings',
-            self::Forums => 'National & Regional Forums',
+            self::Forums => 'National Forums',
         };
     }
 
@@ -36,7 +36,7 @@ enum SessionCategory: string
             self::Sessions => 'الجلسات',
             self::Workshops => 'الورش والتدريبات',
             self::Meetings => 'الاجتماعات الوطنية والإقليمية',
-            self::Forums => 'الملتقيات الوطنية والإقليمية',
+            self::Forums => 'الملتقيات الوطنية',
         };
     }
 
@@ -46,7 +46,7 @@ enum SessionCategory: string
             self::Sessions => 'No sessions are scheduled for this day.',
             self::Workshops => 'No workshops or trainings are scheduled for this day.',
             self::Meetings => 'No national or regional meetings are scheduled for this day.',
-            self::Forums => 'No national or regional forums are scheduled for this day.',
+            self::Forums => 'No national forums are scheduled for this day.',
         };
     }
 
@@ -56,7 +56,7 @@ enum SessionCategory: string
             self::Sessions => 'لا توجد جلسات مجدولة في هذا اليوم.',
             self::Workshops => 'لا توجد ورش أو تدريبات مجدولة في هذا اليوم.',
             self::Meetings => 'لا توجد اجتماعات وطنية أو إقليمية مجدولة في هذا اليوم.',
-            self::Forums => 'لا توجد ملتقيات وطنية أو إقليمية مجدولة في هذا اليوم.',
+            self::Forums => 'لا توجد ملتقيات وطنية مجدولة في هذا اليوم.',
         };
     }
 

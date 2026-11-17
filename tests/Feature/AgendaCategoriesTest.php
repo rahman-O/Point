@@ -43,7 +43,8 @@ it('sends the agenda sections in display order with each item’s category', fun
         ->assertOk()
         ->assertJsonPath('categories.*.key', ['sessions', 'workshops', 'meetings', 'forums'])
         ->assertJsonPath('categories.0.label_ar', 'الجلسات')
-        ->assertJsonPath('categories.3.empty_ar', 'لا توجد ملتقيات وطنية أو إقليمية مجدولة في هذا اليوم.')
+        ->assertJsonPath('categories.3.label_ar', 'الملتقيات الوطنية')
+        ->assertJsonPath('categories.3.empty_ar', 'لا توجد ملتقيات وطنية مجدولة في هذا اليوم.')
         ->assertJsonPath('sessions_program.0.category', 'sessions')
         ->assertJsonPath('sessions_program.1.category', 'workshops');
 });
@@ -129,12 +130,12 @@ function agendaSpeaker(string $name): \App\Models\Speakers
     ]);
 }
 
-it('lets admins assign a rapporteur and a trainer among the item’s speakers', function () {
+it('lets admins assign a rapporteur, a trainer and a chair among the item’s speakers', function () {
     $this->actingAs(User::factory()->create());
     $program = Programs::create(['year' => (string) now()->year, 'day1' => 1]);
     $item = agendaItem($program, 'Workshop');
-    [$a, $b, $c] = [agendaSpeaker('A'), agendaSpeaker('B'), agendaSpeaker('C')];
-    $item->speakers()->sync([$a->id, $b->id, $c->id]);
+    [$a, $b, $c, $d] = [agendaSpeaker('A'), agendaSpeaker('B'), agendaSpeaker('C'), agendaSpeaker('D')];
+    $item->speakers()->sync([$a->id, $b->id, $c->id, $d->id]);
 
     $manager = Livewire::test(SessionsProgramRelationManager::class, [
         'ownerRecord' => $program,
@@ -142,25 +143,28 @@ it('lets admins assign a rapporteur and a trainer among the item’s speakers', 
     ]);
 
     $manager->mountTableAction('edit', $item)
-        ->setTableActionData(['facilitator_id' => $a->id, 'rapporteur_id' => $b->id, 'trainer_id' => $c->id])
+        ->setTableActionData(['facilitator_id' => $a->id, 'rapporteur_id' => $b->id, 'trainer_id' => $c->id, 'chair_id' => $d->id])
         ->callMountedTableAction()
         ->assertHasNoTableActionErrors();
 
-    expect($item->fresh())->rapporteur_id->toBe($b->id)->trainer_id->toBe($c->id)->facilitator_id->toBe($a->id);
+    expect($item->fresh())->rapporteur_id->toBe($b->id)->trainer_id->toBe($c->id)->facilitator_id->toBe($a->id)->chair_id->toBe($d->id);
 
     $this->getJson('/api/programs/current/year')
         ->assertJsonPath('sessions_program.0.rapporteur_id', $b->id)
         ->assertJsonPath('sessions_program.0.trainer_id', $c->id)
         ->assertJsonPath('sessions_program.0.rapporteur.name_en', 'B')
-        ->assertJsonPath('sessions_program.0.trainer.name_en', 'C');
+        ->assertJsonPath('sessions_program.0.trainer.name_en', 'C')
+        ->assertJsonPath('sessions_program.0.chair_id', $d->id)
+        ->assertJsonPath('sessions_program.0.chair.name_en', 'D');
 
     // A speaker holding a role cannot be deleted while the item references them.
     $item->speakers()->sync([$a->id]);
     expect($b->isUsedInAgenda())->toBeTrue()
         ->and($c->isUsedInAgenda())->toBeTrue();
 
-    $item->update(['rapporteur_id' => null, 'trainer_id' => null]);
-    expect($b->isUsedInAgenda())->toBeFalse();
+    expect($d->isUsedInAgenda())->toBeTrue();
+    $item->update(['rapporteur_id' => null, 'trainer_id' => null, 'chair_id' => null]);
+    expect($b->isUsedInAgenda())->toBeFalse()->and($d->isUsedInAgenda())->toBeFalse();
 });
 
 it('lists agenda items chronologically, so an item moved earlier climbs up', function () {

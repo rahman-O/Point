@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import LangContext from '@/components/langContext/LangContext.jsx';
 import { Link } from 'react-router-dom';
-import { FiMic, FiEdit3, FiAward } from 'react-icons/fi';
+import { FiMic, FiEdit3, FiAward, FiStar } from 'react-icons/fi';
 
 // Neutral inline SVG avatar shown when a speaker image is missing or fails to load.
 // Inlined so it never triggers an extra network request and can't itself 404.
@@ -12,6 +12,14 @@ const FALLBACK_AVATAR =
 // its own colour so they are told apart at a glance. Full class names are spelled out so
 // Tailwind keeps them in the build.
 const ROLES = [
+	{
+		key: 'chair_id',
+		en: 'Session chair',
+		ar: 'مدير الجلسة',
+		Icon: FiStar,
+		ring: 'ring-[3px] ring-point-rose ring-offset-2',
+		badge: 'bg-point-rose text-white',
+	},
 	{
 		key: 'facilitator_id',
 		en: 'Facilitator',
@@ -58,7 +66,7 @@ export function SpeakerList({ session }) {
 	const rolesOf = (speaker) =>
 		ROLES.filter((role) => idOf(session?.[role.key]) === Number(speaker.id));
 
-	// Role holders head the list in ROLES order (facilitator, trainer, rapporteur).
+	// Role holders head the list in ROLES order (chair, facilitator, trainer, rapporteur).
 	// Array.sort is stable, so every other speaker keeps the order set in the admin panel.
 	const rank = (speaker) => {
 		const index = ROLES.findIndex((role) => idOf(session?.[role.key]) === Number(speaker.id));
