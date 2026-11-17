@@ -184,3 +184,38 @@ it('lists agenda items chronologically, so an item moved earlier climbs up', fun
         ->sortTable('priority', 'desc')
         ->assertCanSeeTableRecords([$music, $session], inOrder: true);
 });
+
+it('exposes the optional date of each enabled day to the agenda page', function () {
+    $program = Programs::create(['year' => (string) now()->year, 'day1' => 1, 'day2' => 1, 'day2_date' => '2026-11-25']);
+    agendaItem($program, 'Opening');
+
+    $this->getJson('/api/programs/current/year')
+        ->assertOk()
+        ->assertJsonPath('day_dates', ['day1' => null, 'day2' => '2026-11-25']);
+});
+
+it('lets admins date the days of a program, in order, and leave old ones undated', function () {
+    $this->actingAs(User::factory()->create());
+    $program = Programs::create(['year' => '2026', 'day1' => 1, 'day2' => 1]);
+
+    Livewire::test(\App\Filament\Resources\ProgramsResource\Pages\EditPrograms::class, ['record' => $program->getKey()])
+        ->assertFormSet(['day1_date' => null, 'day2_date' => null])
+        ->assertFormFieldIsVisible('day2_date')
+        ->assertFormFieldIsHidden('day3_date')
+        ->fillForm(['day1_date' => '2026-11-25', 'day2_date' => '2026-11-24'])
+        ->call('save')
+        ->assertHasFormErrors(['day2_date'])
+        ->fillForm(['day1_date' => '2026-11-24', 'day2_date' => '2026-11-25'])
+        ->call('save')
+        ->assertHasNoFormErrors();
+
+    expect($program->fresh()->day_dates)->toBe(['day1' => '2026-11-24', 'day2' => '2026-11-25']);
+
+    // Dates stay optional: clearing them is fine.
+    Livewire::test(\App\Filament\Resources\ProgramsResource\Pages\EditPrograms::class, ['record' => $program->getKey()])
+        ->fillForm(['day1_date' => null, 'day2_date' => null])
+        ->call('save')
+        ->assertHasNoFormErrors();
+
+    expect($program->fresh()->day_dates)->toBe(['day1' => null, 'day2' => null]);
+});

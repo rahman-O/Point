@@ -32,6 +32,7 @@ class ProgramsResource extends Resource
                     //for the year select, from 2017 to the current year + 1 and make value selected is name of the year
                     ->options(array_combine(range(date('Y') + 1, 2017), range(date('Y') + 1, 2017)))->columnSpan('full'),
                 Forms\Components\Toggle::make('day1')
+                    ->live()
                     ->required(),
                 Forms\Components\Toggle::make('day2')
                     ->reactive()
@@ -97,6 +98,28 @@ class ProgramsResource extends Resource
                         }
                     })
                     ->required(),
+                Forms\Components\Section::make('Day dates / تواريخ الأيام')
+                    ->description('Optional. Shown under each day tab on the public agenda / اختياري؛ يظهر تحت تبويب اليوم في جدول الأعمال')
+                    ->schema(collect(range(1, 5))->map(function (int $n) {
+                        $picker = Forms\Components\DatePicker::make("day{$n}_date")
+                            ->label("Day {$n} / اليوم {$n}")
+                            ->native(false)
+                            ->displayFormat('D, d M Y')
+                            ->closeOnDateSelection()
+                            ->nullable()
+                            ->visible(fn (Forms\Get $get) => (bool) $get("day{$n}"));
+
+                        // Each dated day must come after the previous dated day.
+                        if ($n > 1) {
+                            $previous = $n - 1;
+                            $picker->after("day{$previous}_date")
+                                ->validationMessages(['after' => "Day {$n} must be after day {$previous} / يجب أن يكون اليوم {$n} بعد اليوم {$previous}"]);
+                        }
+
+                        return $picker;
+                    })->all())
+                    ->columns(['sm' => 2, 'lg' => 3])
+                    ->columnSpanFull(),
             ]);
     }
 

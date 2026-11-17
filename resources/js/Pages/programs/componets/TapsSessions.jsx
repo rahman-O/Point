@@ -14,6 +14,19 @@ export function TapsSessions({ activeTab, setActiveTab, program }) {
 		{ key: 'day5', en: 'Fifth Day', ar: 'اليوم الخامس' },
 	];
 
+	// Optional calendar date set by admins ("YYYY-MM-DD"), shown as a small second line
+	// under the day label, e.g. "Mon, 24 Nov" / "الاثنين، 24 نوفمبر".
+	const dateLabel = (key) => {
+		const iso = program?.day_dates?.[key];
+		if (!iso) return null;
+		const [y, m, d] = iso.split('-').map(Number);
+		return new Intl.DateTimeFormat(lang === 'ar' ? 'ar-IQ-u-nu-latn' : 'en-GB', {
+			weekday: 'short',
+			day: 'numeric',
+			month: 'short',
+		}).format(new Date(y, m - 1, d));
+	};
+
 	// Find out which days have at least one session in `sessions_program`
 	const availableDays = days.filter((day) => {
 		return (
@@ -25,17 +38,32 @@ export function TapsSessions({ activeTab, setActiveTab, program }) {
 	return (
 		<div className='flex flex-row w-full mt-12 justify-center  flex-wrap item-center text-center'>
 			{availableDays.length > 0 ? (
-				availableDays.map((day, index) => (
-					<div key={index} className='gap-4 mx-3'>
-						<Tabs
-							aria-label={day.key}
-							variant={activeTab === day.key ? 'pills' : 'default'}
-							onActiveTabChange={() => setActiveTab(day.key)}
-						>
-							<Tabs.Item title={lang === 'ar' ? day.ar : day.en} />
-						</Tabs>
-					</div>
-				))
+				availableDays.map((day, index) => {
+					const date = dateLabel(day.key);
+
+					return (
+						<div key={index} className='gap-4 mx-3'>
+							<Tabs
+								aria-label={day.key}
+								variant={activeTab === day.key ? 'pills' : 'default'}
+								onActiveTabChange={() => setActiveTab(day.key)}
+							>
+								<Tabs.Item
+									title={
+										<span className='flex flex-col items-center leading-tight'>
+											<span>{lang === 'ar' ? day.ar : day.en}</span>
+											{date && (
+												<span className='mt-0.5 text-[11px] font-normal opacity-70'>
+													{date}
+												</span>
+											)}
+										</span>
+									}
+								/>
+							</Tabs>
+						</div>
+					);
+				})
 			) : (
 				<p>
 					{lang === 'en'
