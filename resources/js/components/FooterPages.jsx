@@ -55,7 +55,7 @@ function Logo({ item }) {
 function LogoSection({ title, items }) {
 	return (
 		<div className='flex flex-col items-center gap-10 w-full'>
-			<h1 className='font-bold text-xl sm:text-2xl tracking-widest text-center uppercase'>
+			<h1 className='font-bold text-2xl sm:text-3xl tracking-widest text-center uppercase'>
 				{title}
 			</h1>
 			{/* Fixed-size cells in a centred grid: columns line up and the last row centres itself.
