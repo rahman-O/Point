@@ -15,7 +15,7 @@ const ROLES = [
 	{
 		key: 'chair_id',
 		en: 'Session chair',
-		ar: 'مدير الجلسة',
+		ar: 'إدارة الجلسة',
 		Icon: FiStar,
 		ring: 'ring-[3px] ring-point-rose ring-offset-2',
 		badge: 'bg-point-rose text-white',
