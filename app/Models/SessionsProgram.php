@@ -11,7 +11,7 @@ class SessionsProgram extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['programs_id','day', 'category', 'priority', 'year', 'start_time', 'end_time', 'subject_en', 'subject_ar', 'presentation_en', 'presentation_ar','facilitator_id','rapporteur_id','trainer_id','chair_id','title_en','title_ar'];
+    protected $fillable = ['programs_id','day', 'category', 'priority', 'year', 'start_time', 'end_time', 'subject_en', 'subject_ar', 'presentation_en', 'presentation_ar','facilitator_id','rapporteur_id','trainer_id','chair_id','lecturer_id','title_en','title_ar'];
 
     protected $casts = ['category' => SessionCategory::class, 'priority' => 'integer'];
 
@@ -22,7 +22,7 @@ class SessionsProgram extends Model
      *
      * @var list<string>
      */
-    public const ROLE_COLUMNS = ['facilitator_id', 'rapporteur_id', 'trainer_id', 'chair_id'];
+    public const ROLE_COLUMNS = ['facilitator_id', 'rapporteur_id', 'trainer_id', 'chair_id', 'lecturer_id'];
 
     public function facilitator(){
         return $this->belongsTo(Speakers::class, 'facilitator_id');
@@ -35,6 +35,9 @@ class SessionsProgram extends Model
     }
     public function chair(){
         return $this->belongsTo(Speakers::class, 'chair_id');
+    }
+    public function lecturer(){
+        return $this->belongsTo(Speakers::class, 'lecturer_id');
     }
     public function speakers(){
         return $this->belongsToMany(Speakers::class, 'session_speaker')->withTimestamps();

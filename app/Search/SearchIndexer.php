@@ -122,7 +122,7 @@ class SearchIndexer
         $query = (self::MODELS[$type])::query();
 
         return match ($type) {
-            'session' => $query->with(['speakers', 'facilitator', 'rapporteur', 'trainer', 'chair']),
+            'session' => $query->with(['speakers', 'facilitator', 'rapporteur', 'trainer', 'chair', 'lecturer']),
             'speaker' => $query->with('years'),
             default => $query,
         };
@@ -195,7 +195,7 @@ class SearchIndexer
     private function buildSession(SessionsProgram $session): array
     {
         $people = collect($session->speakers->all())
-            ->concat(array_filter([$session->facilitator, $session->rapporteur, $session->trainer, $session->chair]))
+            ->concat(array_filter([$session->facilitator, $session->rapporteur, $session->trainer, $session->chair, $session->lecturer]))
             ->unique('id');
         $namesEn = $this->join($people->pluck('name_en')->all(), ', ');
         $namesAr = $this->join($people->pluck('name_ar')->all(), '، ');

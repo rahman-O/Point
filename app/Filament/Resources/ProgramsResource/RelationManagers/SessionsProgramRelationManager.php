@@ -129,6 +129,7 @@ class SessionsProgramRelationManager extends RelationManager
                     $this->roleSelect('rapporteur_id', 'Rapporteur / مقرر', 'مقرر الجلسة / Rapporteur'),
                     $this->roleSelect('trainer_id', 'Trainer / مدرب', 'مدرب / Trainer'),
                     $this->roleSelect('chair_id', 'Session chair / إدارة الجلسة', 'إدارة الجلسة / Chair'),
+                    $this->roleSelect('lecturer_id', 'Lecturer / محاضر', 'محاضر / Lecturer'),
             ]);
     }
 
@@ -230,6 +231,13 @@ class SessionsProgramRelationManager extends RelationManager
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('chair.name_en')
                     ->label('Chair / إدارة الجلسة')
+                    ->width('10rem')
+                    ->wrap()
+                    ->searchable(['name_en', 'name_ar'])
+                    ->placeholder('—')
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('lecturer.name_en')
+                    ->label('Lecturer / محاضر')
                     ->width('10rem')
                     ->wrap()
                     ->searchable(['name_en', 'name_ar'])

@@ -21,6 +21,7 @@ export default {
 				'point-purple': '#7C2C8B',
 				'point-orange': '#F9A036',
 				'point-crimson': '#D81C5C',
+				'point-indigo': '#4F46E5',
 			},
 		},
 	},
