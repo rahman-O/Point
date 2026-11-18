@@ -95,6 +95,22 @@ class SessionsProgramRelationManager extends RelationManager
                     ->maxLength(255),
                 Forms\Components\TextInput::make('presentation_ar')
                     ->maxLength(255),
+                // Who appears under the item on the public agenda: either speakers with their
+                // profiles (and optional roles), or plain participants (name, photo, optional
+                // description) that are not linked to a speaker page.
+                Forms\Components\Radio::make('people_mode')
+                    ->label('People shown on the agenda / الأشخاص الظاهرون في جدول الأعمال')
+                    ->options([
+                        'speakers' => 'Speakers & roles (linked to speaker profiles) / متحدثون وأدوارهم (مرتبطون بصفحات المتحدثين)',
+                        'participants' => 'Custom participants (name, photo, description; not clickable) / مشاركون مخصصون (اسم، صورة، شرح؛ غير قابلين للفتح)',
+                    ])
+                    ->default('speakers')
+                    ->live()
+                    ->dehydrated(false)
+                    ->afterStateHydrated(fn (Forms\Components\Radio $component, ?SessionsProgram $record) => $component->state(filled($record?->participants) ? 'participants' : 'speakers'))
+                    ->columnSpan(2),
+
+                Forms\Components\Group::make([
                     Select::make('speakers')
                         ->label('Speakers')
                         ->relationship('speakers', 'name_en')
@@ -130,7 +146,83 @@ class SessionsProgramRelationManager extends RelationManager
                     $this->roleSelect('trainer_id', 'Trainer / مدرب', 'مدرب / Trainer'),
                     $this->roleSelect('chair_id', 'Session chair / إدارة الجلسة', 'إدارة الجلسة / Chair'),
                     $this->roleSelect('lecturer_id', 'Lecturer / محاضر', 'محاضر / Lecturer'),
+                ])
+                    ->columns(2)
+                    ->columnSpan(2)
+                    ->visible(fn (Forms\Get $get) => $get('people_mode') === 'speakers'),
+
+                Forms\Components\Repeater::make('participants')
+                    ->label('Participants / المشاركون')
+                    ->helperText('Shown on the agenda exactly like speakers, in this order, but without a link to a speaker page / يظهرون في جدول الأعمال مثل المتحدثين وبهذا الترتيب، بدون رابط لصفحة متحدث')
+                    ->schema([
+                        Forms\Components\TextInput::make('name_en')
+                            ->label('Name (EN) / الاسم بالإنجليزية')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('name_ar')
+                            ->label('Name (AR) / الاسم بالعربية')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('desc_en')
+                            ->label('Description (EN) / الشرح بالإنجليزية')
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('desc_ar')
+                            ->label('Description (AR) / الشرح بالعربية')
+                            ->maxLength(255),
+                        Forms\Components\FileUpload::make('image')
+                            ->label('Photo / الصورة')
+                            ->image()
+                            ->required()
+                            ->imageEditor()
+                            ->imageEditorAspectRatios(['1:1'])
+                            ->imageCropAspectRatio('1:1')
+                            ->imageResizeMode('cover')
+                            ->imageResizeUpscale(false)
+                            ->imageResizeTargetWidth('400')
+                            ->imageResizeTargetHeight('400')
+                            ->columnSpan(2),
+                    ])
+                    ->columns(2)
+                    ->itemLabel(fn (array $state): ?string => $state['name_ar'] ?? $state['name_en'] ?? null)
+                    ->addActionLabel('Add participant / إضافة مشارك')
+                    ->reorderable()
+                    ->collapsible()
+                    ->defaultItems(1)
+                    ->minItems(1)
+                    ->columnSpan(2)
+                    ->visible(fn (Forms\Get $get) => $get('people_mode') === 'participants'),
             ]);
+    }
+
+    /**
+     * Keeps the two ways of listing people exclusive: with custom participants the speaker
+     * roles are cleared; with speakers the participants are dropped. Hidden fields are not
+     * submitted by Filament, so this is done from the submitted radio state.
+     */
+    private function applyPeopleMode(array $data): array
+    {
+        $mode = $this->mountedTableActionsData[0]['people_mode'] ?? 'speakers';
+
+        if ($mode === 'participants') {
+            $data['participants'] = array_values(array_filter(
+                (array) ($data['participants'] ?? []),
+                fn ($p) => is_array($p) && filled($p['name_en'] ?? null) && filled($p['image'] ?? null),
+            )) ?: null;
+            foreach (SessionsProgram::ROLE_COLUMNS as $role) {
+                $data[$role] = null;
+            }
+        } else {
+            $data['participants'] = null;
+        }
+
+        return $data;
+    }
+
+    private function detachSpeakersIfParticipants(SessionsProgram $record): void
+    {
+        if (filled($record->participants)) {
+            $record->speakers()->detach();
+        }
     }
 
     private function roleSelect(string $column, string $label, string $badge): Select
@@ -255,10 +347,14 @@ class SessionsProgramRelationManager extends RelationManager
                     ->options(SessionCategory::options()),
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make()
+                    ->mutateFormDataUsing(fn (array $data) => $this->applyPeopleMode($data))
+                    ->after(fn (SessionsProgram $record) => $this->detachSpeakersIfParticipants($record)),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->mutateFormDataUsing(fn (array $data) => $this->applyPeopleMode($data))
+                    ->after(fn (SessionsProgram $record) => $this->detachSpeakersIfParticipants($record)),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([

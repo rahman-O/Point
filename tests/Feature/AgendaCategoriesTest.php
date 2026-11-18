@@ -224,3 +224,73 @@ it('lets admins date the days of a program, in order, and leave old ones undated
 
     expect($program->fresh()->day_dates)->toBe(['day1' => null, 'day2' => null]);
 });
+
+it('lets admins list custom participants instead of speakers, shown without profile links', function () {
+    $this->actingAs(User::factory()->create());
+    \Illuminate\Support\Facades\Storage::fake('public');
+    $program = Programs::create(['year' => (string) now()->year, 'day1' => 1]);
+    $item = agendaItem($program, 'Panel');
+    $speaker = agendaSpeaker('A');
+    $item->speakers()->sync([$speaker->id]);
+    $item->update(['facilitator_id' => $speaker->id]);
+
+    $manager = Livewire::test(SessionsProgramRelationManager::class, [
+        'ownerRecord' => $program,
+        'pageClass' => EditPrograms::class,
+    ]);
+
+    // Switching to participants: a photo and both names are required, description is not.
+    $manager->mountTableAction('edit', $item)
+        ->assertTableActionDataSet(['people_mode' => 'speakers'])
+        ->setTableActionData([
+            'people_mode' => 'participants',
+            'participants' => [
+                ['name_en' => 'Guest One', 'name_ar' => 'ضيف أول', 'desc_en' => 'Moderator', 'desc_ar' => 'مُحاور', 'image' => ['u1' => \Illuminate\Http\UploadedFile::fake()->image('g1.jpg', 400, 400)]],
+                ['name_en' => 'Guest Two', 'name_ar' => 'ضيف ثانٍ', 'desc_en' => null, 'desc_ar' => null, 'image' => ['u2' => \Illuminate\Http\UploadedFile::fake()->image('g2.jpg', 400, 400)]],
+            ],
+        ])
+        ->callMountedTableAction()
+        ->assertHasNoTableActionErrors();
+
+    $item->refresh();
+    expect($item->participants)->toHaveCount(2)
+        ->and($item->participants[0]['name_ar'])->toBe('ضيف أول')
+        ->and($item->participants[1]['desc_en'])->toBeNull()
+        ->and($item->participants[0]['image'])->toBeString()
+        ->and($item->speakers)->toHaveCount(0)
+        ->and($item->facilitator_id)->toBeNull();
+    \Illuminate\Support\Facades\Storage::disk('public')->assertExists($item->participants[0]['image']);
+
+    $this->getJson('/api/programs/current/year')
+        ->assertJsonPath('sessions_program.0.participants.1.name_en', 'Guest Two')
+        ->assertJsonCount(0, 'sessions_program.0.speakers');
+
+    // The edit form reopens in participants mode; switching back to speakers drops them.
+    $manager->mountTableAction('edit', $item)
+        ->assertTableActionDataSet(['people_mode' => 'participants'])
+        ->setTableActionData(['people_mode' => 'speakers', 'speakers' => [$speaker->id]])
+        ->callMountedTableAction()
+        ->assertHasNoTableActionErrors();
+
+    $item->refresh();
+    expect($item->participants)->toBeNull()
+        ->and($item->speakers->pluck('id')->all())->toBe([$speaker->id]);
+});
+
+it('rejects a custom participant without a name or photo', function () {
+    $this->actingAs(User::factory()->create());
+    \Illuminate\Support\Facades\Storage::fake('public');
+    $program = Programs::create(['year' => '2026', 'day1' => 1]);
+    $item = agendaItem($program, 'Panel');
+
+    Livewire::test(SessionsProgramRelationManager::class, ['ownerRecord' => $program, 'pageClass' => EditPrograms::class])
+        ->mountTableAction('edit', $item)
+        ->setTableActionData([
+            'people_mode' => 'participants',
+            'participants' => [['name_en' => '', 'name_ar' => 'بلا اسم', 'image' => null]],
+        ])
+        ->callMountedTableAction()
+        ->assertHasTableActionErrors(['participants.0.name_en', 'participants.0.image']);
+
+    expect($item->fresh()->participants)->toBeNull();
+});

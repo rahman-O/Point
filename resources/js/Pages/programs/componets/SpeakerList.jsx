@@ -59,12 +59,85 @@ const ROLES = [
 const idOf = (value) =>
 	Number(value !== null && typeof value === 'object' ? value.id : value);
 
+// One row of the list: avatar + name (+ role badges) + subtitle. Speakers link to their
+// profile page; custom participants have no page, so they render as plain rows.
+function PersonRow({ to, image, name, subtitle, roles, isAr }) {
+	const primaryRole = roles[0];
+	const rowClass = `group flex items-center gap-4 rounded-xl px-12 py-2 ${
+		isAr ? 'text-right' : 'text-left'
+	}`;
+
+	const content = (
+		<>
+			{/* Avatar: a fixed square box + object-cover keeps every portrait perfectly
+			    circular and undistorted, regardless of its original aspect ratio. */}
+			<img
+				src={`/api/images/${image}`}
+				alt={name}
+				loading='lazy'
+				onError={(e) => {
+					e.currentTarget.onerror = null;
+					e.currentTarget.src = FALLBACK_AVATAR;
+				}}
+				className={`h-14 w-14 flex-shrink-0 rounded-full object-cover object-top transition-transform duration-200 group-hover:scale-105 sm:h-16 sm:w-16 ${
+					primaryRole ? primaryRole.ring : 'ring-2 ring-point-teal/20'
+				}`}
+			/>
+
+			<div className='flex min-w-0 flex-col'>
+				<span className='flex flex-wrap items-center gap-2 font-bold text-gray-900'>
+					<span className='break-words'>{name}</span>
+					{roles.map((role) => (
+						<span
+							key={role.key}
+							className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold ${role.badge}`}
+						>
+							<role.Icon aria-hidden='true' />
+							{isAr ? role.ar : role.en}
+						</span>
+					))}
+				</span>
+				{subtitle && <span className='break-words text-sm text-gray-500'>{subtitle}</span>}
+			</div>
+		</>
+	);
+
+	return to ? (
+		<Link to={to} className={`${rowClass} transition-colors hover:bg-black/5`}>
+			{content}
+		</Link>
+	) : (
+		<div className={rowClass}>{content}</div>
+	);
+}
+
 export function SpeakerList({ session }) {
 	const { lang } = useContext(LangContext);
 	const isAr = lang === 'ar';
 
+	// Admins list either speakers (with profiles and roles) or custom participants
+	// (name, photo, optional description; no profile page) under an item.
+	const participants = Array.isArray(session?.participants) ? session.participants : [];
 	// Always work with an array, even if the API omits the relation.
 	const speakers = session?.speakers ?? [];
+
+	if (participants.length > 0) {
+		return (
+			<ul className='flex w-full max-w-md flex-col gap-4 items-start'>
+				{participants.map((person, index) => (
+					<li key={index}>
+						<PersonRow
+							image={person.image}
+							name={isAr ? person.name_ar || person.name_en : person.name_en || person.name_ar}
+							subtitle={isAr ? person.desc_ar || person.desc_en : person.desc_en || person.desc_ar}
+							roles={[]}
+							isAr={isAr}
+						/>
+					</li>
+				))}
+			</ul>
+		);
+	}
 
 	if (speakers.length === 0) {
 		return null;
@@ -86,56 +159,18 @@ export function SpeakerList({ session }) {
 		// In Arabic the document is dir="rtl", so `items-start` aligns rows to the
 		// RIGHT automatically. The same class keeps English rows on the left.
 		<ul className='flex w-full max-w-md flex-col gap-4 items-start'>
-			{orderedSpeakers.map((speaker) => {
-				const name = isAr ? speaker.name_ar : speaker.name_en;
-				const job = isAr ? speaker.job_ar : speaker.job_en;
-				const roles = rolesOf(speaker);
-				const primaryRole = roles[0];
-
-				return (
-					<li key={speaker.id}>
-						<Link
-							to={`/speakers/${speaker.id}`}
-							className={`group flex items-center gap-4 rounded-xl px-12 py-2 transition-colors hover:bg-black/5 ${
-								isAr ? 'text-right' : 'text-left'
-							}`}
-						>
-							{/* Avatar: a fixed square box + object-cover keeps every portrait
-							    perfectly circular and undistorted, regardless of its original
-							    aspect ratio. Size scales up one step on larger screens via
-							    Tailwind breakpoints (no JS window-resize hacks). */}
-							<img
-								src={`/api/images/${speaker.image}`}
-								alt={name}
-								loading='lazy'
-								onError={(e) => {
-									e.currentTarget.onerror = null;
-									e.currentTarget.src = FALLBACK_AVATAR;
-								}}
-								className={`h-14 w-14 flex-shrink-0 rounded-full object-cover object-top transition-transform duration-200 group-hover:scale-105 sm:h-16 sm:w-16 ${
-									primaryRole ? primaryRole.ring : 'ring-2 ring-point-teal/20'
-								}`}
-							/>
-
-							<div className='flex min-w-0 flex-col'>
-								<span className='flex flex-wrap items-center gap-2 font-bold text-gray-900'>
-									<span className='break-words'>{name}</span>
-									{roles.map((role) => (
-										<span
-											key={role.key}
-											className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold ${role.badge}`}
-										>
-											<role.Icon aria-hidden='true' />
-											{isAr ? role.ar : role.en}
-										</span>
-									))}
-								</span>
-								<span className='break-words text-sm text-gray-500'>{job}</span>
-							</div>
-						</Link>
-					</li>
-				);
-			})}
+			{orderedSpeakers.map((speaker) => (
+				<li key={speaker.id}>
+					<PersonRow
+						to={`/speakers/${speaker.id}`}
+						image={speaker.image}
+						name={isAr ? speaker.name_ar : speaker.name_en}
+						subtitle={isAr ? speaker.job_ar : speaker.job_en}
+						roles={rolesOf(speaker)}
+						isAr={isAr}
+					/>
+				</li>
+			))}
 		</ul>
 	);
 }

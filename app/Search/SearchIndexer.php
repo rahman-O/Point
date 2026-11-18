@@ -197,8 +197,10 @@ class SearchIndexer
         $people = collect($session->speakers->all())
             ->concat(array_filter([$session->facilitator, $session->rapporteur, $session->trainer, $session->chair, $session->lecturer]))
             ->unique('id');
-        $namesEn = $this->join($people->pluck('name_en')->all(), ', ');
-        $namesAr = $this->join($people->pluck('name_ar')->all(), '، ');
+        // Custom participants (no speaker profile) are searchable by name too.
+        $participants = collect($session->participants ?? []);
+        $namesEn = $this->join($people->pluck('name_en')->concat($participants->pluck('name_en'))->all(), ', ');
+        $namesAr = $this->join($people->pluck('name_ar')->concat($participants->pluck('name_ar'))->all(), '، ');
         $day = preg_match('/^day([1-9])$/', (string) $session->day, $m) ? (int) $m[1] : null;
 
         return [
