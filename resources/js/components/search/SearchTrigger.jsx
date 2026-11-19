@@ -17,7 +17,7 @@ export default function SearchTrigger({ variant = 'desktop' }) {
 				onClick={() => open()}
 				aria-label={t.searchLabel}
 				aria-haspopup='dialog'
-				className='flex h-10 w-10 items-center justify-center rounded-full text-gray-700 transition-colors hover:bg-point-purple/10 hover:text-point-purple focus:outline-none focus-visible:ring-2 focus-visible:ring-point-purple/40'
+				className='flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-gray-700 transition-colors hover:bg-point-purple/10 hover:text-point-purple focus:outline-none focus-visible:ring-2 focus-visible:ring-point-purple/40'
 			>
 				<FiSearch aria-hidden='true' className='text-xl' />
 			</button>

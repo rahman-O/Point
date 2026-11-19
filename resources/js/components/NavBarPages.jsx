@@ -65,10 +65,14 @@ export default function NavBarPages() {
 						</a>
 					)}
 				</div>
-				<div className='flex items-center gap-1'>
+				{/* Both controls get a 44px touch target (NextUI's toggle is only 24px wide by
+				    default) with a clear gap, so a thumb press lands on the intended one.
+				    rounded-xl (not rounded-full) keeps the corners of the square tappable. */}
+				<div className='flex items-center gap-3'>
 					<SearchTrigger variant='mobile' />
 					<NavbarMenuToggle
 						aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+						className='h-11 w-11 shrink-0 rounded-xl text-gray-700 hover:bg-point-purple/10 hover:text-point-purple'
 					/>
 				</div>
 			</NavbarContent>
