@@ -15,16 +15,27 @@ export function TapsSessions({ activeTab, setActiveTab, program }) {
 	];
 
 	// Optional calendar date set by admins ("YYYY-MM-DD"), shown as a small second line
-	// under the day label, e.g. "Mon, 24 Nov" / "الاثنين، 24 نوفمبر".
+	// under the day label, e.g. "Tue 24 Nov" / "الثلاثاء، 24 تشرين الثاني". Arabic names
+	// are spelled out here (with the definite article) because browsers differ in how
+	// they abbreviate Arabic weekdays.
+	const AR_WEEKDAYS = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+	const AR_MONTHS = [
+		'كانون الثاني', 'شباط', 'آذار', 'نيسان', 'أيار', 'حزيران',
+		'تموز', 'آب', 'أيلول', 'تشرين الأول', 'تشرين الثاني', 'كانون الأول',
+	];
 	const dateLabel = (key) => {
 		const iso = program?.day_dates?.[key];
 		if (!iso) return null;
 		const [y, m, d] = iso.split('-').map(Number);
-		return new Intl.DateTimeFormat(lang === 'ar' ? 'ar-IQ-u-nu-latn' : 'en-GB', {
+		const date = new Date(y, m - 1, d);
+		if (lang === 'ar') {
+			return `${AR_WEEKDAYS[date.getDay()]}، ${d} ${AR_MONTHS[m - 1]}`;
+		}
+		return new Intl.DateTimeFormat('en-GB', {
 			weekday: 'short',
 			day: 'numeric',
 			month: 'short',
-		}).format(new Date(y, m - 1, d));
+		}).format(date);
 	};
 
 	// Find out which days have at least one session in `sessions_program`
