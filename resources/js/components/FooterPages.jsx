@@ -95,6 +95,22 @@ function LogoSection({ title, items }) {
 	);
 }
 
+// One number for both languages, isolated as left-to-right so it reads correctly inside
+// Arabic text without being typed backwards.
+const PHONE = '+964 770 211 1332';
+
+function PhoneNumber() {
+	return (
+		<a
+			href={`tel:${PHONE.replace(/\s+/g, '')}`}
+			dir='ltr'
+			className='hover:underline hover:underline-offset-8 hover:text-point-orange transition-colors'
+		>
+			{PHONE}
+		</a>
+	);
+}
+
 export default function FooterPages() {
 	const { lang } = useContext(LangContext);
 	// { organizers: { visible, items }, partners: { visible, items } } — admins can hide
@@ -149,12 +165,12 @@ export default function FooterPages() {
 						{lang === 'en' ? (
 							<>
 								Tawasoul Organization for Youth Empowerment · Iraq – Baghdad –
-								Karradah city · Mobile: +964 770 211 1332
+								Karradah city · Mobile: <PhoneNumber />
 							</>
 						) : (
 							<>
 								منظمة تواصل لتمكين الشباب · العراق – بغداد – مدينة الكرادة ·
-								الهاتف: 1332 211 770 967+
+								الهاتف: <PhoneNumber />
 							</>
 						)}
 					</div>
