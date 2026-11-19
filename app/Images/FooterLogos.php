@@ -11,8 +11,11 @@ final class FooterLogos
     // Bump after changing WhiteLogo so the cached copies are rendered again.
     private const VERSION = 1;
 
+    // Roughly how many pixels are sampled when measuring a logo's ink coverage.
+    private const INK_SAMPLES = 40000;
+
     /**
-     * @return array{src: string, width: int, height: int}|null
+     * @return array{src: string, width: int, height: int, ink: float}|null
      */
     public static function for(?string $image): ?array
     {
@@ -26,7 +29,45 @@ final class FooterLogos
             'src' => '/api/footer-logos/' . rawurlencode($image) . '?v=' . filemtime($path),
             'width' => $size[0],
             'height' => $size[1],
+            'ink' => self::ink($path),
         ];
+    }
+
+    /**
+     * Share of the white copy's box that is actually painted (0..1). Thin line-art logos
+     * are around 0.2, solid badges around 0.5; the footer uses this to size logos so they
+     * look equally heavy. Measured once per rendered copy and kept in a sidecar file.
+     */
+    private static function ink(string $path): float
+    {
+        $sidecar = $path . '.ink';
+        if (is_file($sidecar) && filemtime($sidecar) >= filemtime($path)) {
+            $cached = (float) file_get_contents($sidecar);
+            if ($cached > 0) {
+                return $cached;
+            }
+        }
+
+        $image = @imagecreatefrompng($path);
+        if (! $image) {
+            return 0.3;
+        }
+
+        [$width, $height] = [imagesx($image), imagesy($image)];
+        $step = max(1, (int) ceil(sqrt($width * $height / self::INK_SAMPLES)));
+        $painted = 0;
+        $sampled = 0;
+        for ($y = 0; $y < $height; $y += $step) {
+            for ($x = 0; $x < $width; $x += $step) {
+                $painted += 1 - ((imagecolorat($image, $x, $y) >> 24) & 0x7F) / 127;
+                $sampled++;
+            }
+        }
+        $ink = round(max(0.01, $painted / max(1, $sampled)), 3);
+
+        @file_put_contents($sidecar, (string) $ink);
+
+        return $ink;
     }
 
     /**

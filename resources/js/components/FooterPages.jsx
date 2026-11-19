@@ -1,20 +1,31 @@
 import React, { useContext, useEffect, useState } from 'react';
 import LangContext from '@/components/langContext/LangContext.jsx';
 
-// Logos sit in a grid of equal cells so the rows line up; inside a cell each logo is sized
-// so that wide and square marks read as roughly the same size: the height is a blend of
-// "same height" and "same area", clamped to the cell. New partners get the same treatment.
+// Logos sit in a grid of equal cells so the rows line up. Inside a cell each logo is sized
+// for equal *visual weight* rather than equal height: the eye judges a logo by the area it
+// covers, so a square badge needs to be much taller than a wide wordmark to look the same
+// size. The server tells us each logo's shape and how much of its box is actually painted;
+// both feed the size, so new partners get the same treatment automatically.
 const CELL_WIDTH = 200;
-const CELL_HEIGHT = 72;
-const LOGO_TARGET_HEIGHT = 60;
-const LOGO_MIN_HEIGHT = 40;
+const CELL_HEIGHT = 96;
+// Height of a 1:1 logo of average ink density; wider logos get less, clamped to the cell.
+const SQUARE_LOGO_HEIGHT = 84;
+const LOGO_MAX_HEIGHT = 90;
+// 0 would give every logo the same height, 0.5 the same area; a bit under 0.5 keeps wide
+// wordmarks legible without letting square marks dominate.
+const SHAPE_EXPONENT = 0.42;
+// Logos painted more sparsely than this (thin line art) are enlarged a little, denser ones
+// (solid badges) are reduced a little, by at most ±15%.
+const INK_REFERENCE = 0.32;
+const INK_ADJUST_LIMIT = 0.15;
 
-function logoSize({ width, height }) {
+function logoSize({ width, height, ink }) {
 	const ratio = width / height;
-	// Square marks look heavier than wide ones at the same height, so they get a little
-	// less; wide ones get a little more. ratio 1 → ~0.9×, ratio 4 → ~1.1× of the target.
-	const weight = Math.min(1.1, Math.max(0.9, 0.85 + 0.06 * ratio));
-	let h = Math.min(CELL_HEIGHT, Math.max(LOGO_MIN_HEIGHT, LOGO_TARGET_HEIGHT * weight));
+	const inkAdjust = Math.min(
+		1 + INK_ADJUST_LIMIT,
+		Math.max(1 - INK_ADJUST_LIMIT, Math.pow(INK_REFERENCE / (ink || INK_REFERENCE), 0.25)),
+	);
+	let h = Math.min(LOGO_MAX_HEIGHT, SQUARE_LOGO_HEIGHT * Math.pow(ratio, -SHAPE_EXPONENT) * inkAdjust);
 	let w = h * ratio;
 	if (w > CELL_WIDTH) {
 		w = CELL_WIDTH;

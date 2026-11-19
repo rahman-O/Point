@@ -38,7 +38,16 @@ it('serves a white copy of each footer logo and leaves the original untouched', 
         ->json('partners.items.0.logo');
 
     expect($logo['src'])->toStartWith('/api/footer-logos/partner.jpg?v=')
-        ->and($logo['width'] / $logo['height'])->toEqualWithDelta(5, 0.3);
+        ->and($logo['width'] / $logo['height'])->toEqualWithDelta(5, 0.3)
+        // A solid rectangle is fully painted once cropped to its box.
+        ->and($logo['ink'])->toBeGreaterThan(0.9)->toBeLessThanOrEqual(1);
+
+    // Coverage is measured once and reused on later requests.
+    $sidecar = glob($storage . '/app/footer-logos/v*/partner.jpg.png.ink');
+    expect($sidecar)->toHaveCount(1);
+    file_put_contents($sidecar[0], '0.123');
+    touch($sidecar[0], time() + 5);
+    expect($this->getJson('/api/footer')->json('partners.items.0.logo.ink'))->toBe(0.123);
 
     $this->get($logo['src'])->assertOk()->assertHeader('Content-Type', 'image/png');
 
