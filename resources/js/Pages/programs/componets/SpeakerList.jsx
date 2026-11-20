@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import LangContext from '@/components/langContext/LangContext.jsx';
 import { Link } from 'react-router-dom';
-import { FiMic, FiEdit3, FiAward, FiStar, FiBookOpen } from 'react-icons/fi';
+import { FiMic, FiEdit3, FiAward, FiStar, FiBookOpen, FiVolume2 } from 'react-icons/fi';
 
 // Neutral inline SVG avatar shown when a speaker image is missing or fails to load.
 // Inlined so it never triggers an extra network request and can't itself 404.
@@ -19,6 +19,14 @@ const ROLES = [
 		Icon: FiStar,
 		ring: 'ring-[3px] ring-point-rose ring-offset-2',
 		badge: 'bg-point-rose text-white',
+	},
+	{
+		key: 'mc_id',
+		en: 'Master of ceremonies',
+		ar: 'العريف',
+		Icon: FiVolume2,
+		ring: 'ring-[3px] ring-point-emerald ring-offset-2',
+		badge: 'bg-point-emerald text-white',
 	},
 	{
 		key: 'facilitator_id',
@@ -147,7 +155,7 @@ export function SpeakerList({ session }) {
 	const rolesOf = (speaker) =>
 		ROLES.filter((role) => idOf(session?.[role.key]) === Number(speaker.id));
 
-	// Role holders head the list in ROLES order (chair, facilitator, trainer, lecturer, rapporteur).
+	// Role holders head the list in ROLES order (chair, MC, facilitator, trainer, lecturer, rapporteur).
 	// Array.sort is stable, so every other speaker keeps the order set in the admin panel.
 	const rank = (speaker) => {
 		const index = ROLES.findIndex((role) => idOf(session?.[role.key]) === Number(speaker.id));

@@ -22,6 +22,7 @@ export default {
 				'point-orange': '#F9A036',
 				'point-crimson': '#D81C5C',
 				'point-indigo': '#4F46E5',
+				'point-emerald': '#0F8A6C',
 			},
 		},
 	},

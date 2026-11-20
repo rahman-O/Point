@@ -14,7 +14,7 @@ class ProgramsController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {$programs = Programs::with(['sessionsProgram.speakers', 'sessionsProgram.facilitator', 'sessionsProgram.rapporteur', 'sessionsProgram.trainer', 'sessionsProgram.chair', 'sessionsProgram.lecturer'])->get();
+    {$programs = Programs::with(['sessionsProgram.speakers', 'sessionsProgram.facilitator', 'sessionsProgram.rapporteur', 'sessionsProgram.trainer', 'sessionsProgram.chair', 'sessionsProgram.lecturer', 'sessionsProgram.mc'])->get();
 
         return response()->json($programs);
     }
@@ -38,10 +38,10 @@ class ProgramsController extends Controller
         // Prefer the current year's program; otherwise fall back to the most recent
         // program available, so the page still shows the latest agenda even if it is
         // from a past year.
-        $program = Programs::with(['sessionsProgram.speakers', 'sessionsProgram.facilitator', 'sessionsProgram.rapporteur', 'sessionsProgram.trainer', 'sessionsProgram.chair', 'sessionsProgram.lecturer'])
+        $program = Programs::with(['sessionsProgram.speakers', 'sessionsProgram.facilitator', 'sessionsProgram.rapporteur', 'sessionsProgram.trainer', 'sessionsProgram.chair', 'sessionsProgram.lecturer', 'sessionsProgram.mc'])
             ->where('year', $currentYear)
             ->first()
-            ?? Programs::with(['sessionsProgram.speakers', 'sessionsProgram.facilitator', 'sessionsProgram.rapporteur', 'sessionsProgram.trainer', 'sessionsProgram.chair', 'sessionsProgram.lecturer'])
+            ?? Programs::with(['sessionsProgram.speakers', 'sessionsProgram.facilitator', 'sessionsProgram.rapporteur', 'sessionsProgram.trainer', 'sessionsProgram.chair', 'sessionsProgram.lecturer', 'sessionsProgram.mc'])
                 ->orderByRaw('CAST(year AS UNSIGNED) DESC')
                 ->first();
 

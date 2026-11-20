@@ -38,6 +38,7 @@ class SessionsProgramResource extends JsonResource
             'trainer_id' => new SpecifiedSpeakersResource($this->trainer),
             'chair_id' => new SpecifiedSpeakersResource($this->chair),
             'lecturer_id' => new SpecifiedSpeakersResource($this->lecturer),
+            'mc_id' => new SpecifiedSpeakersResource($this->mc),
             'speakers' => $this->speakers,
             'title'=> [
                 'en' => $this->title_en,
