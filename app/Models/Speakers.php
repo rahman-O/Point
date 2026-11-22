@@ -45,6 +45,12 @@ class Speakers extends Model
         return $this->belongsToMany(SessionsProgram::class, 'session_speaker')->withTimestamps();
     }
 
+    /** Agenda items this speaker is a master of ceremonies (العريف) of. */
+    public function mcOfSessions()
+    {
+        return $this->belongsToMany(SessionsProgram::class, 'session_mc')->withTimestamps();
+    }
+
     public function years(): HasMany
     {
         return $this->hasMany(SpeakerYear::class, 'speakers_id');
@@ -100,7 +106,7 @@ class Speakers extends Model
 
     public function isUsedInAgenda(): bool
     {
-        if ($this->sessions()->exists()) {
+        if ($this->sessions()->exists() || $this->mcOfSessions()->exists()) {
             return true;
         }
 

@@ -38,7 +38,8 @@ class SessionsProgramResource extends JsonResource
             'trainer_id' => new SpecifiedSpeakersResource($this->trainer),
             'chair_id' => new SpecifiedSpeakersResource($this->chair),
             'lecturer_id' => new SpecifiedSpeakersResource($this->lecturer),
-            'mc_id' => new SpecifiedSpeakersResource($this->mc),
+            // Several speakers may share this role, so it is a list rather than a single id.
+            'mcs' => SpecifiedSpeakersResource::collection($this->mcs),
             'speakers' => $this->speakers,
             'title'=> [
                 'en' => $this->title_en,

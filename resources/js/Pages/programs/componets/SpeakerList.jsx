@@ -21,7 +21,8 @@ const ROLES = [
 		badge: 'bg-point-rose text-white',
 	},
 	{
-		key: 'mc_id',
+		// The only role several speakers can share: the API sends a list under this key.
+		key: 'mcs',
 		en: 'Master of ceremonies',
 		ar: 'العريف',
 		Icon: FiVolume2,
@@ -66,6 +67,14 @@ const ROLES = [
 // API-resource payload, so accept both shapes.
 const idOf = (value) =>
 	Number(value !== null && typeof value === 'object' ? value.id : value);
+
+// Whether a speaker holds a role; a role's value is a single id/speaker or, for roles
+// several speakers can share, a list of them.
+const holdsRole = (session, role, speakerId) => {
+	const value = session?.[role.key];
+	const holders = Array.isArray(value) ? value : [value];
+	return holders.some((holder) => idOf(holder) === Number(speakerId));
+};
 
 // One row of the list: avatar + name (+ role badges) + subtitle. Speakers link to their
 // profile page; custom participants have no page, so they render as plain rows.
@@ -153,12 +162,12 @@ export function SpeakerList({ session }) {
 
 	// Which roles each speaker holds (a speaker may hold more than one).
 	const rolesOf = (speaker) =>
-		ROLES.filter((role) => idOf(session?.[role.key]) === Number(speaker.id));
+		ROLES.filter((role) => holdsRole(session, role, speaker.id));
 
 	// Role holders head the list in ROLES order (chair, MC, facilitator, trainer, lecturer, rapporteur).
 	// Array.sort is stable, so every other speaker keeps the order set in the admin panel.
 	const rank = (speaker) => {
-		const index = ROLES.findIndex((role) => idOf(session?.[role.key]) === Number(speaker.id));
+		const index = ROLES.findIndex((role) => holdsRole(session, role, speaker.id));
 		return index === -1 ? ROLES.length : index;
 	};
 	const orderedSpeakers = [...speakers].sort((a, b) => rank(a) - rank(b));

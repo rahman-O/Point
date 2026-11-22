@@ -124,6 +124,7 @@ class SessionsProgramRelationManager extends RelationManager
                                     $set($role, null);
                                 }
                             }
+                            $set('mcs', array_values(array_intersect((array) $get('mcs'), (array) $state)));
                         })
                         ->getSearchResultsUsing(function (string $search) {
                             $year = $this->year ?? now()->year;
@@ -146,7 +147,7 @@ class SessionsProgramRelationManager extends RelationManager
                     $this->roleSelect('trainer_id', 'Trainer / مدرب', 'مدرب / Trainer'),
                     $this->roleSelect('chair_id', 'Session chair / إدارة الجلسة', 'إدارة الجلسة / Chair'),
                     $this->roleSelect('lecturer_id', 'Lecturer / محاضر', 'محاضر / Lecturer'),
-                    $this->roleSelect('mc_id', 'Master of ceremonies / العريف', 'العريف / MC'),
+                    $this->mcSelect(),
                 ])
                     ->columns(2)
                     ->columnSpan(2)
@@ -223,7 +224,34 @@ class SessionsProgramRelationManager extends RelationManager
     {
         if (filled($record->participants)) {
             $record->speakers()->detach();
+            $record->mcs()->detach();
         }
+    }
+
+    /**
+     * Unlike the other roles, the master of ceremonies (العريف) can be held by several of the
+     * session's speakers, so it is a multi-select saved through the mcs() relation.
+     */
+    private function mcSelect(): Select
+    {
+        $fromChosenSpeakers = fn (Forms\Get $get, ?string $search = null) => Speakers::whereIn('id', array_filter((array) $get('speakers')))
+            ->when($search, fn (Builder $q) => $q->where(fn (Builder $q) => $q
+                ->where('name_en', 'like', "%{$search}%")
+                ->orWhere('name_ar', 'like', "%{$search}%")))
+            ->get(['id', 'name_en', 'name_ar'])
+            ->mapWithKeys(fn (Speakers $speaker) => [$speaker->id => self::bilingualName($speaker)])
+            ->toArray();
+
+        return Select::make('mcs')
+            ->label('Masters of ceremonies / العريف')
+            ->helperText('Choose one or more of the session speakers above as masters of ceremonies (add them to Speakers first). On the public agenda they are listed first with a "العريف / MC" badge.')
+            ->placeholder('None / لا يوجد')
+            ->relationship('mcs', 'name_en')
+            ->multiple()
+            ->options($fromChosenSpeakers)
+            ->getSearchResultsUsing(fn (string $search, Forms\Get $get) => $fromChosenSpeakers($get, $search))
+            ->getOptionLabelFromRecordUsing(fn (Speakers $speaker) => self::bilingualName($speaker))
+            ->searchable();
     }
 
     private function roleSelect(string $column, string $label, string $badge): Select
@@ -336,8 +364,9 @@ class SessionsProgramRelationManager extends RelationManager
                     ->searchable(['name_en', 'name_ar'])
                     ->placeholder('—')
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('mc.name_en')
+                Tables\Columns\TextColumn::make('mcs.name_en')
                     ->label('MC / العريف')
+                    ->listWithLineBreaks()
                     ->width('10rem')
                     ->wrap()
                     ->searchable(['name_en', 'name_ar'])

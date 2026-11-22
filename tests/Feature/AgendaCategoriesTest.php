@@ -130,7 +130,7 @@ function agendaSpeaker(string $name): \App\Models\Speakers
     ]);
 }
 
-it('lets admins assign a rapporteur, a trainer, a chair, a lecturer and an MC among the item’s speakers', function () {
+it('lets admins assign a rapporteur, a trainer, a chair, a lecturer and several MCs among the item’s speakers', function () {
     $this->actingAs(User::factory()->create());
     $program = Programs::create(['year' => (string) now()->year, 'day1' => 1]);
     $item = agendaItem($program, 'Workshop');
@@ -143,11 +143,12 @@ it('lets admins assign a rapporteur, a trainer, a chair, a lecturer and an MC am
     ]);
 
     $manager->mountTableAction('edit', $item)
-        ->setTableActionData(['facilitator_id' => $a->id, 'rapporteur_id' => $b->id, 'trainer_id' => $c->id, 'chair_id' => $d->id, 'lecturer_id' => $e->id, 'mc_id' => $f->id])
+        ->setTableActionData(['facilitator_id' => $a->id, 'rapporteur_id' => $b->id, 'trainer_id' => $c->id, 'chair_id' => $d->id, 'lecturer_id' => $e->id, 'mcs' => [$f->id, $e->id]])
         ->callMountedTableAction()
         ->assertHasNoTableActionErrors();
 
-    expect($item->fresh())->rapporteur_id->toBe($b->id)->trainer_id->toBe($c->id)->facilitator_id->toBe($a->id)->chair_id->toBe($d->id)->lecturer_id->toBe($e->id)->mc_id->toBe($f->id);
+    expect($item->fresh())->rapporteur_id->toBe($b->id)->trainer_id->toBe($c->id)->facilitator_id->toBe($a->id)->chair_id->toBe($d->id)->lecturer_id->toBe($e->id)
+        ->and($item->fresh()->mcs->pluck('id')->all())->toBe([$f->id, $e->id]);
 
     $this->getJson('/api/programs/current/year')
         ->assertJsonPath('sessions_program.0.rapporteur_id', $b->id)
@@ -157,7 +158,8 @@ it('lets admins assign a rapporteur, a trainer, a chair, a lecturer and an MC am
         ->assertJsonPath('sessions_program.0.chair_id', $d->id)
         ->assertJsonPath('sessions_program.0.chair.name_en', 'D')
         ->assertJsonPath('sessions_program.0.lecturer.name_en', 'E')
-        ->assertJsonPath('sessions_program.0.mc.name_en', 'F');
+        ->assertJsonPath('sessions_program.0.mcs.0.name_en', 'F')
+        ->assertJsonPath('sessions_program.0.mcs.1.name_en', 'E');
 
     // A speaker holding a role cannot be deleted while the item references them.
     $item->speakers()->sync([$a->id]);
@@ -165,8 +167,26 @@ it('lets admins assign a rapporteur, a trainer, a chair, a lecturer and an MC am
         ->and($c->isUsedInAgenda())->toBeTrue();
 
     expect($d->isUsedInAgenda())->toBeTrue()->and($e->isUsedInAgenda())->toBeTrue()->and($f->isUsedInAgenda())->toBeTrue();
-    $item->update(['rapporteur_id' => null, 'trainer_id' => null, 'chair_id' => null, 'lecturer_id' => null, 'mc_id' => null]);
+    $item->update(['rapporteur_id' => null, 'trainer_id' => null, 'chair_id' => null, 'lecturer_id' => null]);
+    $item->mcs()->detach();
     expect($b->isUsedInAgenda())->toBeFalse()->and($d->isUsedInAgenda())->toBeFalse()->and($e->isUsedInAgenda())->toBeFalse()->and($f->isUsedInAgenda())->toBeFalse();
+});
+
+it('drops a master of ceremonies who is removed from the item’s speakers', function () {
+    $this->actingAs(User::factory()->create());
+    $program = Programs::create(['year' => (string) now()->year, 'day1' => 1]);
+    $item = agendaItem($program, 'Session');
+    [$a, $b] = [agendaSpeaker('A'), agendaSpeaker('B')];
+    $item->speakers()->sync([$a->id, $b->id]);
+    $item->mcs()->sync([$a->id, $b->id]);
+
+    Livewire::test(SessionsProgramRelationManager::class, ['ownerRecord' => $program, 'pageClass' => EditPrograms::class])
+        ->mountTableAction('edit', $item)
+        ->setTableActionData(['speakers' => [$b->id]])
+        ->callMountedTableAction()
+        ->assertHasNoTableActionErrors();
+
+    expect($item->fresh()->mcs->pluck('id')->all())->toBe([$b->id]);
 });
 
 it('lists agenda items chronologically, so an item moved earlier climbs up', function () {
