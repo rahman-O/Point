@@ -2,63 +2,59 @@ import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import Pagination from '@/components/Pagination.jsx';
 import LangContext from '@/components/langContext/LangContext.jsx';
+import VideoCard from './VideoCard.jsx';
+
+const PER_PAGE = 10;
 
 export default function Stream() {
-	const [streams, setStreams] = useState([]);
-	const [selectedVideoId, setSelectedVideoId] = useState(null);
+	const [streams, setStreams] = useState(null);
+	const [playingId, setPlayingId] = useState(null);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
 	const { lang } = useContext(LangContext);
 
-	const fetchData = async (page) => {
-		const response = await axios.get(`/api/stream?page=${page}`);
-		if (response) {
-			setStreams(response.data.data);
-			setTotalPages(response.data.last_page);
-		}
-	};
-
 	useEffect(() => {
-		fetchData(currentPage);
+		let cancelled = false;
+		setStreams(null);
+		setPlayingId(null);
+		axios
+			.get(`/api/stream?page=${currentPage}`)
+			.then((response) => {
+				if (cancelled) return;
+				setStreams(response.data.data);
+				setTotalPages(response.data.last_page);
+			})
+			.catch(() => {
+				if (!cancelled) setStreams([]);
+			});
+		return () => {
+			cancelled = true;
+		};
 	}, [currentPage]);
-
-	const handlePageChange = (page) => {
-		setCurrentPage(page);
-	};
-
-	const handleVideoClick = (videoId) => {
-		setSelectedVideoId(videoId === selectedVideoId ? null : videoId);
-	};
 
 	return (
 		<div>
-			<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-6 px-2 py-2'>
-				{streams.map((stream) => (
-					<div
-						className='relative overflow-hidden rounded'
-						key={stream.id}
-						style={{ cursor: 'pointer' }}
-						onClick={() => handleVideoClick(stream.youtube_video_id)}
-					>
-						<iframe
-							style={{ borderRadius: '8px' }}
-							src={`https://www.youtube.com/embed/${stream.youtube_video_id}${
-								selectedVideoId === stream.youtube_video_id ? '?autoplay=1' : ''
-							}`}
-							frameBorder='0'
-							allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-							allowFullScreen
-							title={lang === 'en' ? stream.title_en : stream.title_ar}
-							className='w-full h-56'
-						></iframe>
-					</div>
-				))}
+			<div className='grid grid-cols-1 gap-6 px-2 py-2 sm:grid-cols-2 md:grid-cols-3'>
+				{streams === null
+					? Array.from({ length: PER_PAGE }, (_, i) => (
+							<div key={i} className='h-56 w-full animate-pulse rounded-lg bg-gray-200' />
+					  ))
+					: streams.map((stream) => (
+							<VideoCard
+								key={stream.id}
+								videoId={stream.youtube_video_id}
+								title={lang === 'en' ? stream.title_en : stream.title_ar}
+								playing={playingId === stream.id}
+								onPlay={() => setPlayingId(stream.id)}
+								lang={lang}
+							/>
+					  ))}
 			</div>
 
 			<Pagination
 				currentPage={currentPage}
 				totalPages={totalPages}
-				onPageChange={handlePageChange}
+				onPageChange={setCurrentPage}
 			/>
 		</div>
 	);
