@@ -4,6 +4,7 @@ import { TapsSessions } from './componets/TapsSessions';
 import axios from 'axios';
 import LangContext from '@/components/langContext/LangContext.jsx';
 import { SpeakerList } from '@/Pages/programs/componets/SpeakerList.jsx';
+import TimeRange from '@/components/TimeRange.jsx';
 
 export default function Programs() {
 	const [program, setProgram] = useState(null);
@@ -80,9 +81,12 @@ export default function Programs() {
 			: session.title_ar?.toUpperCase();
 
 	const timeBadge = (slot) => (
-		<span className='shrink-0 whitespace-nowrap rounded-md bg-point-purple/10 px-3 py-1 text-sm font-semibold text-point-purple md:text-base'>
-			{slot.start?.slice(0, 5)} - {slot.end?.slice(0, 5)}
-		</span>
+		<TimeRange
+			start={slot.start}
+			end={slot.end}
+			lang={lang}
+			className='shrink-0 whitespace-nowrap rounded-md bg-point-purple/10 px-3 py-1 text-sm font-semibold text-point-purple md:text-base'
+		/>
 	);
 
 	const renderTimeSlot = (slot) => {

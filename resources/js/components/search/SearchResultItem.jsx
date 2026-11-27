@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiArrowUpRight, FiClock, FiPlay } from 'react-icons/fi';
 import Highlight from './Highlight.jsx';
+import TimeRange from '@/components/TimeRange.jsx';
 import { TYPE_STYLES, formatDate, searchStrings } from './searchConfig.js';
 
 function Thumbnail({ result }) {
@@ -59,10 +60,9 @@ function Meta({ result, lang }) {
 		parts.push(t.day(result.extra.day));
 	if (result.type === 'session' && result.extra?.start) {
 		parts.push(
-			<span key='time' className='inline-flex items-center gap-1' dir='ltr'>
+			<span key='time' className='inline-flex items-center gap-1'>
 				<FiClock className='text-[0.8em]' />
-				{result.extra.start}
-				{result.extra.end ? ` – ${result.extra.end}` : ''}
+				<TimeRange start={result.extra.start} end={result.extra.end} lang={lang} />
 			</span>,
 		);
 	}
